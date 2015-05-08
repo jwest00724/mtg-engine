@@ -18,29 +18,28 @@ class mtg_functions {
 		return $dec ? nl2br($str) : $str;
 	}
 
-	function error($msg) {
+	function error($msg, $lock = true) {
 		global $db, $my;
-		echo "<div class='error'><strong>ERROR:</strong><br />",$msg,"<br />
-			<a onclick='window.history.go(-1);' style='cursor:pointer;'>Back</a> &middot; <a href='index.php' style='color:black;'>Home</a></div>";
-		exit;
+		echo "<div class='notification notification-error'><i class='fa fa-times-circle'></i><p><strong>ERROR:</strong><br />",$msg,"</p></div>";
+		if($lock)
+			exit;
 	}
 
 	function success($msg, $lock = false) {
 		$go = isset($_POST) ? '-2' : '-1';
-		echo "<div class='success'><strong>SUCCESS:</strong><br />",$msg,"<br />
-			<a onclick='window.history.go(".$go.");' style='cursor:pointer;'>Back</a> &middot; <a href='index.php' style='color:black;'>Home</a></div>";
+		echo "<div class='notification notification-success'><i class='fa fa-check-circle'></i><p><strong>SUCCESS:</strong><br />",$msg,"</p></div>";
 		if($lock)
 			exit;
 	}
 
 	function info($msg, $lock = false) {
-		echo "<div class='info'><strong>INFORMATION:</strong><br />",$msg,"</div>";
+		echo "<div class='notification notification-info'><i class='fa fa-info-circle'></i><p><strong>INFORMATION:</strong><br />",$msg,"</p></div>";
 		if($lock)
 			exit;
 	}
 
 	function warning($msg, $lock = false) {
-		echo "<div class='warning'><strong>WARNING:</strong><br />",$msg,"</div>";
+		echo "<div class='notification notification-secondary'><i class='fa fa-secondary-circle'></i><p><strong>WARNING:</strong><br />",$msg,"</p></div>";
 		if($lock)
 			exit;
 	}
