@@ -19,7 +19,7 @@ if(!$db->num_rows()) {
 	exit(header("Location: login.php"));
 }
 $user = $db->fetch_row(true);
-if($pass != $users->hashPass($_POST['password'])) {
+if($user['password'] != $users->hashPass($_POST['password'])) {
 	$_SESSION['msg'] = "That password is incorrect";
 	exit(header("Location: login.php"));
 }

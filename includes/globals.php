@@ -21,8 +21,10 @@ foreach($row as $r)
 error_reporting(E_ALL);
 if(isset($_SESSION['userid']) && $_SESSION['userid'] == 1)
 	error_reporting(E_ALL);
-$db->query("SELECT u.*, us.* " .
+$db->query("SELECT u.*, ue.*, uf.*, us.* " .
 	"FROM users AS u " .
+	"LEFT JOIN users_equipment AS ue ON u.id = ue.id " .
+	"LEFT JOIN users_finances AS uf ON u.id = uf.id " .
 	"LEFT JOIN users_stats AS us ON u.id = us.id " .
 	"WHERE u.id = ?");
 $db->execute(array($_SESSION['userid']));
@@ -34,8 +36,7 @@ if(!$db->num_rows()) {
 }
 $my = $db->fetch_row(true);
 include_once(__DIR__ . '/class/class_mtg_functions.php');
-if(!isset($mtg))
-	$mtg = new mtg_functions;
+include_once(__DIR__ . '/class/class_mtg_users.php');
 require_once(__DIR__ . '/header.php');
-$h = headers::getInstance($set);
+$h = headers::getInstance($set, $my);
 $h->menuarea();

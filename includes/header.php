@@ -1,4 +1,24 @@
 <?php
+/*Copyright (c) 2015 Orsokuma
+
+Permission is hereby granted, free of charge, to any person obtaining a
+copy of this software and associated documentation files (the "Software"),
+to deal in the Software without restriction, including without limitation
+the rights to use, copy, modify, merge, publish, distribute, sublicense,
+and/or sell copies of the Software, and to permit persons to whom the
+Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+DEALINGS IN THE SOFTWARE.
+*/
 if(strpos($_SERVER['REQUEST_URI'], basename(__FILE__)) !== false)
 	exit;
 if(!defined('MTG_ENABLE'))
@@ -6,13 +26,13 @@ if(!defined('MTG_ENABLE'))
 $_SERVER['PHP_SELF'] = str_replace('/adz', '', $_SERVER['PHP_SELF']);
 class headers {
 	static $inst = null;
-	static function getInstance($set) {
+	static function getInstance($set, $my) {
 		if(self::$inst == null)
-			self::$inst = new headers($set);
+			self::$inst = new headers($set, $my);
 		return self::$inst;
 	}
-	function __construct($set) {
-		global $css;
+	function __construct($set, $my) {
+		global $css, $mtg;
 		header("Content-type: text/html;charset=UTF-8");
 		?><!DOCTYPE html>
 		<html xmlns='http://www.w3.org/1999/xhtml'>
@@ -41,42 +61,51 @@ class headers {
 					</div>
 					<div id='menu'>
 						<ul>
-							<li<?php echo $_SERVER['PHP_SELF'] == '/login.php' ? " class='current_page_item'" : ''; ?>><a href='login.php' accesskey='1'>Login</a></li>
-							<li<?php echo $_SERVER['PHP_SELF'] == '/signup.php' ? " class='current_page_item'" : ''; ?>><a href='signup.php' accesskey='2'>Sign Up</a></li>
-							<li<?php echo $_SERVER['PHP_SELF'] == '/contact.php' ? " class='current_page_item'" : ''; ?>><a href='contact.php' accesskey='3'>Contact</a></li>
-							<li<?php echo $_SERVER['PHP_SELF'] == '/tos.php' ? " class='current_page_item'" : ''; ?>><a href='tos.php' accesskey='4'>T.o.S</a></li>
+							<li<?php echo $_SERVER['PHP_SELF'] == '/profile.php' ? " class='current_page_item'" : ''; ?>><?php echo $mtg->username($my['id']); ?></li>
+							<li<?php echo $_SERVER['PHP_SELF'] == '/settings.php' ? " class='current_page_item'" : ''; ?>><a href='settings.php' accesskey='2'>Settings</a></li>
+							<li<?php echo $_SERVER['QUERY_STRING'] == 'action=logout' ? " class='current_page_item'" : ''; ?>><a href='?action=logout' accesskey='3'>Logout</a></li>
 						</ul>
 					</div>
 				</div>
 			</div>
-			<div id='page' class='container'><?php
-	}
-
-	function __destruct() {
-		global $set;
-		?>	</div>
-		</div>
-		<div id="copyright" class="container">
-			<p>&copy; <?php echo $set['game_name']; ?>. All rights reserved. &middot; Design by <a href="http://templated.co" rel="nofollow">TEMPLATED</a>.</p>
-		</div>
-		</body>
-		</html><?php
+			<div id='two-column'>
+				<div class='tbox1'>
+					<div class='box'>
+						<p><?php
 	}
 
 	function menuarea() {
-		global $my, $mtg;
+		global $my, $mtg, $users;
 		if(!defined('MENU_ENABLE'))
 			define('MENU_ENABLE', true);
 		if(defined('MENU_STAFF'))
 			require_once(DIRNAME(__DIR__) . '/staff/menu.php');
 		else
 			require_once(__DIR__ . '/menu.php');
-		include_once(__DIR__ . '/class/class_mtg_functions.php');
-		if(!isset($mtg))
-			$mtg = new mtg_functions;
+		?>			</p>
+				</div>
+			</div>
+			<div id='page' class='container'><?php
+		if(array_key_exists('action', $_GET) && $_GET['action'] == 'logout') {
+			session_unset();
+			session_destroy();
+			$mtg->success("You've logged out. Come back soon!", true);
+		}
 		if($my['hospital'])
-			echo "<strong>Nurse:</strong> You are currently in hospital for ".$mtg->time_format($my['hospital'] * 60).".<br />";
+			echo "<strong>Nurse:</strong> You're currently in hospital for ".$mtg->time_format($my['hospital'] * 60).".<br />";
 		if($my['jail'])
-			echo "<strong>Officer:</strong> You are currently in jail for ".$mtg->time_format($my['jail'] * 60).".<br />";
+			echo "<strong>Officer:</strong> You're currently in jail for ".$mtg->time_format($my['jail'] * 60).".<br />";
+	}
+
+	function __destruct() {
+		global $set;
+		?>		</div>
+			</div>
+		</div>
+		<div id="copyright" class="container">
+			<p>&copy; <?php echo $set['game_name']; ?>. All rights reserved. &middot; Design by <a href="http://templated.co" rel="nofollow">TEMPLATED</a>.</p>
+		</div>
+		</body>
+		</html><?php
 	}
 }

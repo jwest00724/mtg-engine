@@ -93,12 +93,15 @@ class database {
 			exit;
 		}
 	}
-	public function fetch_row() {
+	public function fetch_row($shift = false) {
 		if(!isset($this->stmt))
 			return null;
 		try {
 			$this->execute();
-			return $this->stmt->fetchAll(PDO::FETCH_ASSOC);
+			$ret = $this->stmt->fetchAll(PDO::FETCH_ASSOC);
+			if($shift)
+				$ret = array_shift($ret);
+			return $ret;
 		} catch(PDOException $e) {
 			exit('<p><strong>FETCH ROW ERROR</strong></p>'.$e->getMessage());
 		}
@@ -139,7 +142,7 @@ class database {
 	}
 	public function insert_id() {
 		try {
-			return $this->stmt->lastInsertId();
+			return $this->db->lastInsertId();
 		} catch(PDOException $e) {
 			exit('<p><strong>LAST INSERT ID ERROR</strong></p>'.$e->getMessage());
 		}

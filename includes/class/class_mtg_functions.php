@@ -20,26 +20,26 @@ class mtg_functions {
 
 	function error($msg, $lock = true) {
 		global $db, $my;
-		echo "<div class='notification notification-error'><i class='fa fa-times-circle'></i><p><strong>ERROR:</strong><br />",$msg,"</p></div>";
+		echo "<div class='notification notification-error'><i class='fa fa-times-circle'></i><p>",$msg,"</p></div>";
 		if($lock)
 			exit;
 	}
 
 	function success($msg, $lock = false) {
 		$go = isset($_POST) ? '-2' : '-1';
-		echo "<div class='notification notification-success'><i class='fa fa-check-circle'></i><p><strong>SUCCESS:</strong><br />",$msg,"</p></div>";
+		echo "<div class='notification notification-success'><i class='fa fa-check-circle'></i><p>",$msg,"</p></div>";
 		if($lock)
 			exit;
 	}
 
 	function info($msg, $lock = false) {
-		echo "<div class='notification notification-info'><i class='fa fa-info-circle'></i><p><strong>INFORMATION:</strong><br />",$msg,"</p></div>";
+		echo "<div class='notification notification-info'><i class='fa fa-info-circle'></i><p>",$msg,"</p></div>";
 		if($lock)
 			exit;
 	}
 
 	function warning($msg, $lock = false) {
-		echo "<div class='notification notification-secondary'><i class='fa fa-secondary-circle'></i><p><strong>WARNING:</strong><br />",$msg,"</p></div>";
+		echo "<div class='notification notification-secondary'><i class='fa fa-secondary-circle'></i><p>",$msg,"</p></div>";
 		if($lock)
 			exit;
 	}
@@ -63,7 +63,7 @@ class mtg_functions {
 		global $db, $my;
 		if(!$id)
 			return "<span style='color:#555;font-style:italic;'>System</span>";
-		$db->query("SELECT `username`, `staff_rank` `hospital`, `jail` FROM `users` WHERE `userid` = ?");
+		$db->query("SELECT `username`, `staff_rank`, `hospital`, `jail` FROM `users` WHERE `id` = ?");
 		$db->execute(array($id));
 		if(!$db->num_rows())
 			return "<span style='color:#555;font-style:italic;'>System</span>";
@@ -94,11 +94,11 @@ class mtg_functions {
 		global $db, $my;
 		if(!$id)
 			return "<span style='color:#555;font-style:italic;'>System</span>";
-		$db->query("SELECT `username` FROM `users` WHERE `userid` = ?");
+		$db->query("SELECT `username` FROM `users` WHERE `id` = ?");
 		$db->execute(array($id));
 		if(!$db->num_rows())
 			return "<span style='color:#555;font-style:italic;'>System</span>";
-		$ret = $db->fetch_single();
+		$ret = $this->format($db->fetch_single());
 		if($showID)
 			$ret .= ' ['.$id.']';
 		return $ret;
