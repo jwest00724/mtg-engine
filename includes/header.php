@@ -26,13 +26,12 @@ if(!defined('MTG_ENABLE'))
 $_SERVER['PHP_SELF'] = str_replace('/adz', '', $_SERVER['PHP_SELF']);
 class headers {
 	static $inst = null;
-	static function getInstance($db, $set, $my) {
+	static function getInstance($db, $set, $my, $mtg, $users) {
 		if(self::$inst == null)
-			self::$inst = new headers($db, $set, $my);
+			self::$inst = new headers($db, $set, $my, $mtg, $users);
 		return self::$inst;
 	}
-	function __construct($db, $set, $my) {
-		global $css, $mtg;
+	function __construct($db, $set, $my, $mtg, $users) {
 		$db->query("UPDATE users SET last_seen = current_timestamp WHERE id = ?");
 		$db->execute(array($my['id']));
 		header("Content-type: text/html;charset=UTF-8");
@@ -69,7 +68,7 @@ class headers {
 					</div>
 					<div id='menu'>
 						<ul>
-							<li<?php echo $_SERVER['PHP_SELF'] == '/profile.php' ? " class='current_page_item'" : ''; ?>><?php echo $mtg->username($my['id']); ?></li>
+							<li<?php echo $_SERVER['PHP_SELF'] == '/profile.php' ? " class='current_page_item'" : ''; ?>><?php echo $users->name($my['id']); ?></li>
 							<li<?php echo $_SERVER['PHP_SELF'] == '/settings.php' ? " class='current_page_item'" : ''; ?>><a href='settings.php' accesskey='2'>Settings</a></li>
 							<li<?php echo $_SERVER['QUERY_STRING'] == 'action=logout' ? " class='current_page_item'" : ''; ?>><a href='?action=logout' accesskey='3'>Logout</a></li>
 						</ul>
@@ -82,8 +81,7 @@ class headers {
 						<p><?php
 	}
 
-	function menuarea() {
-		global $my, $mtg, $users;
+	function menuarea($my, $mtg, $users, $db) {
 		if(!defined('MENU_ENABLE'))
 			define('MENU_ENABLE', true);
 		if(defined('MENU_STAFF'))

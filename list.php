@@ -22,9 +22,9 @@ switch($_GET['action']) {
 			</tr><?php
 			foreach($rows as $row) {
 				?><tr>
-					<td><?php echo $mtg->username($row['id']); ?></td>
+					<td><?php echo $users->name($row['id']); ?></td>
 					<td><?php echo date('H:i:s d/m/Y', strtotime($row['last_seen'])); ?></td>
-					<td><a href='messages.php?action=write&amp;ID=<?php echo $row['id']; ?>'>Message</a></td>
+					<td><a href='messages.php?action=write&amp;player=<?php echo $row['id']; ?>'>Message</a></td>
 				</tr><?php
 			}
 		?></table>

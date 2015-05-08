@@ -59,51 +59,6 @@ class mtg_functions {
 		}
 	}
 
-	function username($id, $showID = false) {
-		global $db, $my;
-		if(!$id)
-			return "<span style='color:#555;font-style:italic;'>System</span>";
-		$db->query("SELECT `username`, `staff_rank`, `hospital`, `jail` FROM `users` WHERE `id` = ?");
-		$db->execute(array($id));
-		if(!$db->num_rows())
-			return "<span style='color:#555;font-style:italic;'>System</span>";
-		$user = $db->fetch_row(true);
-		$ret = '';
-		$user['username'] = $this->format($user['username']);
-		if($user['staff_rank']) {
-			$db->query("SELECT `rank_name`, `rank_colour` FROM `staff_ranks` WHERE `rank_id` = ?");
-			$db->execute(array($user['staff_rank']));
-			if(!$db->num_rows())
-				$ret .= "<a href='profile.php?player=".$id."'>".$user['username']."</a>";
-			else {
-				$rank = $db->fetch_row(true);
-				$ret .= "<a href='profile.php?player=".$id."' title='".$this->format($rank['rank_name'])."'><span style='color:#".$rank['rank_colour'].";'>".$user['username']."</span></a>";
-			}
-		} else
-			$ret .= "<a href='profile.php?player=".$id."'>".$user['username']."</a>";
-		if($showID)
-			$ret .= " [".$this->format($id)."]";
-		if($user['hospital'])
-			$ret .= " <a href='hospital.php?ID=".$id."'><img src='img/silk/pill.png' title='Hospitalised' alt='Hospitalised' /></a>";
-		if($user['jail'])
-			$ret .= " <a href='jail.php?action=rescue&amp;ID=".$id."'><img src='img/silk/lock.png' title='Jailed' alt='Jailed' /></a>";
-		return $ret;
-	}
-
-	function username_nonformat($id, $showID = false) {
-		global $db, $my;
-		if(!$id)
-			return "<span style='color:#555;font-style:italic;'>System</span>";
-		$db->query("SELECT `username` FROM `users` WHERE `id` = ?");
-		$db->execute(array($id));
-		if(!$db->num_rows())
-			return "<span style='color:#555;font-style:italic;'>System</span>";
-		$ret = $this->format($db->fetch_single());
-		if($showID)
-			$ret .= ' ['.$id.']';
-		return $ret;
-	}
-
 	function time_format($seconds, $mode = 'long'){
 		$names	= array(
 			'long' => array('millenia', 'year', 'month', 'day', 'hour', 'minute', 'second'),

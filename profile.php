@@ -17,7 +17,7 @@ $user = $db->fetch_row(true);
 	</tr>
 	<tr>
 		<td>
-			<?php echo $mtg->username($_GET['player'], true); ?><br />
+			<?php echo $users->name($_GET['player'], true); ?><br />
 			<div align='center'><img src='<?php echo $mtg->format($user['profile_picture']); ?>' class='image image-centered' /></div>
 		</td>
 		<td>
