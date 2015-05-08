@@ -38,5 +38,5 @@ $my = $db->fetch_row(true);
 include_once(__DIR__ . '/class/class_mtg_functions.php');
 include_once(__DIR__ . '/class/class_mtg_users.php');
 require_once(__DIR__ . '/header.php');
-$h = headers::getInstance($set, $my);
+$h = headers::getInstance($db, $set, $my);
 $h->menuarea();

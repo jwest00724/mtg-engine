@@ -26,13 +26,15 @@ if(!defined('MTG_ENABLE'))
 $_SERVER['PHP_SELF'] = str_replace('/adz', '', $_SERVER['PHP_SELF']);
 class headers {
 	static $inst = null;
-	static function getInstance($set, $my) {
+	static function getInstance($db, $set, $my) {
 		if(self::$inst == null)
-			self::$inst = new headers($set, $my);
+			self::$inst = new headers($db, $set, $my);
 		return self::$inst;
 	}
-	function __construct($set, $my) {
+	function __construct($db, $set, $my) {
 		global $css, $mtg;
+		$db->query("UPDATE users SET last_seen = current_timestamp WHERE id = ?");
+		$db->execute(array($my['id']));
 		header("Content-type: text/html;charset=UTF-8");
 		?><!DOCTYPE html>
 		<html xmlns='http://www.w3.org/1999/xhtml'>

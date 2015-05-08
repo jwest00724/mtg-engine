@@ -34,10 +34,12 @@ p {
 strong {
 }
 a {
-	color: #0000FF;
+	color: #656565;
+	text-decoration: none;
 }
 a:hover {
 	text-decoration: none;
+	color: #009E2D;
 }
 .container {
 	overflow: hidden;
