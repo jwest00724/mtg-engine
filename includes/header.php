@@ -46,6 +46,12 @@ class headers {
 			<link href='css/fonts.css' rel='stylesheet' type='text/css' media='all' />
 			<!--[if IE 6]><link href='default_ie6.css' rel='stylesheet' type='text/css' /><![endif]-->
 			<link rel='stylesheet' href='http://yui.yahooapis.com/pure/0.6.0/pure-min.css' />
+			<!--[if lte IE 8]>
+				<link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.6.0/grids-responsive-old-ie-min.css">
+			<![endif]-->
+			<!--[if gt IE 8]>
+				<link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.6.0/grids-responsive-min.css">
+			<!<![endif]-->
 			<link rel="stylesheet" type='text/css' href="css/message.css" />
 			<script type='text/javascript' src='js/jquery_2.1.4_min.css'></script><?php
 			if(isset($css) && is_array($css) && count($css))
@@ -103,7 +109,7 @@ class headers {
 			</div>
 		</div>
 		<div id="copyright" class="container">
-			<p>&copy; <?php echo $set['game_name']; ?>. All rights reserved. &middot; Design by <a href="http://templated.co" rel="nofollow">TEMPLATED</a>.</p>
+			<p>&copy; <?php echo $set['game_name']; ?>. All rights reserved. &middot; Design by <a href="http://templated.co" rel="nofollow">TEMPLATED</a> and <a href='http://magictallguy.tk'>Magictallguy</a>.</p>
 		</div>
 		</body>
 		</html><?php

@@ -1,6 +1,6 @@
 <?php
 require_once(__DIR__ . '/includes/globals_out.php');
-?><h3>Terms and conditions template for website usage</h3>
+?><h3>Terms and conditions for website usage</h3>
 <p>Welcome to our website. If you continue to browse and use this website, you are agreeing to comply with and be bound by the following terms and conditions of use, which together with our privacy policy govern <?php echo $_SERVER['HTTP_HOST']; ?>'s relationship with you in relation to this website. If you disagree with any part of these terms and conditions, please do not use our website.</p>
 <p>The term '<?php echo $_SERVER['HTTP_HOST']; ?>' or 'us' or 'we' refers to the owner of the website. The term 'you' refers to the user or viewer of our website.</p>
 <p>The use of this website is subject to the following terms of use:</p>

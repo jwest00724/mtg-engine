@@ -48,3 +48,8 @@ p {
 .notification-warning {
 	background: #fa8100;
 }
+
+/*---------------------------*/
+.small {
+	font-size: 0.8em;
+}

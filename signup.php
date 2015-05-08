@@ -1,5 +1,6 @@
 <?php
 require_once(__DIR__ . '/includes/globals_out.php');
+require_once(__DIR__ . '/includes/class/class_mtg_users.php');
 if(isset($_SESSION['msg'])) {
 	$mtg->error($_SESSION['msg'], false);
 	unset($_SESSION['msg']);
@@ -23,7 +24,7 @@ if(array_key_exists('submit', $_POST)) {
 		$mtg->error("That email address is already in use, please choose another");
 	$db->startTrans();
 	$db->query("INSERT INTO users (username, password, email) VALUES (?, ?, ?)");
-	$db->execute(array($_POST['username'], $_POST['password'], $_POST['email']));
+	$db->execute(array($_POST['username'], $users->hashPass($_POST['password']), $_POST['email']));
 	$id = $db->insert_id();
 	$db->query("INSERT INTO users_equipment (id) VALUES (?)");
 	$db->execute(array($id));
