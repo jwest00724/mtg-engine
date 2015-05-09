@@ -23,7 +23,7 @@ class users {
 		$db->execute(array($amnt, $user));
 		return true;
 	}
-	public function dropdown($ddname = 'user', $selected = -1, $notIn = array()) {
+	public function selectList($ddname = 'user', $selected = -1, $notIn = array()) {
 		global $db, $mtg;
 		$first = $selected == -1 ? 0 : 1;
 		$ret = "<select name='".$ddname."'><option value='0'".($selected == -1 ? " selected='selected'" : '').">--- Select ---</option>";
@@ -75,12 +75,12 @@ class users {
 			return false;
 		return true;
 	}
-	public function send_event($id, $event) {
+	public function send_event($id, $type = 'Uncategorized', $event) {
 		global $db;
 		if(!$this->exists($id))
 			return false;
-		$db->query("INSERT INTO users_events (user, event) VALUES (?, ?)");
-		$db->execute(array($id, $event));
+		$db->query("INSERT INTO users_events (user, type, event) VALUES (?, ?, ?)");
+		$db->execute(array($id, $type, $event));
 	}
 	public function send_message($to, $from, $subject = 'No subject', $message) {
 		global $db;
