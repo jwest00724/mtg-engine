@@ -39,4 +39,6 @@ include_once(__DIR__ . '/class/class_mtg_functions.php');
 include_once(__DIR__ . '/class/class_mtg_users.php');
 require_once(__DIR__ . '/header.php');
 $h = headers::getInstance($db, $set, $my, $mtg, $users);
-$h->menuarea($my, $mtg, $users, $db);
+if(defined('MENU_STAFF') && !$my['staff_rank'])
+	$mtg->error("You don't have access");
+$h->menu($my, $mtg, $users, $db);
