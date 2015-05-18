@@ -48,6 +48,7 @@ class headers {
 		<meta name="author" content="Magictallguy" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<link rel="stylesheet" href="css/style.css" />
+		<link rel="stylesheet" href="css/mtg.css" />
 		<!-- superfish style include -->
 		<link rel="stylesheet" href="js/superfish/css/superfish.css" />
 		<script src="js/libs/modernizr-1.6.min.js"></script>
@@ -69,7 +70,12 @@ class headers {
 		<!-- /.logo -->
 		<nav>
 			<ul class="sf-menu">
-				<li<?php echo $_SERVER['PHP_SELF'] == '/profile.php' ? " class='current_page_item'" : ''; ?>><?php echo $users->name($my['id']); ?></li>
+				<li<?php echo $_SERVER['PHP_SELF'] == '/profile.php' ? " class='current_page_item'" : ''; ?>><?php echo $users->name($my['id']); ?><ul>
+					<li><strong>Energy:</strong> <?php echo $mtg->format($my['energy']); ?>/<?php echo $mtg->format($my['energy_max']); ?></li>
+					<li><strong>Health:</strong> <?php echo $mtg->format($my['health']); ?>/<?php echo $mtg->format($my['health_max']); ?></li>
+					<li><strong>EXP:</strong> <?php echo $mtg->format($my['exp']); ?>/<?php echo $users->expRequired(); ?></li>
+					<li><strong>Money:</strong> <?php echo $set['main_currency_symbol'].$mtg->format($my['money']); ?></li>
+				</ul></li>
 				<li<?php echo $_SERVER['PHP_SELF'] == '/settings.php' ? " class='current_page_item'" : ''; ?>><a href='settings.php' accesskey='2'>Settings</a></li>
 				<li<?php echo $_SERVER['QUERY_STRING'] == 'action=logout' ? " class='current_page_item'" : ''; ?>><a href='?action=logout' accesskey='3'>Logout</a></li>
 			</ul>
@@ -89,7 +95,7 @@ class headers {
 			<div class="container_12"><?php
 	}
 
-	function menuarea($my, $mtg, $users, $db) {
+	function menu($my, $mtg, $users, $db) {
 		if(!defined('MENU_ENABLE'))
 			define('MENU_ENABLE', true);
 		if(defined('MENU_STAFF'))
