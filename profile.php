@@ -10,7 +10,7 @@ $db->execute(array($_GET['player']));
 if(!$db->num_rows())
 	$mtg->error("That player doesn't exist");
 $user = $db->fetch_row(true);
-?><table class='pure-table' width='100%'>
+?><table class='table' width='100%'>
 	<tr>
 		<th width='33%'>Profile</th>
 		<th width='67%'>Information</th>
@@ -28,3 +28,6 @@ $user = $db->fetch_row(true);
 				echo "<br />Hospitalized for a further ".$mtg->time_format($user['hospital'] * 60).". Reason: ".stripslashes($user['hospital_reason']);
 			if($user['jail'])
 				echo "<br />Incarcerated for a further ".$mtg->time_format($user['jail'] * 60).". Reason: ".stripslashes($user['jail_reason']);
+		?></td>
+	</tr>
+</table>
