@@ -39,23 +39,15 @@ if(array_key_exists('submit', $_POST)) {
 	?><form action='signup.php' method='post' class='pure-form pure-form-aligned'>
 		<fieldset>
 			<legend>Register for a free account</legend>
-			<div class='pure-control-group'>
-				<label for='username'>Username</label>
-				<input type='text' name='username' placeholder='Username' />
-			</div>
-			<div class='pure-control-group'>
-				<label for='password'>Password</label>
-				<input type='password' name='password' placeholder='Password' />
-			</div>
-			<div class='pure-control-group'>
-				<label for='confirmation'>Confirm Password</label>
-				<input type='password' name='cpassword' placeholder='Confirm password' />
-			</div>
-			<div class='pure-control-group'>
-				<label for='email'>Email</label>
-				<input type='email' name='email' placeholder='Email' />
-			</div>
-			<input type='submit' name='submit' class='pure-button pure-button-primary' value='Sign up' />
+			<label for='username'>Username</label>
+			<div class="login_height"><input type='text' name='username' placeholder='Username' /></div>
+			<label for='password'>Password</label>
+			<div class="login_height2"><input type='password' name='password' placeholder='Password' /></div>
+			<label for='confirmation'>Confirm Password</label>
+			<div class="login_height3"><input type='password' name='cpassword' placeholder='Confirm password' /></div>
+			<label for='email'>Email</label>
+			<div class="login_height4"><input type='email' name='email' placeholder='Email' /></div>
+			<div class="input_button"><input type="submit" name="submit" value="sign up" /></div>
 		</fieldset>
 	</form><?php
 }
