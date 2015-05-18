@@ -29,7 +29,7 @@ switch($_GET['action']) {
 						<th width='50%'>Subject</th>
 					</tr>
 					<tr>
-						<td><input type='text' class='pure-input-1-2' name='user2' value='<?php echo $_GET['player']; ?>' placeholder='Example: 1,2,3' /></td>
+						<td><input type='text' class='pure-input-1-2' name='user2' value='<?php echo isset($_GET['player']) && ctype_digit($_GET['player']) ? $_GET['player'] : null; ?>' placeholder='Example: 1,2,3' /></td>
 						<td><input type='text' class='pure-input-1-2' name='subject' placeholder='Example: Hi there!'/></td>
 					</tr>
 					<tr>
@@ -198,11 +198,11 @@ switch($_GET['action']) {
 		if(!$db->num_rows())
 			$mtg->error("That message doesn't exist");
 		$row = $db->fetch_row(true);
-		if($row['mail_to'] != $my['id'])
+		if($row['receiver'] != $my['id'])
 			$mtg->error("That message isn't yours");
 		if(!$row['deleted'])
 			$mtg->error("That message isn't marked as deleted");
-		$db->query("UPDATE `users_messages` SET `deleted` = 0 WHERE `mail_id` = ?");
+		$db->query("UPDATE `users_messages` SET `deleted` = 0 WHERE `id` = ?");
 		$db->execute(array($_GET['ID']));
 		$mtg->success("The message has been moved back to your Inbox");
 		break;
