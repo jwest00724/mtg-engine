@@ -133,5 +133,12 @@ class users {
 			$ret .= " <a href='jail.php?action=rescue&amp;ID=".$id."'><img src='img/silk/lock.png' title='Jailed' alt='Jailed' /></a>";
 		return $ret;
 	}
+	public function expRequired($format = true) {
+		global $db, $my, $mtg;
+		$ret = pow($my['level'], 3) * pow($my['level'] + 2, 2);
+		if($format)
+			$ret = $mtg->format($ret);
+		return $ret;
+	}
 }
 $users = users::getInstance();
