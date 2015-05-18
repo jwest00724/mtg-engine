@@ -35,50 +35,58 @@ class headers {
 		$db->query("UPDATE users SET last_seen = current_timestamp WHERE id = ?");
 		$db->execute(array($my['id']));
 		header("Content-type: text/html;charset=UTF-8");
-		?><!DOCTYPE html>
-		<html xmlns='http://www.w3.org/1999/xhtml'>
+		?><!doctype html>
+		<!--[if lt IE 7 ]> <html lang="en" class="no-js ie6"> <![endif]-->
+		<!--[if IE 7 ]>    <html lang="en" class="no-js ie7"> <![endif]-->
+		<!--[if IE 8 ]>    <html lang="en" class="no-js ie8"> <![endif]-->
+		<!--[if IE 9 ]>    <html lang="en" class="no-js ie9"> <![endif]-->
+		<!--[if (gt IE 9)|!(IE)]><!--> <html lang="en" class="no-js"> <!--<![endif]-->
 		<head>
-			<base href='http://mtgtest.tk/adz/' />
-			<meta name='author' content='Magictallguy' />
-			<meta http-equiv='Content-Type' content='text/html; charset=iso-8859-1' />
-			<title><?php echo $set['game_name']; ?></title>
-			<link href='http://fonts.googleapis.com/css?family=Varela' rel='stylesheet' />
-			<link href='css/default.css' rel='stylesheet' type='text/css' media='all' />
-			<link href='css/fonts.css' rel='stylesheet' type='text/css' media='all' />
-			<!--[if IE 6]><link href='default_ie6.css' rel='stylesheet' type='text/css' /><![endif]-->
-			<link rel='stylesheet' href='http://yui.yahooapis.com/pure/0.6.0/pure-min.css' />
-			<!--[if lte IE 8]>
-				<link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.6.0/grids-responsive-old-ie-min.css">
-			<![endif]-->
-			<!--[if gt IE 8]>
-				<link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.6.0/grids-responsive-min.css">
-			<!<![endif]-->
-			<link rel="stylesheet" type='text/css' href="css/message.css" />
-			<script type='text/javascript' src='js/jquery_2.1.4_min.css'></script><?php
-			if(isset($css) && is_array($css) && count($css))
-				foreach($css as $style)
-					echo "<link rel='stylesheet' type='text/css' href='css/".$style.".css' />";
-		?></head>
+		<base href="http://mtgtest.tk/adz/" />
+		<meta charset="utf-8">
+		<title><?php echo $set['game_name']; ?></title>
+		<meta name="author" content="Magictallguy" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link rel="stylesheet" href="css/style.css" />
+		<!-- superfish style include -->
+		<link rel="stylesheet" href="js/superfish/css/superfish.css" />
+		<script src="js/libs/modernizr-1.6.min.js"></script>
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.js"></script>
+		<script>!window.jQuery && document.write(unescape('%3Cscript src="js/libs/jquery-1.4.2.min.js"%3E%3C/script%3E'))</script>
+		<script type="text/javascript" src="js/libs/cufon-yui.js"></script>
+		<script type="text/javascript" src="js/font/Myriad_Pro_400.font.js"></script>
+		<script type="text/javascript" src="js/font/Myriad_Pro_600.font.js"></script>
+		<script type="text/javascript" src="js/font/Myriad_Pro_700.font.js"></script>
+		<script type="text/javascript" src="js/font/Myriad_Pro_300.font.js"></script>
+		<script type="text/javascript" src="js/cufon-replace.js"></script>
+		</head>
 		<body>
-		<div id='wrapper'>
-			<div id='header-wrapper'>
-				<div id='header' class='container'>
-					<div id='logo'>
-						<h1><a href='index.php'><?php echo $set['game_name']; ?></a></h1>
-					</div>
-					<div id='menu'>
-						<ul>
-							<li<?php echo $_SERVER['PHP_SELF'] == '/profile.php' ? " class='current_page_item'" : ''; ?>><?php echo $users->name($my['id']); ?></li>
-							<li<?php echo $_SERVER['PHP_SELF'] == '/settings.php' ? " class='current_page_item'" : ''; ?>><a href='settings.php' accesskey='2'>Settings</a></li>
-							<li<?php echo $_SERVER['QUERY_STRING'] == 'action=logout' ? " class='current_page_item'" : ''; ?>><a href='?action=logout' accesskey='3'>Logout</a></li>
-						</ul>
-					</div>
+		<div id="container">
+		<!-- header -->
+		<header>
+		<!-- .logo -->
+		<div class="logo"> <a href="index.php"><img src="images/logo.png" alt="<?php echo $set['game_name']; ?>" title="<?php echo $set['game_name']; ?>" /></a></div>
+		<!-- /.logo -->
+		<nav>
+			<ul class="sf-menu">
+				<li<?php echo $_SERVER['PHP_SELF'] == '/profile.php' ? " class='current_page_item'" : ''; ?>><?php echo $users->name($my['id']); ?></li>
+				<li<?php echo $_SERVER['PHP_SELF'] == '/settings.php' ? " class='current_page_item'" : ''; ?>><a href='settings.php' accesskey='2'>Settings</a></li>
+				<li<?php echo $_SERVER['QUERY_STRING'] == 'action=logout' ? " class='current_page_item'" : ''; ?>><a href='?action=logout' accesskey='3'>Logout</a></li>
+			</ul>
+		</nav>
+		</header>
+		 <!-- EOF header -->
+		 <!-- slider -->
+		 <div class="row_top_tile_sub">
+			<div class="row_top_sub">
+				<div class="container">
+					<h1 class="page_title"><?php echo $set['game_name']; ?></h1>
 				</div>
 			</div>
-			<div id='two-column'>
-				<div class='tbox1'>
-					<div class='box'>
-						<p><?php
+		 </div>
+		 <!-- EOF slider -->
+		<div id="main" class="shape">
+			<div class="container_12"><?php
 	}
 
 	function menuarea($my, $mtg, $users, $db) {
@@ -88,10 +96,8 @@ class headers {
 			require_once(DIRNAME(__DIR__) . '/staff/menu.php');
 		else
 			require_once(__DIR__ . '/menu.php');
-		?>			</p>
-				</div>
-			</div>
-			<div id='page' class='container'><?php
+		?><div class="grid_8 pad3">
+			<p><?php
 		if(array_key_exists('action', $_GET) && $_GET['action'] == 'logout') {
 			session_unset();
 			session_destroy();
@@ -105,12 +111,36 @@ class headers {
 
 	function __destruct() {
 		global $set;
-		?>		</div>
+		?>			</p>
+				</div>
 			</div>
 		</div>
-		<div id="copyright" class="container">
-			<p>&copy; <?php echo $set['game_name']; ?>. All rights reserved. &middot; Design by <a href="http://templated.co" rel="nofollow">TEMPLATED</a> and <a href='http://magictallguy.tk'>Magictallguy</a>.</p>
-		</div>
+		<!-- footer -->
+		<footer>
+			<div class="foot">
+				<div class="footer">
+					<div class="copy">Copyright &copy; 2011 Forceful Theme. All rights reserved.</div>
+					<div class="bottom_menu">
+						<ul>
+							<li><a href="index.php">Home</a></li>
+							<li><a href="contact.php">Contact</a></li>
+							<li><a href="?action=logout">Logout</a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</footer>
+		<!-- EOF footer -->
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.js"></script>
+		<script type="text/javascript" src="js/jquery.validate.pack.js"></script>
+		<!--[if lt IE 9  ]> <script src="js/cycle/jquery.cycle.all.min_ie.js"></script>     <![endif]-->
+		<!--[if  IE 9 | !(IE)]><!-->  <script src="js/cycle/jquery.cycle.all.min.js" type="text/javascript"></script>  <!--<![endif]-->
+		<!-- super fish js include -->
+		<script type="text/javascript" src="js/superfish/js/superfish.js"></script>
+		<script type="text/javascript" src="js/superfish/js/hoverIntent.js"></script>
+		<!-- scripts concatenated and minified via ant build script-->
+		<script src="js/script.js"></script>
+		<!-- end concatenated and minified scripts-->
 		</body>
 		</html><?php
 	}
