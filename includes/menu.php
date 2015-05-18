@@ -38,7 +38,7 @@ $links = array(
 				printf("<li%s><a href='%s.php'>%s</a></li>", $_SERVER['PHP_SELF'] == '/'.$url.'.php' ? " class='current'" : '', $url, $disp);
 			}
 			if($users->hasAccess('staff_panel_access'))
-				echo "<li><a href='staff.php'>Staff Panel</a></li>";
+				echo "<li><a href='staff'>Staff Panel</a></li>";
 	?>		</ul>
 	</div>
 </div>
