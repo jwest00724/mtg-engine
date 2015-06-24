@@ -41,4 +41,3 @@ require_once(__DIR__ . '/header.php');
 $h = headers::getInstance($db, $set, $my, $mtg, $users);
 if(defined('MENU_STAFF') && !$my['staff_rank'])
 	$mtg->error("You don't have access");
-$h->menu($my, $mtg, $users, $db);
