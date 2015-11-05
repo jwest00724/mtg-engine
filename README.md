@@ -1,5 +1,4 @@
-# MTG Codes v9.1 for Adz
-
+# MTG Codes v9.1
 PHP, MySQL, HTML, CSS.
 Text-based online RPG
 
