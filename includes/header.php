@@ -21,7 +21,6 @@ if(strpos($_SERVER['REQUEST_URI'], basename(__FILE__)) !== false)
 	exit;
 if(!defined('MTG_ENABLE'))
 	define('MTG_ENABLE', true);
-$_SERVER['PHP_SELF'] = str_replace('/adz', '', $_SERVER['PHP_SELF']);
 class headers {
 	static $inst = null;
 	static function getInstance($db, $set, $my, $mtg, $users) {
@@ -36,7 +35,6 @@ class headers {
 		?><!doctype html>
 		<html lang="en">
 		<head>
-		<base href="http://mtgtest.tk/adz/" />
 		<meta charset="utf-8">
 		<title><?php echo $set['game_name']; ?></title>
 		<meta name="author" content="Magictallguy" />
