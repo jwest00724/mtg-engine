@@ -23,7 +23,6 @@ if(strpos($_SERVER['REQUEST_URI'], basename(__FILE__)) !== false)
 	exit;
 if(!defined('MTG_ENABLE'))
 	define('MTG_ENABLE', true);
-$_SERVER['PHP_SELF'] = str_replace('/adz', '', $_SERVER['PHP_SELF']);
 class headers {
 	static $inst = null;
 	static function getInstance($set) {
@@ -34,26 +33,51 @@ class headers {
 	function __construct($set) {
 		global $css;
 		header("Content-type: text/html;charset=UTF-8");
-		?><!doctype html>
+		?><!DOCTYPE html>
 		<html lang="en">
-		<head>
-			<base href='http://mtgtest.tk/adz/' />
-			<meta charset="utf-8">
-			<title><?php echo $set['game_name']; ?></title>
-			<meta name="author" content="Magictallguy" />
-			<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-			<link rel="stylesheet" href="css/style.css" />
-			<link rel="stylesheet" href="css/message.css" />
-		</head>
-		<body>
-		<div class='logo'>&nbsp;</div>
-		<div class='content-container'><?php
+			<head>
+				<meta charset="utf-8">
+				<meta name="viewport" content="width=device-width, initial-scale=1.0">
+				<meta name="description" content="A web-based GUI for installing MTG Codes v9" />
+				<title>MTG Codes v9 - Installer</title>
+				<link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.6.0/pure-min.css" />
+				<link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.6.0/grids-responsive-min.css" />
+				<!--[if lte IE 8]>
+				<link rel="stylesheet" href="css/layouts/side-menu-old-ie.css" />
+				<link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.6.0/grids-responsive-old-ie-min.css" />
+				<![endif]-->
+				<!--[if gt IE 8]><!-->
+				<link rel="stylesheet" href="css/layouts/side-menu.css" />
+				<!--<![endif]-->
+				<style type='text/css'>
+					.center {
+						text-align:center;
+					}
+				</style>
+				<link rel="stylesheet" type='text/css' href="css/message.css" />
+			</head>
+			<body>
+				<div id="layout">
+					<a href="#menu" id="menuLink" class="menu-link"><span>&nbsp;</span></a>
+					<div id="menu">
+						<div class="pure-menu">
+							<a class="pure-menu-heading" href="#">Menu</a>
+							<ul class="pure-menu-list">
+								<li class="pure-menu-item pure-menu-selected"><a href="index.php" class="pure-menu-link">Home</a></li>
+								<li class="pure-menu-item"><a href="signup.php" class="pure-menu-link">Sign up</a></li>
+								<li class="pure-menu-item menu-item-divided"><a href="tos.php" class="pure-menu-link">Terms of Service</a></li>
+							</ul>
+						</div>
+					</div>
+					<div id="main"><?php
 	}
 
 	function __destruct() {
 		global $set;
-		?></div>
-		</body>
+		?>			</div>
+				</div>
+				<script src="js/ui.js"></script>
+			</body>
 		</html><?php
 	}
 }
