@@ -31,7 +31,7 @@ class headers {
 		return self::$inst;
 	}
 	function __construct($set) {
-		global $css;
+		global $set;
 		header("Content-type: text/html;charset=UTF-8");
 		?><!DOCTYPE html>
 		<html lang="en">
@@ -39,7 +39,7 @@ class headers {
 				<meta charset="utf-8">
 				<meta name="viewport" content="width=device-width, initial-scale=1.0">
 				<meta name="description" content="A web-based GUI for installing MTG Codes v9" />
-				<title>MTG Codes v9 - Installer</title>
+				<title><?php echo $set['game_name'];?> - MTG Codes v9</title>
 				<link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.6.0/pure-min.css" />
 				<link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.6.0/grids-responsive-min.css" />
 				<!--[if lte IE 8]>
