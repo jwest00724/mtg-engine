@@ -12,8 +12,8 @@ if(empty($_POST['password'])) {
 	$_SESSION['msg'] = "You didn't enter your password";
 	exit(header("Location: login.php"));
 }
-$db->query("SELECT id, password FROM users WHERE username = ?");
-$db->execute(array($_POST['username']));
+$db->query("SELECT `id`, `password` FROM `users` WHERE `username` = ?");
+$db->execute([$_POST['username']]);
 if(!$db->num_rows()) {
 	$_SESSION['msg'] = "An account with that name wasn't found";
 	exit(header("Location: login.php"));
