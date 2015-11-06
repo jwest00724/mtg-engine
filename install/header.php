@@ -5,7 +5,6 @@ class mtg_install_header {
 		?><!DOCTYPE html>
 		<html lang="en">
 			<head>
-				<base href='http://mtgtest.tk/adz/install/' />
 				<meta charset="utf-8">
 				<meta name="viewport" content="width=device-width, initial-scale=1.0">
 				<meta name="description" content="A web-based GUI for installing MTG Codes v9" />
@@ -35,7 +34,7 @@ class mtg_install_header {
 							<ul class="pure-menu-list">
 								<li class="pure-menu-item"><a href="index.php" class="pure-menu-link">Home</a></li>
 								<li class="pure-menu-item"><a href="install.php" class="pure-menu-link">Install</a></li>
-								<li class="pure-menu-item" class="menu-item-divided pure-menu-selected"><a href="http://magictallguy.tk/contact.php" class="pure-menu-link">Contact Support</a></li>
+								<li class="pure-menu-item" class="menu-item-divided pure-menu-selected"><a href="mailto:magictallguy@hotmail.com" class="pure-menu-link">Contact Support</a></li>
 							</ul>
 						</div>
 					</div>
