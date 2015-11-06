@@ -1,5 +1,5 @@
 <?php
-include(__DIR__ . '/header.php');
+require_once __DIR__ . '/header.php';
 define('MTG_ENABLE', true);
 function error($msg) {
 	exit("<div class='notification notification-error'><i class='fa fa-times-circle'></i><p>".$msg."</p></div>");
@@ -20,11 +20,11 @@ if(!defined('PHP_VERSION_ID')) {
 function formatTimeZones(array $zones) {
 	if(!count($zones))
 		return 'Something screwed up..';
-	foreach ($zones as $zone) {
+	foreach($zones as $zone) {
 		$zone = explode('/', $zone);
 		// Only use "friendly" continent names
 		if(in_array($zone[0], ['Africa', 'America', 'Antarctica', 'Arctic', 'Asia', 'Atlantic', 'Australia', 'Europe', 'Indian', 'Pacific']))
-			if (isset($zone[1]) != '')
+			if(isset($zone[1]) != '')
 				$locations[$zone[0]][$zone[0]. '/' . $zone[1]] = str_replace('_', ' ', $zone[1]);
 	}
 	return $locations;
@@ -43,11 +43,11 @@ function listTimeZones(array $list, $ddname = 'timezone') {
 }
 $mainPath = dirname(__DIR__);
 $mainPath = str_replace('install/home', '', $mainPath);
-$paths = preg_match('/\/public_html/', $mainPath) ? explode('/public_html/', $mainPath) : array('/', '');
+$paths = preg_match('/\/public_html/', $mainPath) ? explode('/public_html/', $mainPath) : ['/', ''];
 $path = $paths[1];
 $sqlPathMain = __DIR__ . '/sqls/db__structure.sql';
 $sqlPathSettings = __DIR__ . '/sqls/db__settings_data.sql';
-$steps = array(1, 2, 3, 4, 5, 6, 7);
+$steps = [1, 2, 3, 4, 5, 6, 7];
 $_GET['step'] = isset($_GET['step']) && ctype_digit($_GET['step']) && in_array($_GET['step'], $steps) ? $_GET['step'] : 1;
 ?><div class="header">
 	<h1>MTG Codes v9.1</h1>
@@ -288,20 +288,20 @@ define('DB_NAME', '".$_POST['name']."');";
 			error("You must enter a game name. If you're not sure, enter a temporarily value (such as &ldquo;To Be Named&rdquo;, for example)");
 		require_once($mainPath . '/includes/class/class_mtg_db_mysqli.php');
 		$db->query("UPDATE `game_settings` SET `value` = :value WHERE `name` = :name");
-		$settings = array(
-			array(
+		$settings = [
+			[
 				':value' => $_POST['game_name'],
 				':name' => 'game_name'
-			),
-			array(
+			],
+			[
 				':value' => $_POST['game_owner'],
 				':name' => 'game_owner'
-			),
-			array(
+			],
+			[
 				':value' => $_POST['game_description'],
 				':name' => 'game_description'
-			)
-		);
+			]
+		];
 		$settings = array_shift($settings);
 		foreach($settings as $param => $value)
 			$db->bind($param, $value);
@@ -316,10 +316,12 @@ define('DB_NAME', '".$_POST['name']."');";
 			error("Your passwords didn't match");
 		require_once($mainPath . '/includes/class/class_mtg_users.php');
 		$pass = $users->hashPass($_POST['pass']);
+		$db->startTrans();
 		$db->query("INSERT INTO `staff_ranks` (`rank_id`, `rank_name`, `rank_order`, `rank_colour`, `override_all`) VALUES (1, 'Owner', 1, '000033', 'Yes');");
 		$db->execute();
 		$db->query("INSERT INTO `users` (`id`, `username`, `password`, `email`, `staff_rank`) VALUES (?, ?, ?, ?, ?)");
 		$db->execute([1, $_POST['username'], $pass, $_POST['email'], 1]);
+		$db->endTrans();
 		success("Your game's basic settings have been installed and your account has been created!");
 		?>I recommend that you remove this installation directory (keep a local backup, just in case).<br />
 		I can try to delete it for you now if you'd like?<br />
