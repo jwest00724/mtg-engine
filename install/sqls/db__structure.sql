@@ -2,7 +2,7 @@
 -- MySQL 5.5.5
 -- Mon, 06 Apr 2015 01:53:17 +0000
 --
-CREATE TABLE `market_points` (
+CREATE TABLE IF NOT EXISTS `market_points` (
 	`id` int(11) not null auto_increment,
 	`qty` bigint(25) not null default '0',
 	`user` int(11) not null default '0',
@@ -11,7 +11,7 @@ CREATE TABLE `market_points` (
 	PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `breport` (
+CREATE TABLE IF NOT EXISTS `breport` (
 	`id` int(11) not null auto_increment,
 	`urgency` varchar(255) not null,
 	`category` varchar(255) not null,
@@ -25,7 +25,7 @@ CREATE TABLE `breport` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
-CREATE TABLE `breport_responses` (
+CREATE TABLE IF NOT EXISTS `breport_responses` (
 	`id` int(11) not null auto_increment,
 	`bug` int(11) not null default '0',
 	`user` int(11) not null default '0',
@@ -34,7 +34,7 @@ CREATE TABLE `breport_responses` (
 	PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `cities` (
+CREATE TABLE IF NOT EXISTS `cities` (
 	`cityid` int(11) not null auto_increment,
 	`cityname` varchar(255) not null,
 	`citydesc` longtext not null,
@@ -44,14 +44,14 @@ CREATE TABLE `cities` (
 	PRIMARY KEY (`cityid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `crimegroups` (
+CREATE TABLE IF NOT EXISTS `crimegroups` (
 	`id` int(11) not null auto_increment,
 	`name` varchar(255) not null,
 	`order` int(11) not null default '0',
 	PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `crimes` (
+CREATE TABLE IF NOT EXISTS `crimes` (
 	`id` int(11) not null auto_increment,
 	`name` varchar(255) not null,
 	`nerve` int(11) not null default '0',
@@ -70,7 +70,7 @@ CREATE TABLE `crimes` (
 	PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `events` (
+CREATE TABLE IF NOT EXISTS `events` (
 	`id` int(11) not null auto_increment,
 	`user` int(11) not null default '0',
 	`time_sent` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -83,7 +83,7 @@ CREATE TABLE `events` (
 	KEY `deleted` (`deleted`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `inventory` (
+CREATE TABLE IF NOT EXISTS `inventory` (
 	`id` int(11) not null auto_increment,
 	`item` int(11) not null default '0',
 	`user` int(11) not null default '0',
@@ -92,7 +92,7 @@ CREATE TABLE `inventory` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
-CREATE TABLE `market_items` (
+CREATE TABLE IF NOT EXISTS `market_items` (
 	`id` int(11) not null auto_increment,
 	`item` int(11) not null default '0',
 	`user` int(11) not null default '0',
@@ -104,7 +104,7 @@ CREATE TABLE `market_items` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
-CREATE TABLE `items` (
+CREATE TABLE IF NOT EXISTS `items` (
 	`id` int(11) not null auto_increment,
 	`type` int(11) not null default '0',
 	`name` varchar(255) not null,
@@ -125,13 +125,13 @@ CREATE TABLE `items` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
-CREATE TABLE `itemtypes` (
+CREATE TABLE IF NOT EXISTS `itemtypes` (
 	`id` int(11) not null auto_increment,
 	`name` varchar(255) not null,
 	PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `jobranks` (
+CREATE TABLE IF NOT EXISTS `jobranks` (
 	`id` int(11) not null auto_increment,
 	`name` varchar(255) not null,
 	`job` int(11) not null default '0',
@@ -150,7 +150,7 @@ CREATE TABLE `jobranks` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
-CREATE TABLE `jobs` (
+CREATE TABLE IF NOT EXISTS `jobs` (
 	`id` int(11) not null auto_increment,
 	`name` varchar(255) not null,
 	`first_rank` int(11) not null default '0',
@@ -160,7 +160,7 @@ CREATE TABLE `jobs` (
 
 
 
-CREATE TABLE `logs_query_errors` (
+CREATE TABLE IF NOT EXISTS `logs_query_errors` (
 	`id` int(11) not null auto_increment,
 	`time` timestamp not null default CURRENT_TIMESTAMP,
 	`query` text not null,
@@ -172,7 +172,7 @@ CREATE TABLE `logs_query_errors` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
-CREATE TABLE `logs_staff` (
+CREATE TABLE IF NOT EXISTS `logs_staff` (
 	`id` int(11) not null auto_increment,
 	`user` int(11) not null default '0',
 	`time` int(11) not null default '0',
@@ -181,7 +181,7 @@ CREATE TABLE `logs_staff` (
 	PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `mail` (
+CREATE TABLE IF NOT EXISTS `mail` (
 	`id` int(11) not null auto_increment,
 	`read` int(11) not null default '0',
 	`sender` int(11) not null default '0',
@@ -197,7 +197,7 @@ CREATE TABLE `mail` (
 	KEY `deleted` (`deleted`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `preports` (
+CREATE TABLE IF NOT EXISTS `preports` (
 	`id` int(11) not null auto_increment,
 	`userid` int(11) not null default '0',
 	`reported` int(11) not null default '0',
@@ -209,7 +209,7 @@ CREATE TABLE `preports` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
-CREATE TABLE `preports_responses` (
+CREATE TABLE IF NOT EXISTS `preports_responses` (
 	`id` int(11) not null auto_increment,
 	`report` int(11) not null default '0',
 	`user` int(11) not null default '0',
@@ -219,7 +219,7 @@ CREATE TABLE `preports_responses` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
-CREATE TABLE `shopitems` (
+CREATE TABLE IF NOT EXISTS `shopitems` (
 	`sitemID` int(11) not null auto_increment,
 	`sitemSHOP` int(11) not null default '0',
 	`sitemITEMID` int(11) not null default '0',
@@ -230,7 +230,7 @@ CREATE TABLE `shopitems` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
-CREATE TABLE `shops` (
+CREATE TABLE IF NOT EXISTS `shops` (
 	`shopID` int(11) not null auto_increment,
 	`shopLOCATION` int(11) not null default '0',
 	`shopNAME` varchar(255) not null,
@@ -239,7 +239,7 @@ CREATE TABLE `shops` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
-CREATE TABLE `staff_ranks` (
+CREATE TABLE IF NOT EXISTS `staff_ranks` (
 	`rank_id` int(11) not null auto_increment,
 	`rank_name` varchar(255) not null,
 	`rank_desc` varchar(255) not null,
@@ -249,7 +249,7 @@ CREATE TABLE `staff_ranks` (
 	PRIMARY KEY (`rank_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `users` (
+CREATE TABLE IF NOT EXISTS `users` (
 	`id` int(11) not null auto_increment,
 	`username` varchar(255) not null,
 	`password` text not null,
@@ -265,10 +265,11 @@ CREATE TABLE `users` (
 	`jail` int(11) not null default '0',
 	`jail_reason` text not null,
 	`staff_rank` bigint(25) not null default '0',
+	`last_seen` timestamp not null default current_timestamp,
 	PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `users_equipment` (
+CREATE TABLE IF NOT EXISTS `users_equipment` (
 	`id` int(11) not null auto_increment,
 	`equip_primary` int(11) not null default '0',
 	`equip_secondary` int(11) not null default '0',
@@ -276,7 +277,7 @@ CREATE TABLE `users_equipment` (
 	PRIMARY KEY (`id`)
 );
 
-CREATE TABLE `users_finances` (
+CREATE TABLE IF NOT EXISTS `users_finances` (
 	`id` int(11) not null auto_increment,
 	`money` bigint(25) not null default '-1',
 	`bankmoney` bigint(25) not null default '-1',
@@ -284,7 +285,18 @@ CREATE TABLE `users_finances` (
 	PRIMARY KEY (`id`)
 );
 
-CREATE TABLE `users_stats` (
+
+CREATE TABLE IF NOT EXISTS `users_messages` (
+	`id` int(11) not null,
+	`sender` int(11) not null default '0',
+	`receiver` int(11) not null default '0',
+	`subject` varchar(255) not null default 'No subject',
+	`message` text not null,
+	`time_sent` timestamp not null default current_timestamp,
+	`read` tinyint(1) not null default '0'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS `users_stats` (
 	`id` int(11) not null auto_increment,
 	`strength` decimal(28,4) not null default '0.0000',
 	`agility` decimal(28,4) not null default '0.0000',
