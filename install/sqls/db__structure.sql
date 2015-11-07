@@ -246,6 +246,7 @@ CREATE TABLE IF NOT EXISTS `staff_ranks` (
 	`rank_order` int(11) not null default '0',
 	`rank_colour` varchar(6) not null default '000000',
 	`override_all` enum('Yes','No') not null default 'No',
+	`staff_panel_access` enum('Yes','No') not null default 'No',
 	PRIMARY KEY (`rank_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -287,13 +288,12 @@ CREATE TABLE IF NOT EXISTS `users_events` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `users_finances` (
-	`id` int(11) not null auto_increment,
+	`id` int(11) not null,
 	`money` bigint(25) not null default '0',
-	`bankmoney` bigint(25) not null default '-1',
-	`cybermoney` bigint(25) not null default '-1',
+	`bank` bigint(25) not null default '-1',
 	`merits` bigint(25) not null default '0',
-	PRIMARY KEY (`id`)
-);
+	PRIMARY KEY(`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `users_messages` (
 	`id` int(11) not null,
@@ -307,20 +307,19 @@ CREATE TABLE IF NOT EXISTS `users_messages` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `users_stats` (
-	`id` int(11) not null auto_increment,
+	`id` int(11) not null,
 	`strength` decimal(28,4) not null default '10.0000',
 	`agility` decimal(28,4) not null default '10.0000',
 	`guard` decimal(28,4) not null default '10.0000',
 	`labour` decimal(28,4) not null default '10.0000',
 	`iq` decimal(28,4) not null default '10.0000',
 	`energy` bigint(20) not null default '0',
-	`energy_max` bigint(20) not null default '0',
+	`energy_max` int(11) not null default '10',
 	`power` bigint(20) not null default '0',
-	`power_max` bigint(20) not null default '0',
+	`power_max` int(11) not null default '10',
 	`nerve` int(11) not null default '0',
-	`nerve_max` int(11) not null default '0',
+	`nerve_max` int(11) not null default '10',
 	`health` int(11) not null default '0',
-	`health_max` int(11) not null default '0',
-	PRIMARY KEY (`id`),
-	UNIQUE KEY (`id`)
+	`health_max` int(11) not null default '10',
+	unique (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
