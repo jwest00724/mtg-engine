@@ -29,19 +29,33 @@ class headers {
 		return self::$inst;
 	}
 	function __construct($db, $set, $my, $mtg, $users) {
-		$db->query("UPDATE users SET last_seen = current_timestamp WHERE id = ?");
-		$db->execute(array($my['id']));
+		$db->query("UPDATE `users` SET `last_seen` = current_timestamp WHERE `id` = ?");
+		$db->execute([$my['id']]);
 		header("Content-type: text/html;charset=UTF-8");
-		?><!doctype html>
+		?><!DOCTYPE html>
 		<html lang="en">
-		<head>
-		<meta charset="utf-8">
-		<title><?php echo $set['game_name']; ?></title>
-		<meta name="author" content="Magictallguy" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<link rel="stylesheet" href="css/style.css" />
-		<link rel="stylesheet" href="css/message.css" />
-		</head>
+			<head>
+				<meta charset="utf-8">
+				<meta name="viewport" content="width=device-width, initial-scale=1.0">
+				<meta name="description" content="MTG Codes v9" />
+				<title><?php echo $set['game_name'];?> - MTG Codes v9</title>
+				<link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.6.0/pure-min.css" />
+				<link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.6.0/grids-responsive-min.css" />
+				<!--[if lte IE 8]>
+				<link rel="stylesheet" href="css/layouts/side-menu-old-ie.css" />
+				<link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.6.0/grids-responsive-old-ie-min.css" />
+				<![endif]-->
+				<!--[if gt IE 8]><!-->
+				<link rel="stylesheet" href="css/layouts/side-menu.css" />
+				<!--<![endif]-->
+				<style type='text/css'>
+					.center {
+						text-align:center;
+					}
+				</style>
+				<link rel="stylesheet" type='text/css' href="css/message.css" />
+				<link rel="stylesheet" type='text/css' href="css/style.css" />
+			</head>
 		<body>
 		<div class='logo'>&nbsp;</div>
 		<div class='left-menu'>
