@@ -31,7 +31,6 @@ class headers {
 	function __construct($db, $set, $my, $mtg, $users) {
 		$db->query("UPDATE `users` SET `last_seen` = current_timestamp WHERE `id` = ?");
 		$db->execute([$my['id']]);
-		$_SERVER['PHP_SELF'] = str_replace('/mtg-engine', '', $_SERVER['PHP_SELF']);
 		header("Content-type: text/html;charset=UTF-8");
 		?><!DOCTYPE html>
 		<html lang="en">
