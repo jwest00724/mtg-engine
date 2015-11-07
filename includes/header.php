@@ -62,20 +62,22 @@ class headers {
 				<a href="#menu" id="menuLink" class="menu-link"><span>&nbsp;</span></a>
 				<div id="menu">
 					<div class="userinfo">
-						<strong>Name:</strong> <?php echo $users->name($my['id'], true);?><br />
-						<strong>Money:</strong> <?php echo $set['main_currency_symbol'].$mtg->format($my['money']);?><br />
-						<strong>Level:</strong> <?php echo $mtg->format($my['level']);?><br />
-						<strong>Points:</strong> <?php echo $mtg->format($my['points']);?><br />
-						<strong>Merits:</strong> <?php echo $mtg->format($my['merits']);?><br />
-						<div class='title'>STATS</div>
-						<div style='color:white;'>Bars coming soon</div>
-						<span style='color:green;'>ENERGY: <?php echo round($my['energy'] / $my['energy_max'] * 100);?>%</span><br />
-						<span style='color:red;'>NERVE: <?php echo round($my['nerve'] / $my['nerve_max'] * 100);?>%</span><br />
-						<span style='color:cyan;'>HAPPY: <?php echo round($my['happy'] / $my['happy_max'] * 100);?>%</span><br />
-						<span style='color:orange;'>LIFE: <?php echo round($my['health'] / $my['health_max'] * 100);?>%</span><br />
-						<span style='color:pink;'>EXP: <?php echo $my['exp'].'/'.$users->expRequired(true);?></span>
+						<ul class="pure-menu-list">
+							<li class="menu-list-item"><?php echo $users->name($my['id'], true);?></li>
+							<li class="menu-list-item"><strong>Money:</strong> <?php echo $set['main_currency_symbol'].$mtg->format($my['money']);?></li>
+							<li class="menu-list-item"><strong>Level:</strong> <?php echo $mtg->format($my['level']);?></li>
+							<li class="menu-list-item"><strong>Points:</strong> <?php echo $mtg->format($my['points']);?></li>
+							<li class="menu-list-item"><strong>Merits:</strong> <?php echo $mtg->format($my['merits']);?></li>
+						</ul><hr />
+						<ul class="pure-menu-list">
+							<li class="menu-list-item">Bars coming soon</li>
+							<li class="menu-list-item">ENERGY: <?php echo round($my['energy'] / $my['energy_max'] * 100);?>%</li>
+							<li class="menu-list-item">NERVE: <?php echo round($my['nerve'] / $my['nerve_max'] * 100);?>%</li>
+							<li class="menu-list-item">HAPPY: <?php echo round($my['happy'] / $my['happy_max'] * 100);?>%</li>
+							<li class="menu-list-item">LIFE: <?php echo round($my['health'] / $my['health_max'] * 100);?>%</li>
+							<li class="menu-list-item">EXP: <?php echo $my['exp'].'/'.$users->expRequired(true);?></li>
+						</ul>
 					</div>
-					<hr style="" />
 					<div class="pure-menu"><?php
 					if(!defined('MENU_ENABLE'))
 						define('MENU_ENABLE', true);
