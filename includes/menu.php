@@ -1,6 +1,7 @@
 <?php
 if(!defined('MTG_ENABLE'))
 	exit;
+?><ul class="pure-menu-list"><?php
 $links = array(
 	'index' => 'Home',
 	'messages' => 'Messages [msg_count]',
@@ -32,9 +33,9 @@ foreach($links as $url => $disp) {
 		$db->execute([time()]);
 		$disp = str_replace('[jail_count]', '['.$mtg->format($db->fetch_single()).']', $disp);
 	}
-	printf("<div class='button'><a href='%s.php'>%s</a></div>\n<div class='spacer'></div>\n", $url, $disp);
+	printf("<li class='pure-menu-item'><a href='%s.php'>%s</a></li>\n", $url, $disp);
 }
 if($users->hasAccess('staff_panel_access'))
-	echo "<div class='button'><a href='staff'>Staff Panel</a></div>\n<div class='spacer'></div>\n";
-?><div class='button'><a href='?action=logout'>Logout</a></div>
-<div class='spacer'></div>
+	echo "<li class='pure-menu-item menu-item-divided'><a href='staff'>Staff Panel</a></li>\n";
+?><li class="pure-menu-item menu-item-divided"><a href='?action=logout'>Logout</a></li>
+</ul>
