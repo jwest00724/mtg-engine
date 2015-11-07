@@ -90,7 +90,12 @@ class headers {
 						if(array_key_exists('action', $_GET) && $_GET['action'] == 'logout') {
 							session_unset();
 							session_destroy();
-							$mtg->success("You've logged out. Come back soon!", true);
+							session_start();
+							$_SESSION['msg'] = [
+								'type' => 'success',
+								'content' => 'You\'ve logged out. Come back soon!'
+							];
+							exit(header("Location: index.php"));
 						}
 						if($my['hospital'])
 							echo "<strong>Nurse:</strong> You're currently in hospital for ".$mtg->time_format($my['hospital'] * 60).".<br />";

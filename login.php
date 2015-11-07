@@ -7,7 +7,14 @@ require_once(__DIR__ . '/includes/globals_out.php');
 </div>
 <div class="content"><?php
 	if(isset($_SESSION['msg'])) {
-		$mtg->error($_SESSION['msg'], false);
+		switch($_SESSION['msg']['type']) {
+			case 'error':
+				$mtg->error($_SESSION['msg']['content'], false);
+				break;
+			case 'success':
+				$mtg->success($_SESSION['msg']['content']);
+				break;
+		}
 		unset($_SESSION['msg']);
 	}
 	?><form action="auth.php" method="post" class="pure-form pure-form-aligned">
