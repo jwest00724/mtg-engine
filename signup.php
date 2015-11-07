@@ -1,16 +1,12 @@
 <?php
-require_once(__DIR__ . '/includes/globals_out.php');
-require_once(__DIR__ . '/includes/class/class_mtg_users.php');
+require_once __DIR__ . '/includes/globals_out.php';
+require_once __DIR__ . '/includes/class/class_mtg_users.php';
 ?><div class="header">
 	<div class="logo"></div>
 	<h1>Welcome to <?php echo $mtg->format($set['game_name']);?></h1>
 	<h2 class="content-subhead">Please signup</h2>
 </div>
 <div class="content"><?php
-	if(isset($_SESSION['msg'])) {
-		$mtg->error($_SESSION['msg'], false);
-		unset($_SESSION['msg']);
-	}
 	if(array_key_exists('submit', $_POST)) {
 		$fields = ['username', 'password', 'cpassword', 'email'];
 		foreach($fields as $what) {
