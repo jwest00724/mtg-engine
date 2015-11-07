@@ -13,16 +13,17 @@ switch($_GET['action']) {
 function index($db, $my, $mtg, $set) {
 	if(array_key_exists('submit', $_POST)) {
 		$_POST['text'] = isset($_POST['text']) ? trim($_POST['text']) : null;
-		$db->query("UPDATE game_settings SET value = ? WHERE name = 'staff_notepad'");
-		$db->execute(array($_POST['text']));
+		$db->query("UPDATE `game_settings` SET `value` = ? WHERE `name` = 'staff_notepad'");
+		$db->execute([$_POST['text']]);
 		$set['staff_notepad'] = $_POST['text'];
 	}
-	$version = fopen('http://magictallguy.tk/vers/?v=9.1.1631', 'r');
-	if(!$version)
-		$vers = 'Unable to get update information';
-	else
-		while(!feof($version))
-			$vers = fgets($version, 1024);
+	// $version = fopen('http://magictallguy.tk/vers/?v=9.1.1631', 'r');
+	// if(!$version)
+	// 	$vers = 'Unable to get update information';
+	// else
+	// 	while(!feof($version))
+	// 		$vers = fgets($version, 1024);
+	$vers = '<span style="color:green;">Currently being worked on</span>';
 	$db->query("SELECT VERSION()");
 	$db->execute();
 	?><p><table width='100%'>
@@ -58,11 +59,11 @@ function gameSettings($db, $my, $mtg, $set) {
 		$posted = array_merge($strs, $nums);
 		foreach($posted as $what) {
 			$db->query("UPDATE game_settings SET value = ? WHERE name = ?");
-			$db->execute(array($_POST[$what], $posted));
+			$db->execute([$_POST[$what], $posted]);
 		}
 		$mtg->success("You've updated the game's settings");
 	}
-	?><form action='?action=settings' method='post' class='cmxform'>
+	?><form action='?action=settings' method='post' class='pure-form pure-form-aligned'>
 		<table width='100%'>
 			<tr>
 				<thead><th colspan='2'>Basic Settings</th></thead>
