@@ -14,16 +14,16 @@ class users {
 		if(!$amnt)
 			return false;
 		$db->query("SELECT `id` FROM `users` WHERE `id` = ?");
-		$db->execute(array($user));
+		$db->execute([$user]);
 		if(!$db->num_rows())
 			return false;
 		if(date('d/m') == '14/02')
 			$amnt *= 6;
 		$db->query("UPDATE `users` SET `exp` = `exp` + ? WHERE `id` = ?");
-		$db->execute(array($amnt, $user));
+		$db->execute([$amnt, $user]);
 		return true;
 	}
-	public function selectList($ddname = 'user', $selected = -1, $notIn = array()) {
+	public function selectList($ddname = 'user', $selected = -1, $notIn = []) {
 		global $db, $mtg;
 		$first = $selected == -1 ? 0 : 1;
 		$ret = "<select name='".$ddname."'><option value='0'".($selected == -1 ? " selected='selected'" : '').">--- Select ---</option>";
@@ -32,15 +32,15 @@ class users {
 		if(count($notIn))
 			$extra .= " WHERE `id` NOT IN(".implode(',', $notIn).") ";
 		$db->query("SELECT `id`, `username` FROM `users` ? ORDER BY `username` ASC");
-		$db->execute(array($extra));
+		$db->execute([$extra]);
 		$rows = $db->fetch_row();
-		foreach($rows as $r) {
-			$ret .= "\n<option value='".$r['id']."'";
-			if($selected == $r['id'] || !$first || isset($_POST[$ddname]) && $_POST[$ddname] == $r['id']) {
+		foreach($rows as $row) {
+			$ret .= "\n<option value='".$row['id']."'";
+			if($selected == $row['id'] || !$first || isset($_POST[$ddname]) && $_POST[$ddname] == $row['id']) {
 				$ret .= " selected='selected'";
 				$first = 1;
 			}
-			$ret .= ">".$mtg->format($r['username'])." [".$mtg->format($r['id'])."]</option>";
+			$ret .= ">".$mtg->format($row['username'])." [".$mtg->format($row['id'])."]</option>";
 		}
 		$ret .= "\n</select>";
 		return $ret;
@@ -50,7 +50,7 @@ class users {
 		if(!$id)
 			return false;
 		$db->query("SELECT `id` FROM `users` WHERE `id` = ?");
-		$db->execute(array($id));
+		$db->execute([$id]);
 		return $db->num_rows() ? true : false;
 	}
 	public function hasAccess($what, $id = 0) {
@@ -59,13 +59,15 @@ class users {
 			return false;
 		if(!$id)
 			$id = $my['id'];
+		if($id == $my['id'] && !$my['staff_rank'])
+			return false;
 		$db->query("SELECT `staff_rank` FROM `users` WHERE `id` = ?");
-		$db->execute(array($id));
+		$db->execute([$id]);
 		$rank = $db->fetch_single();
 		if(!$rank)
 			return false;
 		$db->query("SELECT `".$what."`, `override_all` FROM `staff_ranks` WHERE `rank_id` = ?");
-		$db->execute(array($rank));
+		$db->execute([$rank]);
 		if(!$db->num_rows())
 			return false;
 		$perm = $db->fetch_row(true);
@@ -79,15 +81,15 @@ class users {
 		global $db;
 		if(!$this->exists($id))
 			return false;
-		$db->query("INSERT INTO users_events (user, type, event) VALUES (?, ?, ?)");
-		$db->execute(array($id, $type, $event));
+		$db->query("INSERT INTO `users_events` (`user`, `type`, `event`) VALUES (?, ?, ?)");
+		$db->execute([$id, $type, $event]);
 	}
 	public function send_message($to, $from, $subject = 'No subject', $message) {
 		global $db;
 		if(!$this->exists($to))
 			return false;
-		$db->query("INSERT INTO users_messages (sender, receiver, subject, message) VALUES (?, ?, ?, ?)");
-		$db->execute(array($from, $to, $subject, $message));
+		$db->query("INSERT INTO `users_messages` (`sender`, `receiver`, `subject`, `message`) VALUES (?, ?, ?, ?)");
+		$db->execute([$from, $to, $subject, $message]);
 	}
 	public function jhCheck() {
 		global $my, $mtg;
@@ -102,7 +104,7 @@ class users {
 		if(!$id)
 			return "<span style='color:#555;font-style:italic;'>System</span>";
 		$db->query("SELECT `username`, `staff_rank`, `hospital`, `jail` FROM `users` WHERE `id` = ?");
-		$db->execute(array($id));
+		$db->execute([$id]);
 		if(!$db->num_rows())
 			return "<span style='color:#555;font-style:italic;'>System</span>";
 		$user = $db->fetch_row(true);
@@ -116,7 +118,7 @@ class users {
 		$user['username'] = $mtg->format($user['username']);
 		if($user['staff_rank']) {
 			$db->query("SELECT `rank_name`, `rank_colour` FROM `staff_ranks` WHERE `rank_id` = ?");
-			$db->execute(array($user['staff_rank']));
+			$db->execute([$user['staff_rank']]);
 			if(!$db->num_rows())
 				$ret .= "<a href='profile.php?player=".$id."'>".$user['username']."</a>";
 			else {
