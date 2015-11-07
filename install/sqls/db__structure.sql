@@ -277,6 +277,14 @@ CREATE TABLE IF NOT EXISTS `users_equipment` (
 	PRIMARY KEY (`id`)
 );
 
+CREATE TABLE IF NOT EXISTS `users_events` (
+	`id` int(11) not null,
+	`user` int(11) not null default '0',
+	`type` varchar(255) not null default 'Uncategorized',
+	`event` text not null,
+	`read` tinyint(1) not null default '0'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 CREATE TABLE IF NOT EXISTS `users_finances` (
 	`id` int(11) not null auto_increment,
 	`money` bigint(25) not null default '-1',
