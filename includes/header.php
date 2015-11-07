@@ -64,9 +64,9 @@ class headers {
 					if(!defined('MENU_ENABLE'))
 						define('MENU_ENABLE', true);
 					if(defined('MENU_STAFF'))
-						require_once(DIRNAME(__DIR__) . '/staff/menu.php');
+						require_once DIRNAME(__DIR__) . '/staff/menu.php';
 					else
-						require_once(__DIR__ . '/menu.php');
+						require_once __DIR__ . '/menu.php';
 					?><strong>Name:</strong> <?php echo $users->name($my['id'], true); ?><br />
 					<strong>Money:</strong> <?php echo $set['main_currency_symbol'].$mtg->format($my['money']); ?><br />
 					<strong>Level:</strong> <?php echo $mtg->format($my['level']); ?><br />
