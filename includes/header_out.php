@@ -63,8 +63,8 @@ class headers {
 						<div class="pure-menu">
 							<a class="pure-menu-heading" href="#">Menu</a>
 							<ul class="pure-menu-list">
-								<li class="pure-menu-item pure-menu-selected"><a href="index.php" class="pure-menu-link">Home</a></li>
-								<li class="pure-menu-item"><a href="tos.php" class="pure-menu-link">Terms of Service</a></li>
+								<li class="pure-menu-item<?php echo $_SERVER['PHP_SELF'] == '/login.php' ? ' pure-menu-selected' : null;?>"><a href="index.php" class="pure-menu-link">Home</a></li>
+								<li class="pure-menu-item<?php echo $_SERVER['PHP_SELF'] == '/tos.php' ? ' pure-menu-selected' : null;?>"><a href="tos.php" class="pure-menu-link">Terms of Service</a></li>
 							</ul>
 						</div>
 					</div>
