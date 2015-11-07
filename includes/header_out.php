@@ -38,7 +38,7 @@ class headers {
 			<head>
 				<meta charset="utf-8">
 				<meta name="viewport" content="width=device-width, initial-scale=1.0">
-				<meta name="description" content="A web-based GUI for installing MTG Codes v9" />
+				<meta name="description" content="MTG Codes v9" />
 				<title><?php echo $set['game_name'];?> - MTG Codes v9</title>
 				<link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.6.0/pure-min.css" />
 				<link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.6.0/grids-responsive-min.css" />
@@ -55,6 +55,7 @@ class headers {
 					}
 				</style>
 				<link rel="stylesheet" type='text/css' href="css/message.css" />
+				<link rel="stylesheet" type='text/css' href="css/style.css" />
 			</head>
 			<body>
 				<div id="layout">
@@ -64,7 +65,6 @@ class headers {
 							<a class="pure-menu-heading" href="#">Menu</a>
 							<ul class="pure-menu-list">
 								<li class="pure-menu-item pure-menu-selected"><a href="index.php" class="pure-menu-link">Home</a></li>
-								<li class="pure-menu-item"><a href="signup.php" class="pure-menu-link">Sign up</a></li>
 								<li class="pure-menu-item menu-item-divided"><a href="tos.php" class="pure-menu-link">Terms of Service</a></li>
 							</ul>
 						</div>
