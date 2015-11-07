@@ -8,7 +8,7 @@ CREATE TABLE IF NOT EXISTS `game_settings` (
    `name` varchar(255) not null,
    `value` mediumtext not null,
    PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=85;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
 
 INSERT INTO `game_settings` (`name`, `value`) VALUES
 ('staff_pad', 'Welcome to MTG Codes v9'),
@@ -17,4 +17,5 @@ INSERT INTO `game_settings` (`name`, `value`) VALUES
 ('register_start_cash', '100'),
 ('register_promo_code', 'Your Promo Code Here'),
 ('register_promo_cash', '100'),
+('main_currency_symbol', '&pound;'),
 ('game_owner_id', '1');

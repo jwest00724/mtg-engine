@@ -291,6 +291,7 @@ CREATE TABLE IF NOT EXISTS `users_finances` (
 	`money` bigint(25) not null default '-1',
 	`bankmoney` bigint(25) not null default '-1',
 	`cybermoney` bigint(25) not null default '-1',
+	`merits` bigint(25) not null default '0',
 	PRIMARY KEY (`id`)
 );
 
