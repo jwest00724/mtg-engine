@@ -288,7 +288,7 @@ CREATE TABLE IF NOT EXISTS `users_events` (
 
 CREATE TABLE IF NOT EXISTS `users_finances` (
 	`id` int(11) not null auto_increment,
-	`money` bigint(25) not null default '-1',
+	`money` bigint(25) not null default '0',
 	`bankmoney` bigint(25) not null default '-1',
 	`cybermoney` bigint(25) not null default '-1',
 	`merits` bigint(25) not null default '0',
@@ -308,11 +308,11 @@ CREATE TABLE IF NOT EXISTS `users_messages` (
 
 CREATE TABLE IF NOT EXISTS `users_stats` (
 	`id` int(11) not null auto_increment,
-	`strength` decimal(28,4) not null default '0.0000',
-	`agility` decimal(28,4) not null default '0.0000',
-	`guard` decimal(28,4) not null default '0.0000',
-	`labour` decimal(28,4) not null default '0.0000',
-	`iq` decimal(28,4) not null default '0.0000',
+	`strength` decimal(28,4) not null default '10.0000',
+	`agility` decimal(28,4) not null default '10.0000',
+	`guard` decimal(28,4) not null default '10.0000',
+	`labour` decimal(28,4) not null default '10.0000',
+	`iq` decimal(28,4) not null default '10.0000',
 	`energy` bigint(20) not null default '0',
 	`energy_max` bigint(20) not null default '0',
 	`power` bigint(20) not null default '0',
