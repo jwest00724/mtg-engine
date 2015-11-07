@@ -38,7 +38,8 @@ class headers {
 				<meta charset="utf-8">
 				<meta name="viewport" content="width=device-width, initial-scale=1.0">
 				<meta name="description" content="MTG Codes v9" />
-				<title><?php echo $set['game_name'];?> - MTG Codes v9</title>
+				<meta name="author" content="Magictallguy" />
+				<title><?php echo $mtg->format($set['game_name']);?> - MTG Codes v9</title>
 				<link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.6.0/pure-min.css" />
 				<link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.6.0/grids-responsive-min.css" />
 				<!--[if lte IE 8]>
@@ -57,52 +58,49 @@ class headers {
 				<link rel="stylesheet" type='text/css' href="css/style.css" />
 			</head>
 		<body>
-		<div class='logo'>&nbsp;</div>
-		<div class='left-menu'>
-		<div align='center'><?php
-		if(!defined('MENU_ENABLE'))
-			define('MENU_ENABLE', true);
-		if(defined('MENU_STAFF'))
-			require_once(DIRNAME(__DIR__) . '/staff/menu.php');
-		else
-			require_once(__DIR__ . '/menu.php');
-		?></div>
-		</div>
-		<div class='right-menu'>
-		<strong>Name:</strong> <?php echo $users->name($my['id'], true); ?><br />
-		<strong>Money:</strong> <?php echo $set['main_currency_symbol'].$mtg->format($my['money']); ?><br />
-		<strong>Level:</strong> <?php echo $mtg->format($my['level']); ?><br />
-		<strong>Points:</strong> <?php echo $mtg->format($my['points']); ?><br />
-		<strong>Merits:</strong> <?php echo $mtg->format($my['merits']); ?><br />
-		<div class='title'>STATS</div>
-		<div style='color:white;'>Bars coming soon</div>
-		<span style='color:green;'>ENERGY: <?php echo round($my['energy'] / $my['energy_max'] * 100); ?>%</span><br />
-		<span style='color:red;'>NERVE: <?php echo round($my['nerve'] / $my['nerve_max'] * 100); ?>%</span><br />
-		<span style='color:cyan;'>HAPPY: <?php echo round($my['happy'] / $my['happy_max'] * 100); ?>%</span><br />
-		<span style='color:orange;'>LIFE: <?php echo round($my['health'] / $my['health_max'] * 100); ?>%</span><br />
-		<span style='color:pink;'>EXP: <?php echo $my['exp'].'/'.$users->expRequired(true); ?></span><br />
-		<div class='title'>OTHER</div><br />
-			<div align='center'>
-				<div class='other-button'><a href='staff.php'>STAFF</a></div><br />
-				<div class='other-button'><a href='lists.php?which=members'>MEMBERS</a></div><br />
-				<div class='other-button'><a href='rules.php'>RULES</a></div><br />
-			</div>
-		</div>
-		<div class='content-container'><?php
-		if(array_key_exists('action', $_GET) && $_GET['action'] == 'logout') {
-			session_unset();
-			session_destroy();
-			$mtg->success("You've logged out. Come back soon!", true);
-		}
-		if($my['hospital'])
-			echo "<strong>Nurse:</strong> You're currently in hospital for ".$mtg->time_format($my['hospital'] * 60).".<br />";
-		if($my['jail'])
-			echo "<strong>Officer:</strong> You're currently in jail for ".$mtg->time_format($my['jail'] * 60).".<br />";
+			<div id="layout">
+				<a href="#menu" id="menuLink" class="menu-link"><span>&nbsp;</span></a>
+				<div id="menu"><?php
+					if(!defined('MENU_ENABLE'))
+						define('MENU_ENABLE', true);
+					if(defined('MENU_STAFF'))
+						require_once(DIRNAME(__DIR__) . '/staff/menu.php');
+					else
+						require_once(__DIR__ . '/menu.php');
+					?><strong>Name:</strong> <?php echo $users->name($my['id'], true); ?><br />
+					<strong>Money:</strong> <?php echo $set['main_currency_symbol'].$mtg->format($my['money']); ?><br />
+					<strong>Level:</strong> <?php echo $mtg->format($my['level']); ?><br />
+					<strong>Points:</strong> <?php echo $mtg->format($my['points']); ?><br />
+					<strong>Merits:</strong> <?php echo $mtg->format($my['merits']); ?><br />
+					<div class='title'>STATS</div>
+					<div style='color:white;'>Bars coming soon</div>
+					<span style='color:green;'>ENERGY: <?php echo round($my['energy'] / $my['energy_max'] * 100); ?>%</span><br />
+					<span style='color:red;'>NERVE: <?php echo round($my['nerve'] / $my['nerve_max'] * 100); ?>%</span><br />
+					<span style='color:cyan;'>HAPPY: <?php echo round($my['happy'] / $my['happy_max'] * 100); ?>%</span><br />
+					<span style='color:orange;'>LIFE: <?php echo round($my['health'] / $my['health_max'] * 100); ?>%</span><br />
+					<span style='color:pink;'>EXP: <?php echo $my['exp'].'/'.$users->expRequired(true); ?></span>
+				</div>
+				<div id="main">
+					<div class="header">
+						<div class='logo'>&nbsp;</div>
+					</div>
+					<div class="content"><?php
+						if(array_key_exists('action', $_GET) && $_GET['action'] == 'logout') {
+							session_unset();
+							session_destroy();
+							$mtg->success("You've logged out. Come back soon!", true);
+						}
+						if($my['hospital'])
+							echo "<strong>Nurse:</strong> You're currently in hospital for ".$mtg->time_format($my['hospital'] * 60).".<br />";
+						if($my['jail'])
+							echo "<strong>Officer:</strong> You're currently in jail for ".$mtg->time_format($my['jail'] * 60).".<br />";
 	}
 	function __destruct() {
-		global $my, $mtg, $users, $set;
-		?></div>
-		</body>
+		?>				</div>
+					</div>
+				</div>
+				<script src="js/ui.js"></script>
+			</body>
 		</html><?php
 	}
 }
