@@ -1,0 +1,9 @@
+DirectoryIndex index.php
+ErrorDocument 400 /errors.php?which=400
+ErrorDocument 401 /errors.php?which=401
+ErrorDocument 403 /errors.php?which=403
+ErrorDocument 404 /errors.php?which=404
+ErrorDocument 405 /errors.php?which=405
+ErrorDocument 500 /errors.php?which=500
+ErrorDocument 502 /errors.php?which=502
+ErrorDocument 503 /errors.php?which=503
