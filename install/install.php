@@ -315,12 +315,18 @@ define('DB_NAME', '".$_POST['name']."');";
 		if($_POST['pass'] != $_POST['cpass'])
 			error("Your passwords didn't match");
 		require_once($mainPath . '/includes/class/class_mtg_users.php');
-		$pass = $users->hashPass($_POST['pass']);
 		$db->startTrans();
 		$db->query("INSERT INTO `staff_ranks` (`rank_id`, `rank_name`, `rank_order`, `rank_colour`, `override_all`) VALUES (1, 'Owner', 1, '000033', 'Yes');");
 		$db->execute();
-		$db->query("INSERT INTO `users` (`id`, `username`, `password`, `email`, `staff_rank`) VALUES (?, ?, ?, ?, ?)");
-		$db->execute([1, $_POST['username'], $pass, $_POST['email'], 1]);
+		$db->query("INSERT INTO `users` (`id`, `username`, `password`, `email`, `staff_rank`) VALUES (1, ?, ?, ?, 1)");
+		$db->execute([$_POST['username'], $users->hashPass($_POST['pass']), $_POST['email']]);
+		$id = $db->insert_id();
+		$db->query("INSERT INTO `users_equipment` (`id`) VALUES (?)");
+		$db->execute([$id]);
+		$db->query("INSERT INTO `users_finances` (`id`) VALUES (?)");
+		$db->execute([$id]);
+		$db->query("INSERT INTO `users_stats` (`id`) VALUES (?)");
+		$db->execute([$id]);
 		$db->endTrans();
 		success("Your game's basic settings have been installed and your account has been created!");
 		?>I recommend that you remove this installation directory (keep a local backup, just in case).<br />
