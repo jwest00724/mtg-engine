@@ -27,8 +27,3 @@ require_once(__DIR__ . '/includes/globals_out.php');
 	</form>
 	Not got an account? <a href="signup.php">Sign up for free</a>
 </div>
-<script>
-$.post("signup.php", function(data) {
-	$("#message").html(data);
-});
-</script>
