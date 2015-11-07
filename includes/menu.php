@@ -33,9 +33,9 @@ foreach($links as $url => $disp) {
 		$db->execute([time()]);
 		$disp = str_replace('[jail_count]', '['.$mtg->format($db->fetch_single()).']', $disp);
 	}
-	printf("<li class='pure-menu-item'><a href='%s.php'>%s</a></li>\n", $url, $disp);
+	printf('<li class="pure-menu-item"><a href="%s.php" class="pure-menu-link%s">%s</a></li>'."\n", $url, $_SERVER['PHP_SELF'] == '/'.$url.'.php' ? ' pure-menu-selected' : null, $disp);
 }
 if($users->hasAccess('staff_panel_access'))
-	echo "<li class='pure-menu-item menu-item-divided'><a href='staff'>Staff Panel</a></li>\n";
-?><li class="pure-menu-item menu-item-divided"><a href='?action=logout'>Logout</a></li>
+	echo '<li class="pure-menu-item menu-item-divided"><a href="staff" class="pure-menu-link">Staff Panel</a></li>'."\n";
+?><li class="pure-menu-item menu-item-divided"><a href='?action=logout' class="pure-menu-link">Logout</a></li>
 </ul>

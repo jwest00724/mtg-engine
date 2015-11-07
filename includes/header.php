@@ -31,6 +31,7 @@ class headers {
 	function __construct($db, $set, $my, $mtg, $users) {
 		$db->query("UPDATE `users` SET `last_seen` = current_timestamp WHERE `id` = ?");
 		$db->execute([$my['id']]);
+		$_SERVER['PHP_SELF'] = str_replace('/mtg-engine', '', $_SERVER['PHP_SELF']);
 		header("Content-type: text/html;charset=UTF-8");
 		?><!DOCTYPE html>
 		<html lang="en">
@@ -60,29 +61,31 @@ class headers {
 		<body>
 			<div id="layout">
 				<a href="#menu" id="menuLink" class="menu-link"><span>&nbsp;</span></a>
-				<div id="menu"><?php
+				<div id="menu">
+					<div class="userinfo">
+						<strong>Name:</strong> <?php echo $users->name($my['id'], true);?><br />
+						<strong>Money:</strong> <?php echo $set['main_currency_symbol'].$mtg->format($my['money']);?><br />
+						<strong>Level:</strong> <?php echo $mtg->format($my['level']);?><br />
+						<strong>Points:</strong> <?php echo $mtg->format($my['points']);?><br />
+						<strong>Merits:</strong> <?php echo $mtg->format($my['merits']);?><br />
+						<div class='title'>STATS</div>
+						<div style='color:white;'>Bars coming soon</div>
+						<span style='color:green;'>ENERGY: <?php echo round($my['energy'] / $my['energy_max'] * 100);?>%</span><br />
+						<span style='color:red;'>NERVE: <?php echo round($my['nerve'] / $my['nerve_max'] * 100);?>%</span><br />
+						<span style='color:cyan;'>HAPPY: <?php echo round($my['happy'] / $my['happy_max'] * 100);?>%</span><br />
+						<span style='color:orange;'>LIFE: <?php echo round($my['health'] / $my['health_max'] * 100);?>%</span><br />
+						<span style='color:pink;'>EXP: <?php echo $my['exp'].'/'.$users->expRequired(true);?></span>
+					</div>
+					<hr style="" />
+					<div class="pure-menu"><?php
 					if(!defined('MENU_ENABLE'))
 						define('MENU_ENABLE', true);
-					if(defined('MENU_STAFF'))
-						require_once DIRNAME(__DIR__) . '/staff/menu.php';
-					else
-						require_once __DIR__ . '/menu.php';
-					?><strong>Name:</strong> <?php echo $users->name($my['id'], true); ?><br />
-					<strong>Money:</strong> <?php echo $set['main_currency_symbol'].$mtg->format($my['money']); ?><br />
-					<strong>Level:</strong> <?php echo $mtg->format($my['level']); ?><br />
-					<strong>Points:</strong> <?php echo $mtg->format($my['points']); ?><br />
-					<strong>Merits:</strong> <?php echo $mtg->format($my['merits']); ?><br />
-					<div class='title'>STATS</div>
-					<div style='color:white;'>Bars coming soon</div>
-					<span style='color:green;'>ENERGY: <?php echo round($my['energy'] / $my['energy_max'] * 100); ?>%</span><br />
-					<span style='color:red;'>NERVE: <?php echo round($my['nerve'] / $my['nerve_max'] * 100); ?>%</span><br />
-					<span style='color:cyan;'>HAPPY: <?php echo round($my['happy'] / $my['happy_max'] * 100); ?>%</span><br />
-					<span style='color:orange;'>LIFE: <?php echo round($my['health'] / $my['health_max'] * 100); ?>%</span><br />
-					<span style='color:pink;'>EXP: <?php echo $my['exp'].'/'.$users->expRequired(true); ?></span>
+					require_once defined('MENU_STAFF') ? DIRNAME(__DIR__) . '/staff/menu.php' : __DIR__ . '/menu.php';
+					?></div>
 				</div>
 				<div id="main">
 					<div class="header">
-						<div class='logo'>&nbsp;</div>
+						<div class="logo">&nbsp;</div>
 					</div>
 					<div class="content"><?php
 						if(array_key_exists('action', $_GET) && $_GET['action'] == 'logout') {
