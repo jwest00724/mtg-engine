@@ -279,7 +279,7 @@ CREATE TABLE IF NOT EXISTS `users_equipment` (
 );
 
 CREATE TABLE IF NOT EXISTS `users_events` (
-	`id` int(11) not null,
+	`id` int(11) not null primary key auto_increment,
 	`user` int(11) not null default '0',
 	`type` varchar(255) not null default 'Uncategorized',
 	`time_sent` timestamp not null default current_timestamp,
@@ -288,15 +288,14 @@ CREATE TABLE IF NOT EXISTS `users_events` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `users_finances` (
-	`id` int(11) not null,
+	`id` int(11) not null primary key,
 	`money` bigint(25) not null default '0',
 	`bank` bigint(25) not null default '-1',
-	`merits` bigint(25) not null default '0',
-	PRIMARY KEY(`id`)
+	`merits` bigint(25) not null default '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `users_messages` (
-	`id` int(11) not null,
+	`id` int(11) not null primary key auto_increment,
 	`sender` int(11) not null default '0',
 	`receiver` int(11) not null default '0',
 	`subject` varchar(255) not null default 'No subject',
@@ -307,7 +306,7 @@ CREATE TABLE IF NOT EXISTS `users_messages` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `users_stats` (
-	`id` int(11) not null,
+	`id` int(11) not null primary key,
 	`strength` decimal(28,4) not null default '10.0000',
 	`agility` decimal(28,4) not null default '10.0000',
 	`guard` decimal(28,4) not null default '10.0000',
@@ -320,6 +319,5 @@ CREATE TABLE IF NOT EXISTS `users_stats` (
 	`nerve` int(11) not null default '0',
 	`nerve_max` int(11) not null default '10',
 	`health` int(11) not null default '0',
-	`health_max` int(11) not null default '10',
-	unique (`id`)
+	`health_max` int(11) not null default '10'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

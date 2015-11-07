@@ -18,4 +18,5 @@ INSERT INTO `game_settings` (`name`, `value`) VALUES
 ('register_promo_code', 'Your Promo Code Here'),
 ('register_promo_cash', '100'),
 ('main_currency_symbol', '&pound;'),
-('game_owner_id', '1');
+('game_owner_id', '1'),
+('staff_notepad', 'Welcome to your staff panel');
