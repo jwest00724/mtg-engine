@@ -19,7 +19,7 @@ Everyone is permitted to copy and distribute verbatim or modified copies of this
 */
 if(!defined('MTG_ENABLE'))
 	exit;
-require_once(DIRNAME(__DIR__) . '/config.php');
+require_once DIRNAME(__DIR__) . '/config.php';
 class database {
 	protected $last_query;
 	protected $conn;
@@ -209,3 +209,4 @@ $db = database::getInstance();
 $selectIPBans = $db->query("SELECT `ip` FROM `ipBans` WHERE `ip` = '".$db->escape($_SERVER['REMOTE_ADDR'])."'");
 if($db->num_rows($selectIPBans))
 	exit;
+$_SERVER['PHP_SELF'] = str_replace('/mtg-engine', '', $_SERVER['PHP_SELF']); // Temporary, for dev purposes
