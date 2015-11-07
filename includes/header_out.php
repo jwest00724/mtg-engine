@@ -31,7 +31,6 @@ class headers {
 		return self::$inst;
 	}
 	function __construct($set) {
-		global $set;
 		header("Content-type: text/html;charset=UTF-8");
 		?><!DOCTYPE html>
 		<html lang="en">
@@ -65,7 +64,7 @@ class headers {
 							<a class="pure-menu-heading" href="#">Menu</a>
 							<ul class="pure-menu-list">
 								<li class="pure-menu-item pure-menu-selected"><a href="index.php" class="pure-menu-link">Home</a></li>
-								<li class="pure-menu-item menu-item-divided"><a href="tos.php" class="pure-menu-link">Terms of Service</a></li>
+								<li class="pure-menu-item"><a href="tos.php" class="pure-menu-link">Terms of Service</a></li>
 							</ul>
 						</div>
 					</div>
@@ -73,7 +72,6 @@ class headers {
 	}
 
 	function __destruct() {
-		global $set;
 		?>			</div>
 				</div>
 				<script src="js/ui.js"></script>
