@@ -121,6 +121,6 @@ class Paginator {
 		return "<span class='page gradient'>Page:</span><select class='page gradient' onchange='window.location='".$_SERVER['PHP_SELF']."?page='+this[this.selectedIndex].value+'&amp;ipp=".$this->items_per_page.$this->querystring."';return false'>".$option."</select>\n";
 	}
 	function display_pages() {
-		return $this->return;
+		return !$this->items_total ? false : $this->return;
 	}
 }
