@@ -281,7 +281,8 @@ CREATE TABLE IF NOT EXISTS `users_events` (
 	`id` int(11) not null,
 	`user` int(11) not null default '0',
 	`type` varchar(255) not null default 'Uncategorized',
-	`event` text not null,
+	`time_sent` timestamp not null default current_timestamp,
+	`text` text not null,
 	`read` tinyint(1) not null default '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -293,7 +294,6 @@ CREATE TABLE IF NOT EXISTS `users_finances` (
 	PRIMARY KEY (`id`)
 );
 
-
 CREATE TABLE IF NOT EXISTS `users_messages` (
 	`id` int(11) not null,
 	`sender` int(11) not null default '0',
@@ -301,7 +301,8 @@ CREATE TABLE IF NOT EXISTS `users_messages` (
 	`subject` varchar(255) not null default 'No subject',
 	`message` text not null,
 	`time_sent` timestamp not null default current_timestamp,
-	`read` tinyint(1) not null default '0'
+	`read` tinyint(1) not null default '0',
+	`deleted` tinyint(1) not null default '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `users_stats` (
