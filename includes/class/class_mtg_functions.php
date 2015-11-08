@@ -110,6 +110,22 @@ class mtg_functions {
 		$db->execute(array($col, $table, $where, $value));
 		return $db->num_rows() ? true : false;
 	}
+	public function handleProfilePic($image) {
+		$ret = '<img src="images/default.png" title="Default" class="image image-centered" />';
+		if(!filter_var($image, FILTER_VALIDATE_URL))
+			return $ret;
+		$stats = @getimagesize($image);
+		if(!$stats[0] || $stats[1])
+			return $ret;
+		if(count($dims) == 2) {
+			$width = $dim[0];
+			$height = $dim[1];
+		} else {
+			$width = $stats[0];
+			$height = $stats[1];
+		}
+		return '<img src="'.$image.'" width="'.$width.'" height="'.$height.'" class="image image-centered" />';
+	}
 }
 
 $mtg = mtg_functions::getInstance();
