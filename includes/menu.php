@@ -37,5 +37,6 @@ foreach($links as $url => $disp) {
 }
 if($users->hasAccess('staff_panel_access'))
 	echo '<li class="pure-menu-item menu-item-divided"><a href="staff" class="pure-menu-link">Staff Panel</a></li>'."\n";
-?><li class="pure-menu-item menu-item-divided"><a href='?action=logout' class="pure-menu-link">Logout</a></li>
+?><li class="pure-menu-item menu-item-divided"><a href="settings.php" class="pure-menu-link">Settings</a></li>
+<li class="pure-menu-item menu-item-divided"><a href="?action=logout" class="pure-menu-link">Logout</a></li>
 </ul>
