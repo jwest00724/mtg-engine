@@ -26,7 +26,7 @@ if($_GET['player'] != $my['id']) {
 		</td>
 		<td>
 			<strong>Level:</strong> <?php echo $mtg->format($user['level']);?><br />
-			<strong>Money:</strong> <?php echo $mtg->format($user['money']);?><br />
+			<strong>Money:</strong> <?php echo $set['main_currency_symbol'].$mtg->format($user['money']);?><br />
 			<strong>Points:</strong> <?php echo $mtg->format($user['points']);?><br /><?php
 			if($user['hospital'])
 				echo '<br />Hospitalized for a further '.$mtg->time_format($user['hospital'] * 60).'. Reason: '.stripslashes($user['hospital_reason']);
