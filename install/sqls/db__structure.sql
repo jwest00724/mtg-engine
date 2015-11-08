@@ -267,6 +267,7 @@ CREATE TABLE IF NOT EXISTS `users` (
 	`jail_reason` text not null,
 	`staff_rank` bigint(25) not null default '0',
 	`last_seen` timestamp not null default current_timestamp,
+	`profile_picture` varchar(255) not null default '',
 	PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
