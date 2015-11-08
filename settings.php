@@ -39,25 +39,25 @@ if(array_key_exists('submit', $_POST)) {
 		$mtg->success("You've updated your ".$what);
 	}
 }
-?><form action='settings.php' method='post' class='pure-form pure-form-aligned'>
-	<legend>Account Settings</legend>
+?><form action="settings.php" method="post" class="pure-form pure-form-aligned">
+	<legend><h3>Account Settings</h3></legend>
 	<fieldset>
-		<div class='pure-control-group'>
-			<label for='username'>Username<br /><div class='small'>This also changes the name you use to login</div></label>
-			<input type='text' name='username' placeholder='<?php echo $mtg->format($my['username']); ?>' />
+		<div class="pure-control-group">
+			<label for="username">Username<br /><div class="small">This also changes the name you use to login</div></label>
+			<input type="text" name="username" placeholder="<?php echo $mtg->format($my['username']);?>" />
 		</div>
-		<div class='pure-control-group'>
-			<label for='password'>Password</label>
-			<input type='password' name='password' placeholder='Leave blank if you don&apos;t want to change it' />
+		<div class="pure-control-group">
+			<label for="password">Password</label>
+			<input type="password" name="password" placeholder="Leave blank if you don&apos;t want to change it" />
 		</div>
-		<div class='pure-control-group'>
-			<label for='confirmation'>Confirm Password</label>
-			<input type='password' name='cpassword' placeholder='Re-enter your new password (leave blank if you want to keep your current password)' />
+		<div class="pure-control-group">
+			<label for="confirmation">Confirm Password</label>
+			<input type="password" name="cpassword" placeholder="Re-enter your new password (leave blank if you want to keep your current password)" />
 		</div>
-		<div class='pure-control-group'>
-			<label for='email'>Email</label>
-			<input type='email' name='email' placeholder='<?php echo $mtg->format($my['email']); ?>' />
+		<div class="pure-control-group">
+			<label for="email">Email</label>
+			<input type="email" name="email" placeholder="<?php echo $mtg->format($my['email']);?>" />
 		</div>
 	</fieldset>
-	<input type='submit' name='submit' class='pure-button pure-button-primary' value='Update Settings' />
+	<input type="submit" name="submit" class="pure-button pure-button-primary" value="Update Settings" />
 </form>
