@@ -70,7 +70,6 @@ class headers {
 							<li class="menu-list-item"><strong>Merits:</strong> <?php echo $mtg->format($my['merits']);?></li>
 						</ul><hr />
 						<ul class="pure-menu-list">
-							<li class="menu-list-item">Bars coming soon</li>
 							<li class="menu-list-item">ENERGY: <?php echo round($my['energy'] / $my['energy_max'] * 100);?>%</li>
 							<li class="menu-list-item">NERVE: <?php echo round($my['nerve'] / $my['nerve_max'] * 100);?>%</li>
 							<li class="menu-list-item">HAPPY: <?php echo round($my['happy'] / $my['happy_max'] * 100);?>%</li>
