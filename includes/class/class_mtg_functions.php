@@ -115,7 +115,7 @@ class mtg_functions {
 		if(!filter_var($image, FILTER_VALIDATE_URL))
 			return $ret;
 		$stats = @getimagesize($image);
-		if(!$stats[0] || $stats[1])
+		if(!$stats[0] || !$stats[1])
 			return $ret;
 		if(count($dims) == 2) {
 			$width = $dim[0];
