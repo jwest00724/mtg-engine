@@ -110,10 +110,13 @@ class mtg_functions {
 		$db->execute(array($col, $table, $where, $value));
 		return $db->num_rows() ? true : false;
 	}
-	public function handleProfilePic($image) {
-		$ret = '<img src="images/default.png" title="Default" class="image image-centered" />';
-		if(!filter_var($image, FILTER_VALIDATE_URL))
-			return $ret;
+	public function handleProfilePic($image, $dims = []) {
+		$ret = '<img src="images/default.png" width= title="Default" class="image image-centered" />';
+		$match = preg_match('/^user_images\/(.*)$/', $image);
+		if(!$match)
+			if(!filter_var($image, FILTER_VALIDATE_URL))
+				return $ret;
+		$image = $match ? 'http://'.$_SERVER['HTTP_HOST'].'/'.$image : $image;
 		$stats = @getimagesize($image);
 		if(!$stats[0] || !$stats[1])
 			return $ret;
@@ -121,8 +124,9 @@ class mtg_functions {
 			$width = $dim[0];
 			$height = $dim[1];
 		} else {
-			$width = $stats[0];
-			$height = $stats[1];
+			$dims = [250, 250];
+			$width = $stats[0] > $dims[0] ? $dims[0] : $stats[0];
+			$height = $stats[1] > $dims[1] ? $dims[1] : $stats[1];
 		}
 		return '<img src="'.$image.'" width="'.$width.'" height="'.$height.'" class="image image-centered" />';
 	}
