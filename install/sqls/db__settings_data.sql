@@ -2,15 +2,15 @@
 -- MySQL 5.5.5
 -- Mon, 06 Apr 2015 02:01:21 +0000
 --
-DROP TABLE IF EXISTS `game_settings`;
-CREATE TABLE IF NOT EXISTS `game_settings` (
+DROP TABLE IF EXISTS `settings_game`;
+CREATE TABLE IF NOT EXISTS `settings_game` (
    `id` int(11) not null auto_increment,
    `name` varchar(255) not null,
    `value` mediumtext not null,
    PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-INSERT INTO `game_settings` (`name`, `value`) VALUES
+INSERT INTO `settings_game` (`name`, `value`) VALUES
 ('staff_pad', 'Welcome to MTG Codes v9'),
 ('game_name', 'MTG Codes v9'),
 ('game_description', ''),
