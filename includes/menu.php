@@ -8,7 +8,7 @@ $links = array(
 	'events.php' => 'Notifications [ev_count]',
 	'hospital.php' => 'Hospital [hosp_count]',
 	'jail.php' => 'Jail [jail_count]',
-	'crimes.php' => 'Crimes',
+	'tasks.php' => 'Tasks',
 	'gym.php' => 'Gym',
 	'markets.php' => 'Markets',
 	'list.php?action=players' => 'Player List'
