@@ -1,6 +1,7 @@
 <?php
-require_once(__DIR__ . '/includes/globals.php');
-require_once(__DIR__ . '/includes/class/class_mtg_paginate.php');
+define('HEADER_TEXT', 'Marketplace');
+require_once __DIR__ . '/includes/globals.php';
+require_once __DIR__ . '/includes/class/class_mtg_paginate.php';
 $pages = new Paginator();
 $_GET['ID'] = isset($_GET['ID']) && ctype_digit($_GET['ID']) ? $_GET['ID'] : null;
 $_GET['action'] = isset($_GET['action']) && ctype_alpha($_GET['action']) ? strtolower(trim($_GET['action'])) : null;
@@ -9,15 +10,15 @@ switch($_GET['action']) {
 	case 'points':
 		switch($_GET['sub']) {
 			default:
-				$db->query("SELECT COUNT(id) FROM markets_points");
+				$db->query("SELECT COUNT(`id`) FROM `markets_points`");
 				$db->execute();
 				$pages->items_total = $db->fetch_single();
 				$pages->mid_range = 3;
 				$pages->paginate();
-				$db->query("SELECT * FROM markets_points ORDER BY time_added DESC ".$pages->limit);
+				$db->query("SELECT * FROM `markets_points` ORDER BY `time_added` DESC ".$pages->limit);
 				$db->execute();
 				?><h4><a href='markets.php?action=points&amp;sub=add'>Add a Listing</a></h4>
-				<p class='paginate'><?php echo $pages->display_pages(); ?></p>
+				<p class='paginate'><?php echo $pages->display_pages();?></p>
 				<table width='100%' class='pure-table pure-table-striped'>
 					<tr>
 						<th width='25%'>Seller</th>
@@ -31,8 +32,8 @@ switch($_GET['action']) {
 						$rows = $db->fetch_row();
 						foreach($rows as $row) {
 							?><tr>
-								<td><?php echo $users->name($row['user'], true); ?></td>
-								<td><?php echo $mtg->format($row['qty']); ?></td>
+								<td><?php echo $users->name($row['user'], true);?></td>
+								<td><?php echo $mtg->format($row['qty']);?></td>
 								<td><?php echo $row['currency'] == 'money'
 									? $set['main_currency_symbol'].$mtg->format($row['price'])
 									: $mtg->format($row['price']).' point'.$mtg->s($row['price']);
@@ -45,7 +46,7 @@ switch($_GET['action']) {
 						}
 					}
 				?></table>
-				<p class='paginate'><?php echo $pages->display_pages(); ?></p><?php
+				<p class='paginate'><?php echo $pages->display_pages();?></p><?php
 				break;
 		}
 		break;

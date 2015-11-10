@@ -1,4 +1,5 @@
 <?php
+define('HEADER_TEXT', 'Messaging');
 require_once __DIR__ . '/includes/globals.php';
 if(!$site->checkEnabled('messaging'))
 	$mtg->error("The messaging ability has been disabled");

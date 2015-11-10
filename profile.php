@@ -1,4 +1,5 @@
 <?php
+define('HEADER_TEXT', 'Profiles');
 require_once __DIR__ . '/includes/globals.php';
 ?><div class="content"><?php
 $_GET['player'] = array_key_exists('player', $_GET) && ctype_digit($_GET['player']) ? $_GET['player'] : $my['id'];

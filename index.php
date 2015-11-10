@@ -1,4 +1,5 @@
 <?php
+define('HEADER_TEXT', 'Home');
 require_once(__DIR__ . '/includes/globals.php');
 ?><p>
 	<span style='font-size:1.3em;'>Hello there <?php echo $users->name($my['id']); ?>!</span><br />

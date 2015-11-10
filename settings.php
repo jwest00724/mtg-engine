@@ -1,5 +1,6 @@
 <?php
-require_once(__DIR__ . '/includes/globals.php');
+define('HEADER_TEXT', 'Settings');
+require_once __DIR__ . '/includes/globals.php';
 if(array_key_exists('submit', $_POST)) {
 	$values = ['username', 'password', 'cpassword', 'email'];
 	foreach($values as $what)

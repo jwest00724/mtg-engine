@@ -1,4 +1,5 @@
 <?php
+define('HEADER_TEXT', 'Hospital');
 require_once(__DIR__ . '/includes/globals.php');
 require_once(__DIR__ . '/includes/class/class_mtg_paginate.php');
 $pages = new Paginator();
