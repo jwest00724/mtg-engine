@@ -142,5 +142,17 @@ class users {
 			$ret = $mtg->format($ret);
 		return $ret;
 	}
+	public function giveItem($item, $user = null, $qty = 1) {
+		global $db, $my;
+		if(!$user)
+			$user = $my['id'];
+		$db->query('SELECT `id` FROM `inventory` WHERE `item` = ? AND `user` = ?');
+		$db->execute([$item, $user]);
+		if(!$db->fetch_single())
+			$db->query('INSERT INTO `inventory` (`qty`, `item`, `user`) VALUES (?, ?, ?)');
+		else
+			$db->query('UPDATE `inventory` SET `qty` = `qty` + ? WHERE `item` = ? AND `user` = ?');
+		$db->execute([$qty, $item, $user]);
+	}
 }
 $users = users::getInstance();
