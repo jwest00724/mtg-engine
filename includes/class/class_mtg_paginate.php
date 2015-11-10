@@ -13,14 +13,12 @@ class Paginator {
 	var $default_ipp;
 	var $querystring;
 	var $ipp_array;
-
 	function Paginator() {
 		$this->current_page   = 1;
 		$this->mid_range      = 7;
-		$this->ipp_array      = array(10, 25, 50, 100, 'All');
+		$this->ipp_array      = [10, 25, 50, 100, 'All'];
 		$this->items_per_page = !empty($_GET['ipp']) ? $_GET['ipp'] : $this->default_ipp;
 	}
-
 	function paginate() {
 		$_GET['ipp']  = isset($_GET['ipp']) && ctype_alnum($_GET['ipp']) ? $_GET['ipp'] : 25;
 		$_GET['page'] = isset($_GET['page']) && ctype_digit($_GET['page']) ? $_GET['page'] : 1;
@@ -44,7 +42,6 @@ class Paginator {
 					$this->querystring .= "&" . $arg;
 			}
 		}
-
 		if($_POST) {
 			foreach($_POST as $key => $val) {
 				if(!is_array($val))
@@ -56,10 +53,8 @@ class Paginator {
 			$this->return = ($this->current_page > 1 And $this->items_total >= 10)
 				? "<a class='page gradient' href='".$_SERVER['PHP_SELF']."?page=".$prev_page."&amp;ipp=".$this->items_per_page.$this->querystring."'>&laquo; Previous</a> "
 				: "<span class='page gradient'>&laquo; Previous</span> ";
-
 			$this->start_range = $this->current_page - floor($this->mid_range / 2);
 			$this->end_range   = $this->current_page + floor($this->mid_range / 2);
-
 			if($this->start_range <= 0) {
 				$this->end_range += abs($this->start_range) + 1;
 				$this->start_range = 1;
@@ -69,7 +64,6 @@ class Paginator {
 				$this->end_range = $this->num_pages;
 			}
 			$this->range = range($this->start_range, $this->end_range);
-
 			for($i = 1; $i <= $this->num_pages; $i++) {
 				if($this->range[0] > 2 And $i == $this->range[0])
 					$this->return .= " ... ";
@@ -121,6 +115,6 @@ class Paginator {
 		return "<span class='page gradient'>Page:</span><select class='page gradient' onchange='window.location='".$_SERVER['PHP_SELF']."?page='+this[this.selectedIndex].value+'&amp;ipp=".$this->items_per_page.$this->querystring."';return false'>".$option."</select>\n";
 	}
 	function display_pages() {
-		return !$this->items_total ? false : $this->return;
+		return !$this->items_total || !$this->num_pages || $this->num_pages == 1 ? false : $this->return;
 	}
 }
