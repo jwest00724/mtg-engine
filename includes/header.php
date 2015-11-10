@@ -85,8 +85,10 @@ class headers {
 				</div>
 				<div id="main">
 					<div class="header">
-						<div class="logo">&nbsp;</div>
-					</div>
+						<div class="logo">&nbsp;</div><?php
+						if(defined('HEADER_TEXT'))
+							echo '<h3>',HEADER_TEXT,'</h3>';
+						?></div>
 					<div class="content"><?php
 						if(array_key_exists('action', $_GET) && $_GET['action'] == 'logout') {
 							session_unset();
