@@ -1,5 +1,5 @@
 <?php
-require_once(__DIR__ . '/includes/globals_out.php');
+require_once __DIR__ . '/includes/globals_out.php';
 ?><div class="header">
 	<div class="logo"></div>
 	<h1>Welcome to <?php echo $mtg->format($set['game_name']);?></h1>
