@@ -24,4 +24,25 @@ require_once(__DIR__ . '/includes/globals.php');
 		<th>&nbsp;</th>
 		<td>&nbsp;</td>
 	</tr>
+	<tr>
+		<th colspan='4'>Stats</th>
+	</tr>
+	<tr>
+		<th>Strength</th>
+		<td><?php echo $mtg->format($my['strength']);?></td>
+		<th>Agility</th>
+		<td><?php echo $mtg->format($my['agility']);?></td>
+	</tr>
+	<tr>
+		<th>Guard</th>
+		<td><?php echo $mtg->format($my['guard']);?></td>
+		<th>Labour</th>
+		<td><?php echo $mtg->format($my['labour']);?></td>
+	</tr>
+	<tr>
+		<th>Intelligence Quotient</th>
+		<td><?php echo $mtg->format($my['iq']);?></td>
+		<th>Total Stats</th>
+		<td><?php echo $mtg->format($my['total_stats']);?></td>
+	</tr>
 </table>
