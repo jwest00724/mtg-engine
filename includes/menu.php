@@ -3,14 +3,15 @@ if(!defined('MTG_ENABLE'))
 	exit;
 ?><ul class="pure-menu-list"><?php
 $links = array(
-	'index' => 'Home',
-	'messages' => 'Messages [msg_count]',
-	'events' => 'Notifications [ev_count]',
-	'hospital' => 'Hospital [hosp_count]',
-	'jail' => 'Jail [jail_count]',
-	'crimes' => 'Crimes',
-	'gym' => 'Gym',
-	'markets' => 'Markets'
+	'index.php' => 'Home',
+	'messages.php' => 'Messages [msg_count]',
+	'events.php' => 'Notifications [ev_count]',
+	'hospital.php' => 'Hospital [hosp_count]',
+	'jail.php' => 'Jail [jail_count]',
+	'crimes.php' => 'Crimes',
+	'gym.php' => 'Gym',
+	'markets.php' => 'Markets',
+	'list.php?action=players' => 'Player List'
 );
 foreach($links as $url => $disp) {
 	if(preg_match('/\[msg_count\]/', $disp)) {
@@ -33,7 +34,7 @@ foreach($links as $url => $disp) {
 		$db->execute([time()]);
 		$disp = str_replace('[jail_count]', '['.$mtg->format($db->fetch_single()).']', $disp);
 	}
-	printf('<li class="pure-menu-item"><a href="%s.php" class="pure-menu-link%s">%s</a></li>'."\n", $url, $_SERVER['PHP_SELF'] == '/'.$url.'.php' ? ' pure-menu-selected' : null, $disp);
+	printf('<li class="pure-menu-item"><a href="%s" class="pure-menu-link%s">%s</a></li>'."\n", $url, $_SERVER['PHP_SELF'] == '/'.$url ? ' pure-menu-selected' : null, $disp);
 }
 if($users->hasAccess('staff_panel_access'))
 	echo '<li class="pure-menu-item menu-item-divided"><a href="staff" class="pure-menu-link">Staff Panel</a></li>'."\n";
