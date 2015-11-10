@@ -7,10 +7,10 @@ if(!file_exists(__DIR__ . '/config.php'))
 	exit(header("Location: install"));
 require_once(__DIR__ . '/config.php');
 require_once(__DIR__ . '/class/class_mtg_db_mysqli.php');
-if(!$db->tableExists('game_settings'))
+if(!$db->tableExists('settings_game'))
 	exit(header("Location: install"));
 $set   = array();
-$db->query("SELECT value, name FROM game_settings");
+$db->query("SELECT value, name FROM settings_game");
 $db->execute();
 $row = $db->fetch_row();
 foreach($row as $r)

@@ -10,10 +10,10 @@ if(!file_exists(__DIR__ . '/config.php'))
 	exit(header("Location: install"));
 require_once __DIR__ . '/config.php';
 require_once __DIR__ . '/class/class_mtg_db_mysqli.php';
-if(!$db->tableExists('game_settings'))
+if(!$db->tableExists('settings_game'))
 	exit(header("Location: install"));
 $set = [];
-$db->query("SELECT `value`, `name` FROM `game_settings`");
+$db->query("SELECT `value`, `name` FROM `settings_game`");
 $db->execute();
 $row = $db->fetch_row();
 foreach($row as $row)
@@ -36,6 +36,7 @@ if(!$db->num_rows()) {
 $my = $db->fetch_row(true);
 require_once __DIR__ . '/class/class_mtg_functions.php';
 require_once __DIR__ . '/class/class_mtg_users.php';
+require_once __DIR__ . '/class/class_mtg_site.php';
 require_once __DIR__ . '/header.php';
 $h = headers::getInstance($db, $set, $my, $mtg, $users);
 if(defined('MENU_STAFF') && !$my['staff_rank'])
