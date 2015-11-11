@@ -19,10 +19,10 @@ function index($db, $my, $mtg, $set) {
 	}
 	$db->query("SELECT VERSION()");
 	$db->execute();
-	?><p><table width='100%'>
+	?><p><table width="100%" class="pure-table pure-table-striped">
 		<tr>
-			<th width='25%'>Code Version</th>
-			<td width='75%'><?php echo $mtg->codeVersion('installed');?></td>
+			<th width="25%">Code Version</th>
+			<td width="75%"><?php echo $mtg->codeVersion('installed');?></td>
 		</tr>
 		<tr>
 			<th>Repo Version</th>
@@ -38,9 +38,13 @@ function index($db, $my, $mtg, $set) {
 	</table></p><?php
 	if(array_key_exists('text', $_POST))
 		echo $mtg->success("Staff Notepad updated");
-	?><form method='post' class='cmxform'>
-		<div class='height_area'><textarea name='text' rows='10' cols='40'><?php echo stripslashes($set['staff_notepad']);?></textarea></div>
-		<input type='submit' name='submit' value='Update Staff Notepad' />
+	?><form method="post" class="pure-form">
+		<div class="pure-control-group">
+			<textarea name="text" rows="10" cols="100%"><?php echo stripslashes($set['staff_notepad']);?></textarea>
+		</div>
+		<div class="pure-controls">
+			<input type="submit" name="submit" value="Update Staff Notepad" class="pure-button pure-button-primary" />
+		</div>
 	</form><?php
 }
 function gameSettings($db, $my, $mtg, $set) {
@@ -59,40 +63,40 @@ function gameSettings($db, $my, $mtg, $set) {
 		}
 		$mtg->success("You've updated the game's settings");
 	}
-	?><form action='?action=settings' method='post' class='pure-form pure-form-aligned'>
-		<table width='100%'>
+	?><form action="?action=settings" method="post" class="pure-form pure-form-aligned">
+		<table width="100%" class="pure-table pure-table-striped">
 			<tr>
-				<thead><th colspan='2'>Basic Settings</th></thead>
+				<thead><th colspan="2">Basic Settings</th></thead>
 			</tr>
 			<tr>
-				<th width='25%'>Name</th>
-				<td width='75%'><input type='text' name='game_name' value='<?php echo $mtg->format($set['game_name']);?>' /></td>
+				<th width="25%">Name</th>
+				<td width="75%"><input type="text" name="game_name" value="<?php echo $mtg->format($set['game_name']);?>" /></td>
 			</tr>
 			<tr>
 				<th>Description</th>
-				<td><textarea name='game_description' rows='10' cols='40'><?php echo $mtg->format($set['game_description']);?></textarea></td>
+				<td><textarea name="game_description" rows="10" cols="40"><?php echo $mtg->format($set['game_description']);?></textarea></td>
 			</tr>
 			<tr>
-				<th>Game Owner's ID</th>
-				<td><input type='text' name='game_owner_id' value='<?php echo $mtg->format($set['game_owner_id']);?>' /></td>
+				<th>Game Owner"s ID</th>
+				<td><input type="text" name="game_owner_id" value="<?php echo $mtg->format($set['game_owner_id']);?>" /></td>
 			</tr>
 			<tr>
-				<thead><th colspan='2'>Registration</th></thead>
+				<thead><th colspan="2">Registration</th></thead>
 			</tr>
 			<tr>
 				<th>Start Cash</th>
-				<td><input type='text' name='register_start_cash' value='<?php echo $mtg->format($set['register_start_cash']);?>' /></td>
+				<td><input type="text" name="register_start_cash" value="<?php echo $mtg->format($set['register_start_cash']);?>" /></td>
 			</tr>
 			<tr>
 				<th>Promo Code</th>
-				<td><input type='text' name='register_promo_code' value='<?php echo $mtg->format($set['register_promo_code']);?>' /></td>
+				<td><input type="text" name="register_promo_code" value="<?php echo $mtg->format($set['register_promo_code']);?>" /></td>
 			</tr>
 			<tr>
 				<th>Promo Cash</th>
-				<td><input type='text' name='register_promo_cash' value='<?php echo $mtg->format($set['register_promo_cash']);?>' /></td>
+				<td><input type="text" name="register_promo_cash" value="<?php echo $mtg->format($set['register_promo_cash']);?>" /></td>
 			</tr>
 			<tr>
-				<td colspan='2' class='center'><input type='submit' name='submit' value='Update Settings' /></td>
+				<td colspan="2" class="center"><input type="submit" name="submit" value="Update Settings" /></td>
 			</tr>
 		</table>
 	</form><?php
