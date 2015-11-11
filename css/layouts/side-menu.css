@@ -78,7 +78,7 @@ appears on the left side of the page.
 
 #menu {
 	margin-left: -150px; /* "#menu" width */
-	width: 170px;
+	width: 190px;
 	position: fixed;
 	top: 0;
 	left: 0;
@@ -122,15 +122,16 @@ appears on the left side of the page.
 		/*
 		Change color of the anchor links on hover/focus.
 		*/
-		#menu .pure-menu li a:hover,
-		#menu .pure-menu li a:focus {
+		#menu .pure-menu li a:hover, #menu .pure-menu li a:focus {
 			background: #333;
 		}
 
 	/*
 	This styles the selected menu item `<li>`.
 	*/
-	#menu .pure-menu-selected,
+	#menu .pure-menu-selected {
+		background: #1f6ff6;
+	}
 	#menu .pure-menu-heading {
 		background: #1f8dd6;
 	}
@@ -145,7 +146,7 @@ appears on the left side of the page.
 	This styles the menu heading.
 	*/
 	#menu .pure-menu-heading {
-		font-size: 110%;
+		font-size: 1.1em;
 		color: #fff;
 		margin: 0;
 	}
