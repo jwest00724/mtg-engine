@@ -90,7 +90,7 @@ class headers {
 						<div class="logo">&nbsp;</div><?php
 						if(defined('HEADER_TEXT'))
 							echo '<h3>',HEADER_TEXT,'</h3>';
-						?></div>
+					?></div>
 					<div class="content"><?php
 						if(array_key_exists('action', $_GET) && $_GET['action'] == 'logout') {
 							session_unset();
@@ -108,10 +108,19 @@ class headers {
 							echo "<strong>Officer:</strong> You're currently in jail for ".$mtg->time_format($my['jail'] * 60).".<br />";
 	}
 	function __destruct() {
-		?>				</div>
+		if(!isset($mtg)) {
+			require_once __DIR__ . '/class/class_mtg_functions.php';
+			$mtg = mtg_functions::getInstance();
+		}
+		$year = date('Y');
+		?>			</div>
+					<div class="footer">
+						Running MTG Codes <?php echo $mtg->codeVersion('installed');?><br />
+						Copyright &copy;2015<?php echo $year > 2015 ? ' - '.$year : '';?>, Magictallguy.
 					</div>
 				</div>
-				<script src="js/ui.js"></script>
+			</div>
+			<script src="js/ui.js"></script>
 			</body>
 		</html><?php
 	}
