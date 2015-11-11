@@ -1,0 +1,2 @@
+DROP TABLE IF EXISTS `crimes`;
+DROP TABLE IF EXISTS `crimegroups`;
