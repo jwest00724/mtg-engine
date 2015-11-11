@@ -31,6 +31,7 @@ function index($db, $my, $mtg, $set, $users) {
 	}
 	$db->query("SELECT VERSION()");
 	$db->execute();
+	$sqlVersion = $db->fetch_single();
 	?><p><table width="100%" class="pure-table pure-table-striped">
 		<tr>
 			<th width="25%">Code Version</th>
@@ -49,7 +50,7 @@ function index($db, $my, $mtg, $set, $users) {
 		</tr>
 		<tr>
 			<th>MySQL Version</th>
-			<td><?php echo $db->fetch_single();?></td>
+			<td><?php echo $sqlVersion;?></td>
 		</tr>
 	</table></p><?php
 	if(array_key_exists('text', $_POST))
