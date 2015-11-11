@@ -11,7 +11,8 @@ $links = array(
 	'tasks.php' => 'Tasks',
 	'gym.php' => 'Gym',
 	'markets.php' => 'Markets',
-	'list.php?action=players' => 'Player List'
+	'list.php?action=players' => 'Player List',
+	'list.php?action=online' => 'Online List'
 );
 foreach($links as $url => $disp) {
 	if(preg_match('/\[msg_count\]/', $disp)) {
