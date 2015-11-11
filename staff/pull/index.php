@@ -7,26 +7,41 @@ switch($_GET['action']) {
 		gameSettings($db, $my, $mtg, $set);
 		break;
 	default:
-		index($db, $my, $mtg, $set);
+		index($db, $my, $mtg, $set, $users);
 		break;
 }
-function index($db, $my, $mtg, $set) {
+function index($db, $my, $mtg, $set, $users) {
 	if(array_key_exists('submit', $_POST)) {
 		$_POST['text'] = isset($_POST['text']) ? trim($_POST['text']) : null;
 		$db->query("UPDATE `game_settings` SET `value` = ? WHERE `name` = 'staff_notepad'");
 		$db->execute([$_POST['text']]);
 		$set['staff_notepad'] = $_POST['text'];
 	}
+	$installedVersion = $mtg->codeVersion('installed');
+	$repoVersion = $mtg->codeVersion('repo');
+	$repoVersionNF = strip_tags($repoVersion);
+	if(array_key_exists('updateversion', $_GET)) {
+		if($installedVersion != $repoVersionNF) {
+			$db->query('UPDATE `settings_game` SET `value` = ? WHERE `name` = "engine_version"');
+			$db->execute([$repoVersionNF]);
+			$set['engine_version'] = $repoVersionNF;
+		} else
+			$mtg->info('You\'re already running the latest version');
+	}
 	$db->query("SELECT VERSION()");
 	$db->execute();
 	?><p><table width="100%" class="pure-table pure-table-striped">
 		<tr>
 			<th width="25%">Code Version</th>
-			<td width="75%"><?php echo $mtg->codeVersion('installed');?></td>
+			<td width="75%"><?php
+				echo $installedVersion;
+				if($users->hasAccess('staff_panel_code_version_manage') && $repoVersionNF != $installedVersion)
+					echo ' <span class="small">[<a href="staff/?updateversion=true">update marker</a>]</span>';
+			?></td>
 		</tr>
 		<tr>
 			<th>Repo Version</th>
-			<td><?php echo $mtg->codeVersion('repo');?></td>
+			<td><?php echo $repoVersion;?></td>
 		<tr>
 			<th>PHP Version</th>
 			<td><?php echo phpversion();?></td>
