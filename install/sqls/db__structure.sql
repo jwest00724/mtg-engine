@@ -1,31 +1,4 @@
--- phpMyAdmin SQL Dump
--- version 4.4.14
--- http://www.phpmyadmin.net
---
--- Host: 127.0.0.1
--- Generation Time: Nov 11, 2015 at 01:03 AM
--- Server version: 5.6.26
--- PHP Version: 5.6.12
-
-SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET time_zone = "+00:00";
-
-
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
-
---
--- Database: `mtgv9`
---
-
--- --------------------------------------------------------
-
---
--- Table structure for table `breport`
---
-
+DROP TABLE IF EXISTS `breport`;
 CREATE TABLE IF NOT EXISTS `breport` (
   `id` int(11) NOT NULL,
   `urgency` varchar(255) NOT NULL,
@@ -38,12 +11,7 @@ CREATE TABLE IF NOT EXISTS `breport` (
   `assigned` int(11) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- --------------------------------------------------------
-
---
--- Table structure for table `breport_responses`
---
-
+DROP TABLE IF EXISTS `breport_responses`;
 CREATE TABLE IF NOT EXISTS `breport_responses` (
   `id` int(11) NOT NULL,
   `bug` int(11) NOT NULL DEFAULT '0',
@@ -52,12 +20,7 @@ CREATE TABLE IF NOT EXISTS `breport_responses` (
   `date_sent` bigint(25) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- --------------------------------------------------------
-
---
--- Table structure for table `cities`
---
-
+DROP TABLE IF EXISTS `cities`;
 CREATE TABLE IF NOT EXISTS `cities` (
   `cityid` int(11) NOT NULL,
   `cityname` varchar(255) NOT NULL,
@@ -67,12 +30,7 @@ CREATE TABLE IF NOT EXISTS `cities` (
   `citycountry` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- --------------------------------------------------------
-
---
--- Table structure for table `events`
---
-
+DROP TABLE IF EXISTS `events`;
 CREATE TABLE IF NOT EXISTS `events` (
   `id` int(11) NOT NULL,
   `user` int(11) NOT NULL DEFAULT '0',
@@ -82,12 +40,7 @@ CREATE TABLE IF NOT EXISTS `events` (
   `deleted` tinyint(2) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- --------------------------------------------------------
-
---
--- Table structure for table `inventory`
---
-
+DROP TABLE IF EXISTS `inventory`;
 CREATE TABLE IF NOT EXISTS `inventory` (
   `id` int(11) NOT NULL,
   `item` int(11) NOT NULL DEFAULT '0',
@@ -95,12 +48,7 @@ CREATE TABLE IF NOT EXISTS `inventory` (
   `qty` int(11) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- --------------------------------------------------------
-
---
--- Table structure for table `items`
---
-
+DROP TABLE IF EXISTS `items`;
 CREATE TABLE IF NOT EXISTS `items` (
   `id` int(11) NOT NULL,
   `type` int(11) NOT NULL DEFAULT '0',
@@ -120,23 +68,13 @@ CREATE TABLE IF NOT EXISTS `items` (
   `armour` int(11) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- --------------------------------------------------------
-
---
--- Table structure for table `itemtypes`
---
-
+DROP TABLE IF EXISTS `itemtypes`;
 CREATE TABLE IF NOT EXISTS `itemtypes` (
   `id` int(11) NOT NULL,
   `name` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- --------------------------------------------------------
-
---
--- Table structure for table `jobranks`
---
-
+DROP TABLE IF EXISTS `jobranks`;
 CREATE TABLE IF NOT EXISTS `jobranks` (
   `id` int(11) NOT NULL,
   `name` varchar(255) NOT NULL,
@@ -154,12 +92,7 @@ CREATE TABLE IF NOT EXISTS `jobranks` (
   `requirement_iq` int(11) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- --------------------------------------------------------
-
---
--- Table structure for table `jobs`
---
-
+DROP TABLE IF EXISTS `jobs`;
 CREATE TABLE IF NOT EXISTS `jobs` (
   `id` int(11) NOT NULL,
   `name` varchar(255) NOT NULL,
@@ -167,12 +100,7 @@ CREATE TABLE IF NOT EXISTS `jobs` (
   `desc` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- --------------------------------------------------------
-
---
--- Table structure for table `logs_query_errors`
---
-
+DROP TABLE IF EXISTS `logs_query_errors`;
 CREATE TABLE IF NOT EXISTS `logs_query_errors` (
   `id` int(11) NOT NULL,
   `time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -183,26 +111,16 @@ CREATE TABLE IF NOT EXISTS `logs_query_errors` (
   `page` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- --------------------------------------------------------
-
---
--- Table structure for table `logs_staff`
---
-
+DROP TABLE IF EXISTS `logs_staff`;
 CREATE TABLE IF NOT EXISTS `logs_staff` (
   `id` int(11) NOT NULL,
   `user` int(11) NOT NULL DEFAULT '0',
-  `time` int(11) NOT NULL DEFAULT '0',
+  `time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `action` text NOT NULL,
   `ip` varchar(15) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- --------------------------------------------------------
-
---
--- Table structure for table `mail`
---
-
+DROP TABLE IF EXISTS `mail`;
 CREATE TABLE IF NOT EXISTS `mail` (
   `id` int(11) NOT NULL,
   `read` int(11) NOT NULL DEFAULT '0',
@@ -214,12 +132,7 @@ CREATE TABLE IF NOT EXISTS `mail` (
   `deleted` int(11) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- --------------------------------------------------------
-
---
--- Table structure for table `market_items`
---
-
+DROP TABLE IF EXISTS `market_items`;
 CREATE TABLE IF NOT EXISTS `market_items` (
   `id` int(11) NOT NULL,
   `item` int(11) NOT NULL DEFAULT '0',
@@ -230,12 +143,7 @@ CREATE TABLE IF NOT EXISTS `market_items` (
   `time_added` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- --------------------------------------------------------
-
---
--- Table structure for table `market_points`
---
-
+DROP TABLE IF EXISTS `market_points`;
 CREATE TABLE IF NOT EXISTS `market_points` (
   `id` int(11) NOT NULL,
   `qty` bigint(25) NOT NULL DEFAULT '0',
@@ -244,12 +152,7 @@ CREATE TABLE IF NOT EXISTS `market_points` (
   `time_added` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- --------------------------------------------------------
-
---
--- Table structure for table `preports`
---
-
+DROP TABLE IF EXISTS `preports`;
 CREATE TABLE IF NOT EXISTS `preports` (
   `id` int(11) NOT NULL,
   `userid` int(11) NOT NULL DEFAULT '0',
@@ -260,12 +163,7 @@ CREATE TABLE IF NOT EXISTS `preports` (
   `date_sent` bigint(25) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- --------------------------------------------------------
-
---
--- Table structure for table `preports_responses`
---
-
+DROP TABLE IF EXISTS `preports_responses`;
 CREATE TABLE IF NOT EXISTS `preports_responses` (
   `id` int(11) NOT NULL,
   `report` int(11) NOT NULL DEFAULT '0',
@@ -274,36 +172,21 @@ CREATE TABLE IF NOT EXISTS `preports_responses` (
   `date_sent` bigint(25) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- --------------------------------------------------------
-
---
--- Table structure for table `settings_game`
---
-
+DROP TABLE IF EXISTS `settings_game`;
 CREATE TABLE IF NOT EXISTS `settings_game` (
   `id` int(11) NOT NULL,
   `name` varchar(255) NOT NULL,
   `value` mediumtext NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- --------------------------------------------------------
-
---
--- Table structure for table `settings_mods`
---
-
+DROP TABLE IF EXISTS `settings_mods`;
 CREATE TABLE IF NOT EXISTS `settings_mods` (
   `id` int(11) NOT NULL,
   `area` varchar(255) NOT NULL DEFAULT '',
   `status` tinyint(1) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- --------------------------------------------------------
-
---
--- Table structure for table `shopitems`
---
-
+DROP TABLE IF EXISTS `shopitems`;
 CREATE TABLE IF NOT EXISTS `shopitems` (
   `sitemID` int(11) NOT NULL,
   `sitemSHOP` int(11) NOT NULL DEFAULT '0',
@@ -312,12 +195,7 @@ CREATE TABLE IF NOT EXISTS `shopitems` (
   `sitemSOLD` bigint(25) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- --------------------------------------------------------
-
---
--- Table structure for table `shops`
---
-
+DROP TABLE IF EXISTS `shops`;
 CREATE TABLE IF NOT EXISTS `shops` (
   `shopID` int(11) NOT NULL,
   `shopLOCATION` int(11) NOT NULL DEFAULT '0',
@@ -325,12 +203,7 @@ CREATE TABLE IF NOT EXISTS `shops` (
   `shopDESCRIPTION` mediumtext NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- --------------------------------------------------------
-
---
--- Table structure for table `staff_ranks`
---
-
+DROP TABLE IF EXISTS `staff_ranks`;
 CREATE TABLE IF NOT EXISTS `staff_ranks` (
   `rank_id` int(11) NOT NULL,
   `rank_name` varchar(255) NOT NULL,
@@ -338,15 +211,19 @@ CREATE TABLE IF NOT EXISTS `staff_ranks` (
   `rank_order` int(11) NOT NULL DEFAULT '0',
   `rank_colour` varchar(6) NOT NULL DEFAULT '000000',
   `override_all` enum('Yes','No') NOT NULL DEFAULT 'No',
-  `staff_panel_access` enum('Yes','No') NOT NULL DEFAULT 'No'
+  `staff_panel_access` enum('Yes','No') NOT NULL DEFAULT 'No',
+  `staff_panel_tasks_manage` enum('Yes','No') NOT NULL DEFAULT 'No',
+  `staff_panel_tasks_add` enum('Yes','No') NOT NULL DEFAULT 'No',
+  `staff_panel_tasks_edit` enum('Yes','No') NOT NULL DEFAULT 'No',
+  `staff_panel_tasks_delete` enum('Yes','No') NOT NULL DEFAULT 'No',
+  `staff_panel_staff_ranks_manage` enum('Yes','No') NOT NULL DEFAULT 'No',
+  `staff_panel_staff_ranks_add` enum('Yes','No') NOT NULL DEFAULT 'No',
+  `staff_panel_staff_ranks_edit` enum('Yes','No') NOT NULL DEFAULT 'No',
+  `staff_panel_staff_ranks_delete` enum('Yes','No') NOT NULL DEFAULT 'No',
+  `staff_panel_code_version_manage` enum('Yes','No') NOT NULL DEFAULT 'No'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- --------------------------------------------------------
-
---
--- Table structure for table `tasks`
---
-
+DROP TABLE IF EXISTS `tasks`;
 CREATE TABLE IF NOT EXISTS `tasks` (
   `id` int(11) NOT NULL,
   `name` varchar(255) NOT NULL,
@@ -355,7 +232,7 @@ CREATE TABLE IF NOT EXISTS `tasks` (
   `money` bigint(25) NOT NULL DEFAULT '0',
   `points` int(11) NOT NULL DEFAULT '0',
   `item` int(11) NOT NULL DEFAULT '0',
-  `crimegroup` int(11) NOT NULL DEFAULT '0',
+  `groupID` int(11) NOT NULL DEFAULT '0',
   `text_start` mediumtext NOT NULL,
   `text_success` mediumtext NOT NULL,
   `text_failure` mediumtext NOT NULL,
@@ -367,25 +244,15 @@ CREATE TABLE IF NOT EXISTS `tasks` (
   `xp_awarded` int(11) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- --------------------------------------------------------
-
---
--- Table structure for table `tasks_groups`
---
-
+DROP TABLE IF EXISTS `tasks_groups`;
 CREATE TABLE IF NOT EXISTS `tasks_groups` (
   `id` int(11) NOT NULL,
   `name` varchar(255) NOT NULL,
   `enabled` tinyint(1) NOT NULL DEFAULT '1',
-  `order` int(11) NOT NULL DEFAULT '0'
+  `ordering` int(11) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- --------------------------------------------------------
-
---
--- Table structure for table `users`
---
-
+DROP TABLE IF EXISTS `users`;
 CREATE TABLE IF NOT EXISTS `users` (
   `id` int(11) NOT NULL,
   `username` varchar(255) NOT NULL,
@@ -403,15 +270,21 @@ CREATE TABLE IF NOT EXISTS `users` (
   `jail_reason` text NOT NULL,
   `staff_rank` bigint(25) NOT NULL DEFAULT '0',
   `last_seen` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `profile_picture` varchar(255) NOT NULL DEFAULT ''
+  `profile_picture` varchar(255) NOT NULL DEFAULT '',
+  `status` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- --------------------------------------------------------
+DROP TABLE IF EXISTS `users_bans`;
+CREATE TABLE IF NOT EXISTS `users_bans` (
+  `id` int(11) NOT NULL,
+  `user` int(11) NOT NULL DEFAULT '0',
+  `time_enforced` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `time_expires` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `enforcer` int(11) NOT NULL DEFAULT '0',
+  `ban_type` enum('messages','game') NOT NULL DEFAULT 'game'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- Table structure for table `users_equipment`
---
-
+DROP TABLE IF EXISTS `users_equipment`;
 CREATE TABLE IF NOT EXISTS `users_equipment` (
   `id` int(11) NOT NULL,
   `equip_primary` int(11) NOT NULL DEFAULT '0',
@@ -419,27 +292,18 @@ CREATE TABLE IF NOT EXISTS `users_equipment` (
   `equip_armor` int(11) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- --------------------------------------------------------
-
---
--- Table structure for table `users_events`
---
-
+DROP TABLE IF EXISTS `users_events`;
 CREATE TABLE IF NOT EXISTS `users_events` (
   `id` int(11) NOT NULL,
   `user` int(11) NOT NULL DEFAULT '0',
   `time_sent` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `type` varchar(255) NOT NULL DEFAULT 'Uncategorized',
   `text` text NOT NULL,
-  `read` tinyint(1) NOT NULL DEFAULT '0'
+  `read` tinyint(1) NOT NULL DEFAULT '0',
+  `extra` int(11) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- --------------------------------------------------------
-
---
--- Table structure for table `users_finances`
---
-
+DROP TABLE IF EXISTS `users_finances`;
 CREATE TABLE IF NOT EXISTS `users_finances` (
   `id` int(11) NOT NULL,
   `money` bigint(25) NOT NULL DEFAULT '0',
@@ -447,12 +311,7 @@ CREATE TABLE IF NOT EXISTS `users_finances` (
   `merits` bigint(25) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- --------------------------------------------------------
-
---
--- Table structure for table `users_messages`
---
-
+DROP TABLE IF EXISTS `users_messages`;
 CREATE TABLE IF NOT EXISTS `users_messages` (
   `id` int(11) NOT NULL,
   `sender` int(11) NOT NULL DEFAULT '0',
@@ -464,12 +323,7 @@ CREATE TABLE IF NOT EXISTS `users_messages` (
   `deleted` tinyint(1) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- --------------------------------------------------------
-
---
--- Table structure for table `users_stats`
---
-
+DROP TABLE IF EXISTS `users_stats`;
 CREATE TABLE IF NOT EXISTS `users_stats` (
   `id` int(11) NOT NULL,
   `strength` decimal(28,4) NOT NULL DEFAULT '10.0000',
@@ -493,82 +347,43 @@ CREATE TABLE IF NOT EXISTS `users_stats` (
   `tasks_hospitalised` bigint(25) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- Indexes for dumped tables
---
 
---
--- Indexes for table `breport`
---
 ALTER TABLE `breport`
   ADD PRIMARY KEY (`id`);
 
---
--- Indexes for table `breport_responses`
---
 ALTER TABLE `breport_responses`
   ADD PRIMARY KEY (`id`);
 
---
--- Indexes for table `cities`
---
 ALTER TABLE `cities`
   ADD PRIMARY KEY (`cityid`);
 
---
--- Indexes for table `events`
---
 ALTER TABLE `events`
   ADD PRIMARY KEY (`id`),
   ADD KEY `user` (`user`),
   ADD KEY `read` (`read`),
   ADD KEY `deleted` (`deleted`);
 
---
--- Indexes for table `inventory`
---
 ALTER TABLE `inventory`
   ADD PRIMARY KEY (`id`);
 
---
--- Indexes for table `items`
---
 ALTER TABLE `items`
   ADD PRIMARY KEY (`id`);
 
---
--- Indexes for table `itemtypes`
---
 ALTER TABLE `itemtypes`
   ADD PRIMARY KEY (`id`);
 
---
--- Indexes for table `jobranks`
---
 ALTER TABLE `jobranks`
   ADD PRIMARY KEY (`id`);
 
---
--- Indexes for table `jobs`
---
 ALTER TABLE `jobs`
   ADD PRIMARY KEY (`id`);
 
---
--- Indexes for table `logs_query_errors`
---
 ALTER TABLE `logs_query_errors`
   ADD PRIMARY KEY (`id`);
 
---
--- Indexes for table `logs_staff`
---
 ALTER TABLE `logs_staff`
   ADD PRIMARY KEY (`id`);
 
---
--- Indexes for table `mail`
---
 ALTER TABLE `mail`
   ADD PRIMARY KEY (`id`),
   ADD KEY `read` (`read`),
@@ -576,251 +391,118 @@ ALTER TABLE `mail`
   ADD KEY `receiver` (`receiver`),
   ADD KEY `deleted` (`deleted`);
 
---
--- Indexes for table `market_items`
---
 ALTER TABLE `market_items`
   ADD PRIMARY KEY (`id`);
 
---
--- Indexes for table `market_points`
---
 ALTER TABLE `market_points`
   ADD PRIMARY KEY (`id`);
 
---
--- Indexes for table `preports`
---
 ALTER TABLE `preports`
   ADD PRIMARY KEY (`id`);
 
---
--- Indexes for table `preports_responses`
---
 ALTER TABLE `preports_responses`
   ADD PRIMARY KEY (`id`);
 
---
--- Indexes for table `settings_game`
---
 ALTER TABLE `settings_game`
   ADD PRIMARY KEY (`id`);
 
---
--- Indexes for table `settings_mods`
---
 ALTER TABLE `settings_mods`
   ADD PRIMARY KEY (`id`);
 
---
--- Indexes for table `shopitems`
---
 ALTER TABLE `shopitems`
   ADD PRIMARY KEY (`sitemID`),
   ADD KEY `sitemSHOP` (`sitemSHOP`);
 
---
--- Indexes for table `shops`
---
 ALTER TABLE `shops`
   ADD PRIMARY KEY (`shopID`);
 
---
--- Indexes for table `staff_ranks`
---
 ALTER TABLE `staff_ranks`
   ADD PRIMARY KEY (`rank_id`);
 
---
--- Indexes for table `tasks`
---
 ALTER TABLE `tasks`
   ADD PRIMARY KEY (`id`);
 
---
--- Indexes for table `tasks_groups`
---
 ALTER TABLE `tasks_groups`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `order_2` (`order`),
+  ADD UNIQUE KEY `order_2` (`ordering`),
   ADD KEY `enabled` (`enabled`),
-  ADD KEY `order` (`order`);
+  ADD KEY `order` (`ordering`);
 
---
--- Indexes for table `users`
---
 ALTER TABLE `users`
   ADD PRIMARY KEY (`id`);
 
---
--- Indexes for table `users_equipment`
---
+ALTER TABLE `users_bans`
+  ADD PRIMARY KEY (`id`);
+
 ALTER TABLE `users_equipment`
   ADD PRIMARY KEY (`id`);
 
---
--- Indexes for table `users_finances`
---
 ALTER TABLE `users_finances`
   ADD PRIMARY KEY (`id`);
 
---
--- Indexes for table `users_messages`
---
 ALTER TABLE `users_messages`
   ADD PRIMARY KEY (`id`);
 
---
--- Indexes for table `users_stats`
---
 ALTER TABLE `users_stats`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `id` (`id`);
 
---
--- AUTO_INCREMENT for dumped tables
---
 
---
--- AUTO_INCREMENT for table `breport`
---
 ALTER TABLE `breport`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `breport_responses`
---
 ALTER TABLE `breport_responses`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `cities`
---
 ALTER TABLE `cities`
   MODIFY `cityid` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `events`
---
 ALTER TABLE `events`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `inventory`
---
 ALTER TABLE `inventory`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `items`
---
 ALTER TABLE `items`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `itemtypes`
---
 ALTER TABLE `itemtypes`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `jobranks`
---
 ALTER TABLE `jobranks`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `jobs`
---
 ALTER TABLE `jobs`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `logs_query_errors`
---
 ALTER TABLE `logs_query_errors`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `logs_staff`
---
 ALTER TABLE `logs_staff`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `mail`
---
 ALTER TABLE `mail`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `market_items`
---
 ALTER TABLE `market_items`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `market_points`
---
 ALTER TABLE `market_points`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `preports`
---
 ALTER TABLE `preports`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `preports_responses`
---
 ALTER TABLE `preports_responses`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `settings_game`
---
 ALTER TABLE `settings_game`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `settings_mods`
---
 ALTER TABLE `settings_mods`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `shopitems`
---
 ALTER TABLE `shopitems`
   MODIFY `sitemID` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `shops`
---
 ALTER TABLE `shops`
   MODIFY `shopID` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `staff_ranks`
---
 ALTER TABLE `staff_ranks`
   MODIFY `rank_id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `tasks`
---
 ALTER TABLE `tasks`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `tasks_groups`
---
 ALTER TABLE `tasks_groups`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `users`
---
 ALTER TABLE `users`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `users_equipment`
---
+ALTER TABLE `users_bans`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 ALTER TABLE `users_equipment`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `users_finances`
---
 ALTER TABLE `users_finances`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `users_messages`
---
 ALTER TABLE `users_messages`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `users_stats`
---
 ALTER TABLE `users_stats`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
