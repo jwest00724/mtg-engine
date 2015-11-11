@@ -135,23 +135,28 @@ class mtg_functions {
 		if($type == 'installed')
 			return $set['engine_version'];
 		else if($type == 'repo') {
-			if($file = @file_get_contents('https://bitbucket.org/api/1.0/repositories/Magictallguy/mtg-engine/changesets/?limit=0')) {
-				$repo = @json_decode($file);
-				if(!is_object($repo))
-					return '<span class="red">Couldn\'t get repo version</span>';
-				$count = strlen($repo->count) == 3 ? '9.0.0'.$repo->count : '9.0.'.$repo->count;
-			} else
-				$count = '<span class="red">Couldn\'t get repo version</span>';
-			if($count == $set['engine_version'])
-				$ret = '<span class="green">'.$set['engine_version'].'</span>';
-			else if($count > $set['engine_version'])
-				$ret = '<span class="orange">'.$count.'</span>';
-			else if($count < $set['engine_version'])
-				$ret = '<span class="blue">'.$count.'</span>';
-			else
-				$ret = 'What?';
-			return $format ? $ret : strip_tags($ret);
+			$ch = curl_init();
+			curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+			curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+			curl_setopt($ch, CURLOPT_URL, 'https://bitbucket.org/api/1.0/repositories/Magictallguy/mtg-engine/changesets/?limit=0');
+			$result = curl_exec($ch);
+			curl_close($ch);
+			$repo = @json_decode($result);
+			if(!is_object($repo))
+				return '<span class="red">Couldn\'t get repo version</span>';
+			$count = strlen($repo->count) == 3 ? '9.0.0'.$repo->count : '9.0.'.$repo->count;
 		}
+		if(!isset($count))
+			$ret = '<span class="red">Couldn\'t get repo version</span>';
+		else if($count == $set['engine_version'])
+			$ret = '<span class="green">'.$set['engine_version'].'</span>';
+		else if($count > $set['engine_version'])
+			$ret = '<span class="orange">'.$count.'</span>';
+		else if($count < $set['engine_version'])
+			$ret = '<span class="blue">'.$count.'</span>';
+		else
+			$ret = 'What?';
+		return $format ? $ret : strip_tags($ret);
 	}
 	function _ip() {
 		if(!empty($_SERVER['HTTP_CLIENT_IP']))
