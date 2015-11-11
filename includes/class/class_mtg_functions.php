@@ -135,18 +135,22 @@ class mtg_functions {
 		if($type == 'installed')
 			return $set['engine_version'];
 		else if($type == 'repo') {
-			if(isset($_GET['refreshrepo']) || (!isset($_SESSION['repo_commit_count']) || isset($_SESSION['repo_commit_count_time']) && ($_SESSION['repo_commit_count_time'] < time() - 60 || $set['engine_version'] != $_SESSION['repo_commit_count']))) {
-				if($file = @file_get_contents('https://bitbucket.org/api/1.0/repositories/Magictallguy/mtg-engine/changesets/?limit=0')) {
-					$repo = @json_decode($file);
-					if(!is_object($repo))
-						return '<span class="red">couldn\'t get repo version</span>';
-					$count = strlen($repo->count) == 3 ? '9.0.0'.$repo->count : '9.0.'.$repo->count;
-				} else
-					$count = '<span class="red">couldn\'t get repo version</span>';
-				$_SESSION['repo_commit_count'] = $count;
-				$_SESSION['repo_commit_count_time'] = time();
+			if(!isset($_SESSION['repo_commit_count']) || $set['engine_version'] != $_SESSION['repo_commit_count']) {
+				// if(!isset($_SESSION['repo_commit_count']) || !isset($_SESSION['repo_commit_count_time']) || (isset($_SESSION['repo_commit_count']) && !$_SESSION['repo_commit_count']) || isset($_SESSION['repo_commit_count_time']) && ($_SESSION['repo_commit_count_time'] < time() - 60)) {
+					if($file = @file_get_contents('https://bitbucket.org/api/1.0/repositories/Magictallguy/mtg-engine/changesets/?limit=0')) {
+						$repo = @json_decode($file);
+						if(!is_object($repo))
+							return '<span class="red">Couldn\'t get repo version</span>';
+						$count = strlen($repo->count) == 3 ? '9.0.0'.$repo->count : '9.0.'.$repo->count;
+						unset($file, $repo);
+					} else
+						$count = '<span class="red">Couldn\'t get repo version</span>';
+					$_SESSION['repo_commit_count'] = $count;
+					$_SESSION['repo_commit_count_time'] = time();
+				// } else
+				// 	$count = $_SESSION['repo_commit_count'];
 			} else
-				$count = $_SESSION['repo_commit_count'];
+				$count = $set['engine_version'];
 			if($count == $set['engine_version'])
 				return '<span class="green">'.$set['engine_version'].'</span>';
 			else if($count > $set['engine_version'])
