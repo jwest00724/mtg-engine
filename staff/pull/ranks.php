@@ -293,7 +293,7 @@ function viewRank($db, $mtg) {
 			}
 			?><tr>
 				<th><?php echo ucwords(str_replace('_', ' ', $what));?></th>
-				<td class="center"><img src="img/silk/<?php echo $enabled;?>.png" title="<?php echo $titleAlt;?>" alt="<?php echo $titleAlt;?>" /></td>
+				<td class="center"><img src="images/silk/<?php echo $enabled;?>.png" title="<?php echo $titleAlt;?>" alt="<?php echo $titleAlt;?>" /></td>
 			</tr><?php
 		}
 	?></table><?php
