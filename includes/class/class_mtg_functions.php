@@ -137,10 +137,12 @@ class mtg_functions {
 		else if($type == 'repo') {
 			if(isset($_GET['refreshrepo']) || (!isset($_SESSION['repo_commit_count']) || isset($_SESSION['repo_commit_count_time']) && ($_SESSION['repo_commit_count_time'] < time() - 60 || $set['engine_version'] != $_SESSION['repo_commit_count']))) {
 				if($file = @file_get_contents('https://bitbucket.org/api/1.0/repositories/Magictallguy/mtg-engine/changesets/?limit=0')) {
-					$repo = json_decode($file);
+					$repo = @json_decode($file);
+					if(!is_object($repo))
+						return '<span class="red">couldn\'t get repo version</span>';
 					$count = strlen($repo->count) == 3 ? '9.0.0'.$repo->count : '9.0.'.$repo->count;
 				} else
-					$count = 'couldn\'t get repo version';
+					$count = '<span class="red">couldn\'t get repo version</span>';
 				$_SESSION['repo_commit_count'] = $count;
 				$_SESSION['repo_commit_count_time'] = time();
 			} else
@@ -148,7 +150,7 @@ class mtg_functions {
 			if($count == $set['engine_version'])
 				return '<span class="green">'.$set['engine_version'].'</span>';
 			else if($count > $set['engine_version'])
-				return '<span class="red">'.$count.'</span>';
+				return '<span class="orange">'.$count.'</span>';
 			else if($count < $set['engine_version'])
 				return '<span class="blue">'.$count.'</span>';
 			else
