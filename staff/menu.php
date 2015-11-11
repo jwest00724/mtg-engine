@@ -16,7 +16,7 @@ $links = [
 ];
 foreach($links as $url => $disp) {
 	if(preg_match('/^divider(.*?)$/i', $url))
-		echo '<li class="pure-menu-item menu-item-divided"><a href="#" class="pure-menu-link pure-menu-heading">'.$disp.'</a></li>';
+		echo '<li class="pure-menu-item menu-item-divided"><a href="staff/#" class="pure-menu-link pure-menu-heading">'.$disp.'</a></li>';
 	else
 		printf('<li class="pure-menu-item"><a href="%s" class="pure-menu-link%s">%s</a></li>'."\n", $url, $_SERVER['PHP_SELF'] == '/'.$url.'.php' ? ' pure-menu-selected' : null, $disp);
 }
