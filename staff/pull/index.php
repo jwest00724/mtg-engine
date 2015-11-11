@@ -17,33 +17,29 @@ function index($db, $my, $mtg, $set) {
 		$db->execute([$_POST['text']]);
 		$set['staff_notepad'] = $_POST['text'];
 	}
-	// $version = fopen('http://magictallguy.tk/vers/?v=9.1.1631', 'r');
-	// if(!$version)
-	// 	$vers = 'Unable to get update information';
-	// else
-	// 	while(!feof($version))
-	// 		$vers = fgets($version, 1024);
-	$vers = '<span style="color:green;">Currently being worked on</span>';
 	$db->query("SELECT VERSION()");
 	$db->execute();
 	?><p><table width='100%'>
 		<tr>
 			<th width='25%'>Code Version</th>
-			<td width='75%'><?php echo $vers; ?></td>
+			<td width='75%'><?php echo $mtg->codeVersion('installed');?></td>
 		</tr>
 		<tr>
+			<th>Repo Version</th>
+			<td><?php echo $mtg->codeVersion('repo');?></td>
+		<tr>
 			<th>PHP Version</th>
-			<td><?php echo phpversion(); ?></td>
+			<td><?php echo phpversion();?></td>
 		</tr>
 		<tr>
 			<th>MySQL Version</th>
-			<td><?php echo $db->fetch_single(); ?></td>
+			<td><?php echo $db->fetch_single();?></td>
 		</tr>
 	</table></p><?php
 	if(array_key_exists('text', $_POST))
 		echo $mtg->success("Staff Notepad updated");
 	?><form method='post' class='cmxform'>
-		<div class='height_area'><textarea name='text' rows='10' cols='40'><?php echo stripslashes($set['staff_notepad']); ?></textarea></div>
+		<div class='height_area'><textarea name='text' rows='10' cols='40'><?php echo stripslashes($set['staff_notepad']);?></textarea></div>
 		<input type='submit' name='submit' value='Update Staff Notepad' />
 	</form><?php
 }
@@ -70,30 +66,30 @@ function gameSettings($db, $my, $mtg, $set) {
 			</tr>
 			<tr>
 				<th width='25%'>Name</th>
-				<td width='75%'><input type='text' name='game_name' value='<?php echo $mtg->format($set['game_name']); ?>' /></td>
+				<td width='75%'><input type='text' name='game_name' value='<?php echo $mtg->format($set['game_name']);?>' /></td>
 			</tr>
 			<tr>
 				<th>Description</th>
-				<td><textarea name='game_description' rows='10' cols='40'><?php echo $mtg->format($set['game_description']); ?></textarea></td>
+				<td><textarea name='game_description' rows='10' cols='40'><?php echo $mtg->format($set['game_description']);?></textarea></td>
 			</tr>
 			<tr>
 				<th>Game Owner's ID</th>
-				<td><input type='text' name='game_owner_id' value='<?php echo $mtg->format($set['game_owner_id']); ?>' /></td>
+				<td><input type='text' name='game_owner_id' value='<?php echo $mtg->format($set['game_owner_id']);?>' /></td>
 			</tr>
 			<tr>
 				<thead><th colspan='2'>Registration</th></thead>
 			</tr>
 			<tr>
 				<th>Start Cash</th>
-				<td><input type='text' name='register_start_cash' value='<?php echo $mtg->format($set['register_start_cash']); ?>' /></td>
+				<td><input type='text' name='register_start_cash' value='<?php echo $mtg->format($set['register_start_cash']);?>' /></td>
 			</tr>
 			<tr>
 				<th>Promo Code</th>
-				<td><input type='text' name='register_promo_code' value='<?php echo $mtg->format($set['register_promo_code']); ?>' /></td>
+				<td><input type='text' name='register_promo_code' value='<?php echo $mtg->format($set['register_promo_code']);?>' /></td>
 			</tr>
 			<tr>
 				<th>Promo Cash</th>
-				<td><input type='text' name='register_promo_cash' value='<?php echo $mtg->format($set['register_promo_cash']); ?>' /></td>
+				<td><input type='text' name='register_promo_cash' value='<?php echo $mtg->format($set['register_promo_cash']);?>' /></td>
 			</tr>
 			<tr>
 				<td colspan='2' class='center'><input type='submit' name='submit' value='Update Settings' /></td>
