@@ -130,7 +130,7 @@ class mtg_functions {
 		}
 		return '<img src="'.$image.'" width="'.$width.'" height="'.$height.'" class="image image-centered" />';
 	}
-	public function codeVersion($type) {
+	public function codeVersion($type, $format = true) {
 		global $set;
 		if($type == 'installed')
 			return $set['engine_version'];
@@ -143,13 +143,14 @@ class mtg_functions {
 			} else
 				$count = '<span class="red">Couldn\'t get repo version</span>';
 			if($count == $set['engine_version'])
-				return '<span class="green">'.$set['engine_version'].'</span>';
+				$ret = '<span class="green">'.$set['engine_version'].'</span>';
 			else if($count > $set['engine_version'])
-				return '<span class="orange">'.$count.'</span>';
+				$ret = '<span class="orange">'.$count.'</span>';
 			else if($count < $set['engine_version'])
-				return '<span class="blue">'.$count.'</span>';
+				$ret = '<span class="blue">'.$count.'</span>';
 			else
-				return 'What?';
+				$ret = 'What?';
+			return $format ? $ret : strip_tags($ret);
 		}
 	}
 	function _ip() {
