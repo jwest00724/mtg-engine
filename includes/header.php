@@ -76,7 +76,7 @@ class headers {
 							<li class="menu-list-item">NERVE: <?php echo round($my['nerve'] / $my['nerve_max'] * 100);?>%</li>
 							<li class="menu-list-item">HAPPY: <?php echo round($my['happy'] / $my['happy_max'] * 100);?>%</li>
 							<li class="menu-list-item">LIFE: <?php echo round($my['health'] / $my['health_max'] * 100);?>%</li>
-							<li class="menu-list-item">EXP: <?php echo $my['exp'].'/'.$users->expRequired(true);?></li>
+							<li class="menu-list-item">EXP: <?php echo $mtg->format($my['exp'], 2).'/'.$users->expRequired(true);?></li>
 						</ul>
 					</div>
 					<div class="pure-menu"><?php
