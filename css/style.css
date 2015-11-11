@@ -29,3 +29,12 @@ hr {
 .orange {
 	background: #fa8100;
 }
+.left {
+	text-align: left;
+}
+.center {
+	text-align: center;
+}
+.right {
+	text-align: right;
+}
