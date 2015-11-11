@@ -27,7 +27,7 @@ class mtg_logs {
 		return self::$inst;
 	}
 	public function staff($text) {
-		global $db, $my;
+		global $db, $my, $mtg;
 		$db->query('INSERT INTO `logs_staff` (`user`, `action`, `ip`) VALUES (?, ?, ?)');
 		$db->execute([$my['id'], $text, $mtg->_ip()]);
 	}
