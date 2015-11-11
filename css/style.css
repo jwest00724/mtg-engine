@@ -14,3 +14,18 @@ hr {
 	height: 1px;
 	background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));
 }
+.small {
+	font-size: .8em;
+}
+.red {
+	color: #ed4747;
+}
+.green {
+	color: #47b101;
+}
+.blue {
+	background: #0099d2;
+}
+.orange {
+	background: #fa8100;
+}
