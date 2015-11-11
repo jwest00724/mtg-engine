@@ -26,7 +26,7 @@ function index($db, $my, $mtg, $set) {
 		</tr>
 		<tr>
 			<th>Repo Version</th>
-			<td><?php echo $mtg->codeVersion('repo');?></td>
+			<td><?php echo $mtg->codeVersion('repo');?> <a href="staff/index.php?refreshrepo=true" class="small">[refresh]</a></td>
 		<tr>
 			<th>PHP Version</th>
 			<td><?php echo phpversion();?></td>
