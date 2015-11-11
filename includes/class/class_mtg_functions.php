@@ -135,7 +135,7 @@ class mtg_functions {
 		if($type == 'installed')
 			return $set['engine_version'];
 		else if($type == 'repo') {
-			if(isset($_GET['refreshrepo']) || !isset($_SESSION['repo_commit_count']) || isset($_SESSION['repo_commit_count_time']) && ($_SESSION['repo_commit_count_time'] < time() - 3600 || $set['engine_version'] != $_SESSION['repo_commit_count'])) {
+			if(isset($_GET['refreshrepo']) || !isset($_SESSION['repo_commit_count']) || isset($_SESSION['repo_commit_count_time']) && ($_SESSION['repo_commit_count_time'] < time() - 60 || $set['engine_version'] != $_SESSION['repo_commit_count'])) {
 				if($file = @file_get_contents('https://bitbucket.org/api/1.0/repositories/Magictallguy/mtg-engine/changesets/?limit=0')) {
 					$repo = json_decode($file);
 					$count = strlen($repo->count) == 3 ? '9.0.0'.$repo->count : '9.0.'.$repo->count;
