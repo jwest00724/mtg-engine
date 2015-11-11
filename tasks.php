@@ -102,7 +102,7 @@ foreach($groups as $group) {
 					$coursesInfo .= '<br /><span class="small';
 					$db->query("SELECT `id` FROM `courses_complete` WHERE `course` = ? AND `user` = ?");
 					$db->execute([$course['id'], $my['id']]);
-					$coursesInfo .= ' '.($db->num_rows() ? ' green' : ' red').'">'.$mtg->format($course['name']).'</span>';
+					$coursesInfo .= ' '.($db->num_rows() ? 'green' : 'red').'">'.$mtg->format($course['name']).'</span>';
 				}
 			}
 			?><tr>
