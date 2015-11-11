@@ -154,5 +154,50 @@ class users {
 			$db->query('UPDATE `inventory` SET `qty` = `qty` + ? WHERE `item` = ? AND `user` = ?');
 		$db->execute([$qty, $item, $user]);
 	}
+	public function updateStatus($status) {
+		global $db, $my;
+		// $status = str_replace('their', ($my['gender'] == 'Male' ? 'his' : 'her'), $status); // A little personalisation
+		if($my['status'] != $status) {
+			$db->query('UPDATE `users` SET `status` = ? WHERE `id` = ?');
+			$db->execute([$status, $my['id']]);
+		}
+	}
+	public function displayStatus($user) {
+		global $db, $my;
+		if($user == $my['userid'])
+			return stripslashes($my['status']);
+		$db->query("SELECT `status`, `staff_rank`, `user_level`, `fedjail` FROM `users` WHERE `userid` = ".$user);
+		if(!$db->num_rows($select))
+			return 'Being non-existant!';
+		$get = $db->fetch_row($select);
+		if(!$get['user_level'])
+			return 'Getting beaten up';
+		if($get['fedjail'])
+			return 'Rotting away';
+		$status = stripslashes($get['status']);
+		if(!$status)
+			return 'Unknown';
+		if(isOwner($user))
+			return $status;
+		return $get['staff_rank'] && !$my['staff_rank'] ? 'Staff secrecy' : $status;
+	}
+	public function checkBan($type = 'game', $id = null) {
+		global $db, $my, $mtg;
+		if(!$id)
+			$id = $my['id'];
+		$db->query('SELECT `time_enforced`, `time_expires`, `enforcer` WHERE `user` = ? AND `ban_type` = ?');
+		$db->execute([$my['id'], $id]);
+		if(!$db->num_rows())
+			return false;
+		$ban = $db->fetch_row(true);
+		switch($ban['ban_type']) {
+			default: case 'game':
+				$system = 'game';
+				break;
+			case 'messages':
+				$system = 'messaging systems';
+		}
+		return $mtg->error('You\'ve been banned from the '.$system.'.<br />Your ban was enforced by '.$users->name($ban['enforcer']).' on '.date('l jS \of F Y h:i:sA', $ban['time_enforced']).' and is due to expire '.date('l jS \of F Y h:i:sA', $ban['time_expires']));
+	}
 }
 $users = users::getInstance();
