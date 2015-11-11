@@ -206,7 +206,7 @@ class users {
 		$db->execute();
 		$rows = $db->fetch_row();
 		foreach($rows as $row)
-			$ret .= "\n".sprintf('<option value="%u"%s>%s</option>', $row['id'], $row['id'] == $selected ? ' selected="selected"' : null, $mtg->format($row['username']);
+			$ret .= "\n".sprintf('<option value="%u"%s>%s</option>', $row['id'], $row['id'] == $selected ? ' selected="selected"' : null, $mtg->format($row['username']));
 		$ret .= '</select>';
 		return $ret;
 	}
