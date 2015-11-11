@@ -199,5 +199,16 @@ class users {
 		}
 		return $mtg->error('You\'ve been banned from the '.$system.'.<br />Your ban was enforced by '.$users->name($ban['enforcer']).' on '.date('l jS \of F Y h:i:sA', $ban['time_enforced']).' and is due to expire '.date('l jS \of F Y h:i:sA', $ban['time_expires']));
 	}
+	public function listSelect($ddname = 'user', $selected = 0) {
+		global $db, $mtg;
+		$ret = '<select name="'.$ddname.'">';
+		$db->query('SELECT `id`, `username` FROM `users` ORDER BY `username` ASC');
+		$db->execute();
+		$rows = $db->fetch_row();
+		foreach($rows as $row)
+			$ret .= "\n".sprintf('<option value="%u"%s>%s</option>', $row['id'], $row['id'] == $selected ? ' selected="selected"' : null, $mtg->format($row['username']);
+		$ret .= '</select>';
+		return $ret;
+	}
 }
 $users = users::getInstance();
