@@ -139,7 +139,7 @@ class users {
 		global $db, $my, $mtg;
 		$ret = pow($my['level'], 3) * pow($my['level'] + 2, 2);
 		if($format)
-			$ret = $mtg->format($ret);
+			$ret = $mtg->format($ret, 2);
 		return $ret;
 	}
 	public function giveItem($item, $user = null, $qty = 1) {
