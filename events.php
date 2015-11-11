@@ -25,9 +25,9 @@ switch($_GET['action']) {
 		$pages->items_total = $db->fetch_single();
 		$pages->mid_range = 3;
 		$pages->paginate();
-		$db->query("SELECT `id`, `text`, `type`, `time_sent` FROM `users_events` WHERE `user` = ? ORDER BY `time_sent` DESC ".$pages->limit);
+		$db->query("SELECT `id`, `text`, `type`, `time_sent`, `extra` FROM `users_events` WHERE `user` = ? ORDER BY `time_sent` DESC ".$pages->limit);
 		$db->execute([$my['id']]);
-		?><p class='paginate'><?php echo $pages->display_pages(); ?></p>
+		?><p class='paginate'><?php echo $pages->display_pages();?></p>
 		<table width='100%' class='pure-table pure-table-striped'>
 			<tr>
 				<th width='25%'>Info</th>
@@ -39,17 +39,20 @@ switch($_GET['action']) {
 			else {
 				$rows = $db->fetch_row();
 				foreach($rows as $row) {
+					$row['text'] = $mtg->format($row['text']);
+					if(preg_match('/\{id\}/', $row['text']))
+						$row['text'] = str_replace('{id}', $users->name($row['extra']));
 					?><tr>
 						<td>
-							<strong>Received:</strong> <?php echo date('H:i:s d/m/Y', strtotime($row['time_sent'])); ?><br />
-							<strong>Category:</strong> <?php echo ucfirst($row['type']); ?>
+							<strong>Received:</strong> <?php echo date('H:i:s d/m/Y', strtotime($row['time_sent']));?><br />
+							<strong>Category:</strong> <?php echo ucfirst($row['type']);?>
 						</td>
-						<td><?php echo stripslashes($row['text']); ?></td>
-						<td><a href='events.php?action=delete&amp;ID=<?php echo $row['id']; ?>'>Delete</a></td>
+						<td><?php echo $row['text'];?></td>
+						<td><a href='events.php?action=delete&amp;ID=<?php echo $row['id'];?>'>Delete</a></td>
 					</tr><?php
 				}
 			}
 		?></table>
-		<p class='paginate'><?php echo $pages->display_pages(); ?></p><?php
+		<p class='paginate'><?php echo $pages->display_pages();?></p><?php
 		break;
 }
