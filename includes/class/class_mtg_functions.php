@@ -10,7 +10,7 @@ class mtg_functions {
 			self::$inst = new mtg_functions();
 		return self::$inst;
 	}
-	function format($str, $dec = 0) {
+	public function format($str, $dec = 0) {
 		if(is_numeric($str))
 			return number_format($str, $dec);
 		else
@@ -18,33 +18,33 @@ class mtg_functions {
 		return $dec ? nl2br($str) : $str;
 	}
 
-	function error($msg, $lock = true) {
+	public function error($msg, $lock = true) {
 		global $db, $my;
 		echo "<div class='notification notification-error'><i class='fa fa-times-circle'></i><p>",$msg,"</p></div>";
 		if($lock)
 			exit;
 	}
 
-	function success($msg, $lock = false) {
+	public function success($msg, $lock = false) {
 		$go = isset($_POST) ? '-2' : '-1';
 		echo "<div class='notification notification-success'><i class='fa fa-check-circle'></i><p>",$msg,"</p></div>";
 		if($lock)
 			exit;
 	}
 
-	function info($msg, $lock = false) {
+	public function info($msg, $lock = false) {
 		echo "<div class='notification notification-info'><i class='fa fa-info-circle'></i><p>",$msg,"</p></div>";
 		if($lock)
 			exit;
 	}
 
-	function warning($msg, $lock = false) {
+	public function warning($msg, $lock = false) {
 		echo "<div class='notification notification-secondary'><i class='fa fa-secondary-circle'></i><p>",$msg,"</p></div>";
 		if($lock)
 			exit;
 	}
 
-	function s($num, $word = '') {
+	public function s($num, $word = '') {
 		if(!$word)
 			return $num == 1 ? '' : 's';
 		else {
@@ -59,7 +59,7 @@ class mtg_functions {
 		}
 	}
 
-	function time_format($seconds, $mode = 'long'){
+	public function time_format($seconds, $mode = 'long'){
 		$names	= array(
 			'long' => array('millenia', 'year', 'month', 'day', 'hour', 'minute', 'second'),
 			'short' => array('mil', 'yr', 'mnth', 'day', 'hr', 'min', 'sec')
@@ -129,6 +129,24 @@ class mtg_functions {
 			$height = $stats[1] > $dims[1] ? $dims[1] : $stats[1];
 		}
 		return '<img src="'.$image.'" width="'.$width.'" height="'.$height.'" class="image image-centered" />';
+	}
+	public function codeVersion($type) {
+		global $set;
+		if($type == 'installed')
+			return $set['engine_version'];
+		else if($type == 'repo') {
+			if(!isset($_SESSION['repo_commit_count']) || isset($_SESSION['repo_commit_count_time']) && ($_SESSION['repo_commit_count_time'] < time() - 3600 || $set['engine_version'] != $_SESSION['repo_commit_count'])) {
+				if($file = @file_get_contents('https://bitbucket.org/api/1.0/repositories/Magictallguy/mtg-engine/changesets/?limit=0')) {
+					$repo = json_decode($file);
+					$count = strlen($repo->count) == 3 ? '9.0.0'.$repo->count : '9.0.'.$repo->count;
+				} else
+					$count = 'couldn\'t get repo version';
+				$_SESSION['repo_commit_count'] = $count;
+				$_SESSION['repo_commit_count_time'] = time();
+			} else
+				$count = $_SESSION['repo_commit_count'];
+			return $count == $set['engine_version'] ? '<span class="green">'.$set['engine_version'].'</span>' : '<span class="red">'.$count.'</span>';
+		}
 	}
 }
 
