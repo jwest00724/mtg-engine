@@ -1,4 +1,4 @@
-# MTG Codes v9.1
+# MTG Codes v9
 PHP, MySQL, HTML, CSS.
 Text-based online RPG
 
