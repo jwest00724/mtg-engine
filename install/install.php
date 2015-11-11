@@ -47,6 +47,7 @@ $paths = preg_match('/\/public_html/', $mainPath) ? explode('/public_html/', $ma
 $path = $paths[1];
 $sqlPathMain = __DIR__ . '/sqls/db__structure.sql';
 $sqlPathSettings = __DIR__ . '/sqls/db__settings_data.sql';
+$sqlPathUpdates = __DIR__ . '/sqls/updates.sql';
 $steps = [1, 2, 3, 4, 5, 6, 7];
 $_GET['step'] = isset($_GET['step']) && ctype_digit($_GET['step']) && in_array($_GET['step'], $steps) ? $_GET['step'] : 1;
 ?><div class="header">
@@ -225,6 +226,20 @@ define('DB_NAME', '".$_POST['name']."');";
 				$db->query($templineSettings);
 				$db->execute();
 				$templineSettings = '';
+			}
+		}
+		if(file_exists($sqlPathUpdates)) {
+			$templineSettings = '';
+			$lines = file($sqlPathUpdates);
+			foreach ($lines as $line) {
+				if(substr($line, 0, 2) == '--' || !$line)
+					continue;
+				$templineSettings .= $line;
+				if (substr(trim($line), -1, 1) == ';') {
+					$db->query($templineSettings);
+					$db->execute();
+					$templineSettings = '';
+				}
 			}
 		}
 		if($db->tableExists('users'))
