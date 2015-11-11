@@ -24,7 +24,8 @@ function index($db, $my, $mtg, $set, $users) {
 		if($installedVersion != $repoVersionNF) {
 			$db->query('UPDATE `settings_game` SET `value` = ? WHERE `name` = "engine_version"');
 			$db->execute([$repoVersionNF]);
-			$set['engine_version'] = $repoVersionNF;
+			$installedVersion = $repoVersionNF;
+			$mtg->success('Local engine version marker has been updated');
 		} else
 			$mtg->info('You\'re already running the latest version');
 	}
