@@ -77,7 +77,7 @@ function gameSettings($db, $my, $mtg, $set) {
 				<td><textarea name="game_description" rows="10" cols="40"><?php echo $mtg->format($set['game_description']);?></textarea></td>
 			</tr>
 			<tr>
-				<th>Game Owner"s ID</th>
+				<th>Game Owner's ID</th>
 				<td><input type="text" name="game_owner_id" value="<?php echo $mtg->format($set['game_owner_id']);?>" /></td>
 			</tr>
 			<tr>
