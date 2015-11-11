@@ -148,6 +148,15 @@ class mtg_functions {
 			return $count == $set['engine_version'] ? '<span class="green">'.$set['engine_version'].'</span>' : '<span class="red">'.$count.'</span>';
 		}
 	}
+	function _ip() {
+		if(!empty($_SERVER['HTTP_CLIENT_IP']))
+			return $_SERVER['HTTP_CLIENT_IP'];
+		else if(!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+			$ips = explode(',', $_SERVER['HTTP_X_FORWARDED_FOR']);
+			return count($ips) > 1 ? $ips[0] : $_SERVER['HTTP_X_FORWARDED_FOR'];
+		} else
+			return $_SERVER['REMOTE_ADDR'];
+	}
 }
 
 $mtg = mtg_functions::getInstance();
