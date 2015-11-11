@@ -23,6 +23,20 @@ class users {
 		$db->execute([$amnt, $user]);
 		return true;
 	}
+	public function expRequired($format = true) {
+		global $db, $my, $mtg;
+		$ret = pow($my['level'], 3) * pow($my['level'] + 2, 2);
+		if($format)
+			$ret = $mtg->format($ret, 2);
+		return $ret;
+	}
+	public function expPercent($format = true, $dec = 2) {
+		global $my, $mtg;
+		$math = $my['exp'] / $this->expRequired(false) * 100;
+		if($format)
+			$math = $mtg->format($math, $dec).'%';
+		return $math;
+	}
 	public function selectList($ddname = 'user', $selected = -1, $notIn = []) {
 		global $db, $mtg;
 		$first = $selected == -1 ? 0 : 1;
@@ -133,13 +147,6 @@ class users {
 			$ret .= " <a href='hospital.php?ID=".$id."'><img src='img/silk/pill.png' title='Hospitalised' alt='Hospitalised' /></a>";
 		if($user['jail'])
 			$ret .= " <a href='jail.php?action=rescue&amp;ID=".$id."'><img src='img/silk/lock.png' title='Jailed' alt='Jailed' /></a>";
-		return $ret;
-	}
-	public function expRequired($format = true) {
-		global $db, $my, $mtg;
-		$ret = pow($my['level'], 3) * pow($my['level'] + 2, 2);
-		if($format)
-			$ret = $mtg->format($ret, 2);
 		return $ret;
 	}
 	public function giveItem($item, $user = null, $qty = 1) {
