@@ -5,6 +5,9 @@ if(!defined('MTG_ENABLE'))
 $links = array(
 	'index.php' => 'Game',
 	'staff' => 'Staff Index',
+	'staff/?pull=ranks' => 'Staff Rank Management',
+	'staff/?pull=ranks&amp;action=currentstaff' => 'Staff Management',
+	'staff/?pull=ranks&amp;action=set' => 'Set Player Staff Level',
 	'staff?action=settings' => 'Settings'
 );
 foreach($links as $url => $disp)
