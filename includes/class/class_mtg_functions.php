@@ -145,7 +145,14 @@ class mtg_functions {
 				$_SESSION['repo_commit_count_time'] = time();
 			} else
 				$count = $_SESSION['repo_commit_count'];
-			return $count == $set['engine_version'] ? '<span class="green">'.$set['engine_version'].'</span>' : '<span class="red">'.$count.'</span>';
+			if($count == $set['engine_version'])
+				return '<span class="green">'.$set['engine_version'].'</span>';
+			else if($count > $set['engine_version'])
+				return '<span class="red">'.$count.'</span>';
+			else if($count < $set['engine_version'])
+				return '<span class="blue">'.$count.'</span>';
+			else
+				return 'What?';
 		}
 	}
 	function _ip() {
