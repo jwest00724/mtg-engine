@@ -41,3 +41,20 @@ hr {
 .bold {
 	font-weight: 700;
 }
+.content-menu {
+	padding: 10px 0 10px 0;
+	font-size: 1.1em;
+	text-align: center;
+}
+.content-menu a {
+	padding: 10px 0 10px 0;
+	font-size: 1.1em;
+	color: #555
+}
+.pure-button-secondary {
+	color: white;
+	border-radius: 4px;
+	text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+	background: rgb(223, 117, 20);
+	font-size: .8em;
+}
