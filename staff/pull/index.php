@@ -11,6 +11,7 @@ switch($_GET['action']) {
 		break;
 }
 function index($db, $my, $mtg, $set, $users) {
+	?><h3 class="content-subhead">Welcome to the Staff Panel</h3><?php
 	if(array_key_exists('submit', $_POST)) {
 		$_POST['text'] = isset($_POST['text']) ? trim($_POST['text']) : null;
 		$db->query("UPDATE `game_settings` SET `value` = ? WHERE `name` = 'staff_notepad'");
@@ -60,7 +61,8 @@ function index($db, $my, $mtg, $set, $users) {
 			<textarea name="text" rows="10" cols="100%"><?php echo stripslashes($set['staff_notepad']);?></textarea>
 		</div>
 		<div class="pure-controls">
-			<input type="submit" name="submit" value="Update Staff Notepad" class="pure-button pure-button-primary" />
+			<button type="submit" name="submit" class="pure-button pure-button-primary">Update Staff Notepad</button>
+			<button type="reset" class="pure-button pure-button-secondary"><i class="fa fa-recycle"></i> Reset</button>
 		</div>
 	</form><?php
 }
@@ -81,47 +83,34 @@ function gameSettings($db, $my, $mtg, $set) {
 		$mtg->success("You've updated the game's settings");
 	}
 	?><form action="?action=settings" method="post" class="pure-form pure-form-aligned">
-		<table width="100%" class="pure-table pure-table-striped">
-			<tr>
-				<thead><th colspan="2">Basic Settings</th></thead>
-			</tr>
-			<tr>
-				<th width="25%">Name</th>
-				<td width="75%"><input type="text" name="game_name" value="<?php echo $mtg->format($set['game_name']);?>" /></td>
-			</tr>
-			<tr>
-				<th>Description</th>
-				<td><textarea name="game_description" rows="10" cols="40"><?php echo $mtg->format($set['game_description']);?></textarea></td>
-			</tr>
-			<tr>
-				<th>Game Owner's ID</th>
-				<td><input type="text" name="game_owner_id" value="<?php echo $mtg->format($set['game_owner_id']);?>" /></td>
-			</tr>
-			<tr>
-				<thead><th colspan="2">Registration</th></thead>
-			</tr>
-			<tr>
-				<th>Start Cash</th>
-				<td><input type="text" name="register_start_cash" value="<?php echo $mtg->format($set['register_start_cash']);?>" /></td>
-			</tr>
-			<tr>
-				<th>Promo Code</th>
-				<td><input type="text" name="register_promo_code" value="<?php echo $mtg->format($set['register_promo_code']);?>" /></td>
-			</tr>
-			<tr>
-				<th>Promo Cash</th>
-				<td><input type="text" name="register_promo_cash" value="<?php echo $mtg->format($set['register_promo_cash']);?>" /></td>
-			</tr>
-			<tr>
-				<thead><th colspan="2">Game Settings</th></thead>
-			</tr>
-			<tr>
-				<th>Currency Symbol</th>
-				<td><input type="text" name="main_currency_symbol" value="<?php echo htmlentities($mtg->format($set['main_currency_symbol']));?>" /></td>
-			</tr>
-			<tr>
-				<td colspan="2" class="center"><input type="submit" name="submit" value="Update Settings" class="pure-button pure-button-primary" /></td>
-			</tr>
-		</table>
+		<div class="pure-control-group">
+			<span class="pure-heading">Basic Settings</span>
+			<fielset class="pure-group">
+				<label for="name">Name</label>
+				<input type="text" name="game_name" value="<?php echo $mtg->format($set['game_name']);?>" />
+				<label for="owner">Game Owner's ID</label>
+				<input type="text" name="game_owner_id" value="<?php echo $mtg->format($set['game_owner_id']);?>" />
+				<label for="description">Description</label>
+				<textarea name="game_description" rows="10" cols="40"><?php echo $mtg->format($set['game_description']);?></textarea>
+			</fielset>
+			<fieldset class="pure-group">
+				<span class="pure-heading">Registration</span>
+				<label for="cash">Start Cash</label>
+				<input type="text" name="register_start_cash" value="<?php echo $mtg->format($set['register_start_cash']);?>" />
+				<label for="promo-code">Promotional Code</label>
+				<input type="text" name="register_promo_code" value="<?php echo $mtg->format($set['register_promo_code']);?>" />
+				<label for="promo-cash">Promo Cash</label>
+				<input type="text" name="register_promo_cash" value="<?php echo $mtg->format($set['register_promo_cash']);?>" />
+			</fieldset>
+			<fieldset class="pure-group">
+				<span class="pure-heading">Game Settings</span>
+				<label for="curreny-symbol">Currency Symbol</label>
+				<input type="text" name="main_currency_symbol" value="<?php echo htmlentities($mtg->format($set['main_currency_symbol']));?>" />
+			</fieldset>
+		</div>
+		<div class="pure-controls">
+			<button type="submit" name="submit" class="pure-button pure-button-primary">Update Settings</button>
+			<button type="reset" class="pure-button pure-button-secondary"><i class="fa fa-recycle"></i> Reset</button>
+		</div>
 	</form><?php
 }
