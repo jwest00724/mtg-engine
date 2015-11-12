@@ -63,6 +63,7 @@ require_once __DIR__ . '/includes/class/class_mtg_users.php';
 				</div>
 				<div class="pure-controls">
 					<button type="submit" name="submit" class="pure-button pure-button-primary">Sign Up</button>
+					<button type="reset" class="pure-button pure-button-secondary"><i class="fa fa-recycle"></i> Sign Up</button>
 				</div>
 			</fieldset>
 		</form><?php
