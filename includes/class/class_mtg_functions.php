@@ -57,7 +57,7 @@ class mtg_functions {
 		$names  = [
 			'long' => ['millenia', 'year', 'month', 'day', 'hour', 'minute', 'second'],
 			'short' => ['mil', 'yr', 'mnth', 'day', 'hr', 'min', 'sec']
-		);
+		];
 		$seconds  = floor($seconds);
 		$minutes  = intval($seconds / 60);
 		$seconds -= ($minutes * 60);
