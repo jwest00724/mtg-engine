@@ -56,8 +56,9 @@ class headers {
 						text-align:center;
 					}
 				</style>
-				<link rel="stylesheet" type='text/css' href="css/message.css" />
-				<link rel="stylesheet" type='text/css' href="css/style.css" />
+				<link rel="stylesheet" type="text/css" href="css/message.css" />
+				<link rel="stylesheet" type="text/css" href="css/style.css" />
+				<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" />
 			</head>
 		<body>
 			<div id="layout">
@@ -110,7 +111,7 @@ class headers {
 	function __destruct() {
 		if(!isset($mtg)) {
 			require_once __DIR__ . '/class/class_mtg_functions.php';
-			$mtg = mtg_functions::getInstance();
+			$mtg = MTG\mtg_functions::getInstance();
 		}
 		$year = date('Y');
 		?>			</div>
