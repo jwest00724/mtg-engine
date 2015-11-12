@@ -18,8 +18,8 @@ foreach($rows as $row)
 error_reporting(E_ALL);
 require_once __DIR__ . '/class/class_mtg_functions.php';
 if(!isset($mtg))
-	$mtg = new mtg_functions;
+	$mtg = MTG\mtg_functions::getInstance();
 if(!defined('NO_HEAD')) {
 	require_once __DIR__ . '/header_out.php';
-	$h = headers::getInstance($set);
+	$h = MTG\headers::getInstance($set);
 }
