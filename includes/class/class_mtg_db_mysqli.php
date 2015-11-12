@@ -206,8 +206,4 @@ class database {
 	}
 }
 $db = database::getInstance();
-$db->query('SELECT `ip` FROM `ipBans` WHERE `ip` = ?');
-$db->execute([$_SERVER['REMOTE_ADDR']]);
-if($db->num_rows())
-	exit;
 $_SERVER['PHP_SELF'] = str_replace('/mtg-engine', '', $_SERVER['PHP_SELF']); // Temporary, for dev purposes
