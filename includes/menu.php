@@ -13,8 +13,7 @@ $links = [
 	'tasks.php' => 'Tasks',
 	'gym.php' => 'Gym',
 	'markets.php' => 'Markets',
-	'list.php?action=players' => 'Player List',
-	'list.php?action=online' => 'Online List',
+	'list.php' => 'Lists',
 	'divider2' => 'Account',
 	'settings.php' => 'Settings',
 	'?action=logout' => 'Logout'
