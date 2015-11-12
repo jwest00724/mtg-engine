@@ -1,5 +1,23 @@
 <?php
 namespace MTG;
+/*DON'T BE A DICK PUBLIC LICENSE
+
+Everyone is permitted to copy and distribute verbatim or modified copies of this license document, and changing it is allowed as long as the name is changed.
+
+    DON'T BE A DICK PUBLIC LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
+
+    Do whatever you like with the original work, just don't be a dick.
+
+    Being a dick includes - but is not limited to - the following instances:
+
+    1a. Outright copyright infringement - Don't just copy this and change the name.
+    1b. Selling the unmodified original with no work done what-so-ever, that's REALLY being a dick.
+    1c. Modifying the original work to contain hidden harmful content. That would make you a PROPER dick.
+
+    If you become rich through modifications, related works/services, or supporting the original work, share the love. Only a dick would make loads off this work and not buy the original works creator(s) a pint.
+
+    Code is provided with no warranty. Using somebody else's code and bitching when it goes wrong makes you a DONKEY dick. Fix the problem yourself. A non-dick would submit the fix back.
+*/
 if(!defined('MTG_ENABLE'))
 	exit;
 class users {
@@ -37,16 +55,16 @@ class users {
 			$math = $mtg->format($math, $dec).'%';
 		return $math;
 	}
-	public function selectList($ddname = 'user', $selected = -1, $notIn = []) {
+	public function selectList($ddname = 'user', $selected = null, $notIn = []) {
 		global $db, $mtg;
-		$first = $selected == -1 ? 0 : 1;
-		$ret = '<select name="'.$ddname.'"><option value="0"'.($selected == -1 ? ' selected="selected"' : '').'>--- Select ---</option>';
+		$first = $selected == null ? 0 : 1;
+		$ret = '<select name="'.$ddname.'"><option value="0"'.($selected == null ? ' selected="selected"' : '').'>--- Select ---</option>';
 		$first = 1;
 		$extra = '';
 		if(count($notIn))
 			$extra .= ' WHERE `id` NOT IN('.implode(',', $notIn).') ';
-		$db->query('SELECT `id`, `username` FROM `users` ? ORDER BY `username` ASC');
-		$db->execute([$extra]);
+		$db->query('SELECT `id`, `username` FROM `users` '.$extra.' ORDER BY `username` ASC');
+		$db->execute();
 		$rows = $db->fetch_row();
 		foreach($rows as $row) {
 			$ret .= "\n".'<option value="'.$row['id'].'"';
@@ -150,18 +168,6 @@ class users {
 			$ret .= ' <a href="jail.php?action=rescue&amp;ID='.$id.'"><img src="images/silk/lock.png" title="Jailed" alt="Jailed" /></a>';
 		return $ret;
 	}
-	public function giveItem($item, $user = null, $qty = 1) {
-		global $db, $my;
-		if(!$user)
-			$user = $my['id'];
-		$db->query('SELECT `id` FROM `inventory` WHERE `item` = ? AND `user` = ?');
-		$db->execute([$item, $user]);
-		if(!$db->fetch_single())
-			$db->query('INSERT INTO `inventory` (`qty`, `item`, `user`) VALUES (?, ?, ?)');
-		else
-			$db->query('UPDATE `inventory` SET `qty` = `qty` + ? WHERE `item` = ? AND `user` = ?');
-		$db->execute([$qty, $item, $user]);
-	}
 	public function updateStatus($status) {
 		global $db, $my;
 		// $status = str_replace('their', ($my['gender'] == 'Male' ? 'his' : 'her'), $status); // A little personalisation
@@ -214,6 +220,76 @@ class users {
 			$ret .= "\n".sprintf('<option value="%u"%s>%s</option>', $row['id'], $row['id'] == $selected ? ' selected="selected"' : null, $mtg->format($row['username']));
 		$ret .= '</select>';
 		return $ret;
+	}
+	public function listInventory($id, $ddname = 'item', $selected = null, $notIn = []) {
+		global $db, $mtg;
+		if(!ctype_digit($id))
+			return false;
+		$first = $selected == null ? 0 : 1;
+		$ret = '<select name="'.$ddname.'"><option value="0"'.($selected == null ? ' selected="selected"' : '').'>--- Select ---</option>';
+		$first = 1;
+		$extra = '';
+		if(count($notIn))
+			$extra .= ' AND `id` NOT IN('.implode(',', $notIn).') ';
+		$db->query('SELECT `item`, `qty`, `items`.`id`, `items`.`name` FROM `inventory`
+			LEFT JOIN `items` ON `inventory`.`item` = `items`.`id`
+			WHERE `user` = ?'.$extra.'ORDER BY `name` ASC');
+		$db->execute([$id]);
+		$rows = $db->fetch_row();
+		foreach($rows as $row) {
+			$ret .= "\n".'<option value="'.$row['id'].'"';
+			if($selected == $row['id'] || !$first || isset($_POST[$ddname]) && $_POST[$ddname] == $row['id']) {
+				$ret .= ' selected="selected"';
+				$first = 1;
+			}
+			$ret .= '>'.$mtg->format($row['name']).' [x'.$mtg->format($row['qty']).']</option>';
+		}
+		$ret .= "\n".'</select>';
+		return $ret;
+	}
+	public function checkInventory($user, $item, $qty = 1) {
+		global $db;
+		if(!ctype_digit($user) || !ctype_digit($item) || !ctype_digit($qty))
+			return false;
+		//Check user first
+		$db->query('SELECT `id` FROM `users` WHERE `id` = ?');
+		$db->execute([$user]);
+		if(!$db->num_rows())
+			return false;
+		//Check item second
+		$db->query('SELECT `id` FROM `items` WHERE `id` = ?');
+		$db->execute([$item]);
+		if(!$db->num_rows())
+			return false;
+		//Finally, check user's inventory
+		$db->query('SELECT `id` FROM `inventory` WHERE `user` = ? AND `item` = ? AND `qty` >= ?');
+		$db->execute([$user, $item, $qty]);
+		return $db->num_rows() ? true : false;
+	}
+	public function giveItem($item, $user = null, $qty = 1) {
+		global $db, $my;
+		if(!$user)
+			$user = $my['id'];
+		$db->query('SELECT `id` FROM `inventory` WHERE `item` = ? AND `user` = ?');
+		$db->execute([$item, $user]);
+		if(!$db->fetch_single())
+			$db->query('INSERT INTO `inventory` (`qty`, `item`, `user`) VALUES (?, ?, ?)');
+		else
+			$db->query('UPDATE `inventory` SET `qty` = `qty` + ? WHERE `item` = ? AND `user` = ?');
+		$db->execute([$qty, $item, $user]);
+	}
+	public function takeItem($user, $item, $qty = 1) {
+		global $db;
+		$db->query('SELECT `id`, `qty` FROM `inventory` WHERE `item` = ? AND `user` = ?');
+		$db->execute([$item, $user]);
+		$row = $db->fetch_row(true);
+		if($qty >= $row['qty']) {
+			$db->query('DELETE FROM `inventory` WHERE `id` = ?');
+			$db->execute([$row['id']]);
+		} else {
+			$db->query('UPDATE `inventory` SET `qty` = `qty` - ? WHERE `id` = ?');
+			$db->execute([$qty, $row['id']]);
+		}
 	}
 }
 $users = users::getInstance();
