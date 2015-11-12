@@ -4,6 +4,10 @@ define('HEADER_TEXT', 'Lists');
 require_once __DIR__ . '/includes/globals.php';
 require_once __DIR__ . '/includes/class/class_mtg_paginate.php';
 $pages = new Paginator();
+?><div class="content-menu">
+	<a href="list.php?action=players"<?php echo $_GET['action'] == 'players' ? ' class="bold"' : '';?>>List of All Players</a> &middot;
+	<a href="list.php?action=online"<?php echo $_GET['action'] == 'online' ? ' class="bold"' : '';?>>List of Players Online</a>
+</div><?php
 switch($_GET['action']) {
 	case 'players':
 		$db->query('SELECT COUNT(`id`) FROM `users`');
