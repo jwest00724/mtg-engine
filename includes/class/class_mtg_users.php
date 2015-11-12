@@ -55,10 +55,10 @@ class users {
 			$math = $mtg->format($math, $dec).'%';
 		return $math;
 	}
-	public function selectList($ddname = 'user', $selected = null, $notIn = []) {
+	public function listPlayers($ddname = 'user', $selected = null, $notIn = [], $pure = '') {
 		global $db, $mtg;
 		$first = $selected == null ? 0 : 1;
-		$ret = '<select name="'.$ddname.'"><option value="0"'.($selected == null ? ' selected="selected"' : '').'>--- Select ---</option>';
+		$ret = '<select name="'.$ddname.'"'.($pure ? ' class="'.$pure.'"' : '').'><option value="0"'.($selected == null ? ' selected="selected"' : '').'>--- Select ---</option>';
 		$first = 1;
 		$extra = '';
 		if(count($notIn))
@@ -210,17 +210,6 @@ class users {
 		}
 		return $mtg->error('You\'ve been banned from the '.$system.'.<br />Your ban was enforced by '.$users->name($ban['enforcer']).' on '.date('l jS \of F Y h:i:sA', $ban['time_enforced']).' and is due to expire '.date('l jS \of F Y h:i:sA', $ban['time_expires']));
 	}
-	public function listSelect($ddname = 'user', $selected = 0) {
-		global $db, $mtg;
-		$ret = '<select name="'.$ddname.'">';
-		$db->query('SELECT `id`, `username` FROM `users` ORDER BY `username` ASC');
-		$db->execute();
-		$rows = $db->fetch_row();
-		foreach($rows as $row)
-			$ret .= "\n".sprintf('<option value="%u"%s>%s</option>', $row['id'], $row['id'] == $selected ? ' selected="selected"' : null, $mtg->format($row['username']));
-		$ret .= '</select>';
-		return $ret;
-	}
 	public function listInventory($id, $ddname = 'item', $selected = null, $notIn = []) {
 		global $db, $mtg;
 		if(!ctype_digit($id))
@@ -290,6 +279,22 @@ class users {
 			$db->query('UPDATE `inventory` SET `qty` = `qty` - ? WHERE `id` = ?');
 			$db->execute([$qty, $row['id']]);
 		}
+	}
+	public function online($id = 0, $showAsIcon = true, $coloured = true) {
+		global $db, $my;
+		$onlineNoIcon = $coloured == true ? '<span class="green">Online</span>' : 'Online';
+		$offlineNoIcon = $coloured == true ? '<span class="red">Offline</span>' : 'Offline';
+		$onlineIcon = $showAsIcon == true ? '<img src="images/silk/user_green.png" title="Online" alt="Online" />' : $onlineNoIcon;
+		$offlineIcon = $showAsIcon == true ? '<img src="images/silk/user_grey.png" title="Offline" alt="Offline" />' : $offlineNoIcon;
+		if(!$id)
+			$id = $my['id'];
+		if($id == $my['id'])
+			return $onlineIcon;
+		$db->query('SELECT `last_seen` FROM `users` WHERE `id` = ?');
+		$db->execute([$id]);
+		if(!$db->num_rows())
+			return $offlineIcon;
+		return $db->fetch_single() >= time() - 900 ? $onlineIcon : $offlineIcon;
 	}
 }
 $users = users::getInstance();
