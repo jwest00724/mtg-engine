@@ -21,22 +21,22 @@ $links = [
 ];
 foreach($links as $url => $disp) {
 	if(preg_match('/\[msg_count\]/', $disp)) {
-		$db->query("SELECT COUNT(`id`) FROM `users_messages` WHERE `read` = 0 AND `receiver` = ?");
+		$db->query('SELECT COUNT(`id`) FROM `users_messages` WHERE `read` = 0 AND `receiver` = ?');
 		$db->execute([$my['id']]);
 		$disp = str_replace('[msg_count]', '['.$mtg->format($db->fetch_single()).']', $disp);
 	}
 	if(preg_match('/\[ev_count\]/', $disp)) {
-		$db->query("SELECT COUNT(`id`) FROM `users_events` WHERE `read` = 0 AND `user` = ?");
+		$db->query('SELECT COUNT(`id`) FROM `users_events` WHERE `read` = 0 AND `user` = ?');
 		$db->execute([$my['id']]);
 		$disp = str_replace('[ev_count]', '['.$mtg->format($db->fetch_single()).']', $disp);
 	}
 	if(preg_match('/\[hosp_count\]/', $disp)) {
-		$db->query("SELECT COUNT(`id`) FROM `users` WHERE `hospital` > ?");
+		$db->query('SELECT COUNT(`id`) FROM `users` WHERE `hospital` > ?');
 		$db->execute([time()]);
 		$disp = str_replace('[hosp_count]', '['.$mtg->format($db->fetch_single()).']', $disp);
 	}
 	if(preg_match('/\[jail_count\]/', $disp)) {
-		$db->query("SELECT COUNT(`id`) FROM `users` WHERE `jail` > ?");
+		$db->query('SELECT COUNT(`id`) FROM `users` WHERE `jail` > ?');
 		$db->execute([time()]);
 		$disp = str_replace('[jail_count]', '['.$mtg->format($db->fetch_single()).']', $disp);
 	}

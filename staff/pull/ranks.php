@@ -56,13 +56,13 @@ switch($_GET['action']) {
 function listRanks($db, $mtg) {
 	global $fields;
 	?><h4><a href="staff/?pull=ranks&amp;action=add">Add Rank</a></h4>
-	<table class="table" width="100%">
+	<table class="pure-table" width="100%">
 		<tr>
 			<th width="40%">Rank</th>
 			<th width="20%">Order</th>
 			<th width="40%">Actions</th>
 		</tr><?php
-		$db->query("SELECT `rank_id`, `rank_name`, `rank_desc`, `rank_colour`, `rank_order` FROM `staff_ranks` ORDER BY `rank_order` ASC");
+		$db->query('SELECT `rank_id`, `rank_name`, `rank_desc`, `rank_colour`, `rank_order` FROM `staff_ranks` ORDER BY `rank_order` ASC');
 		$db->execute();
 		if(!$db->num_rows())
 			echo '<tr><td colspan="3" class="center">There are no staff ranks</td></tr>';
@@ -82,7 +82,6 @@ function listRanks($db, $mtg) {
 		}
 	?></table><?php
 }
-
 function addRank($db, $mtg, $logs) {
 	global $fields;
 	if(!array_key_exists('submit', $_POST)) {
@@ -123,12 +122,12 @@ function addRank($db, $mtg, $logs) {
 		unset($_POST['submit']);
 		$_POST['rank_name'] = isset($_POST['rank_name']) ? $db->escape($_POST['rank_name']) : null;
 		if(empty($_POST['rank_name']))
-			$mtg->error("You didn't select a valid name");
+			$mtg->error('You didn\'t select a valid name');
 		$_POST['rank_colour'] = isset($_POST['rank_colour']) && ctype_alnum($_POST['rank_colour']) ? trim($_POST['rank_colour']) : null;
 		$db->query('SELECT `rank_id` FROM `staff_ranks` WHERE `rank_name` = ?');
 		$db->execute([$_POST['rank_name']]);
 		if($db->num_rows())
-			$mtg->error("A rank with that name already exists");
+			$mtg->error('A rank with that name already exists');
 		$db->query('SELECT `rank_order` FROM `staff_ranks` ORDER BY `rank_order` DESC LIMIT 1');
 		$db->execute();
 		$order = !$_POST['rank_order'] || !ctype_digit($_POST['rank_order']) ? ($db->num_rows() ? $db->fetch_single() + 1 : 1 ) : $_POST['rank_order'];
@@ -161,7 +160,7 @@ function editRank($db, $mtg, $logs) {
 			$db->query('SELECT `rank_name`, `rank_desc`, `rank_colour`, `rank_order`, `override_all` FROM `staff_ranks` WHERE `rank_id` = ?');
 			$db->execute([$_GET['ID']]);
 			if(!$db->num_rows())
-				$mtg->error("That rank doesn't exist");
+				$mtg->error('That rank doesn\'t exist');
 			$row = $db->fetch_row(true);
 			?><form action="staff/?pull=ranks&amp;action=edit&amp;ID=<?php echo $_GET['ID'];?>&amp;step=1" method="post">
 				<table class="table" width="100%">
@@ -228,7 +227,7 @@ function editRank($db, $mtg, $logs) {
 }
 function deleteRank($db, $mtg, $logs) {
 	if(empty($_GET['ID']))
-		$mtg->error("You didn't specify a valid rank");
+		$mtg->error('You didn\'t specify a valid rank');
 	$db->query('SELECT `rank_name` FROM `staff_ranks` WHERE `rank_id` = ?');
 	$db->execute([$_GET['ID']]);
 	if(!$db->num_rows())
@@ -334,12 +333,12 @@ function setStaffRank($db, $mtg, $logs) {
 		$_POST['user1'] = isset($_POST['user1']) && ctype_digit($_POST['user1']) ? $_POST['user1'] : null;
 		$_POST['user2'] = isset($_POST['user2']) && ctype_digit($_POST['user2']) ? $_POST['user2'] : null;
 		if(empty($_POST['user1']) && empty($_POST['user2']))
-			$mtg->error("You didn't select a valid player");
+			$mtg->error('You didn\'t select a valid player');
 		if(!empty($_POST['user1']) && !empty($_POST['user2']))
-			$mtg->error("Select one option only");
+			$mtg->error('Select one option only');
 		$_POST['user'] = empty($_POST['user2']) ? $_POST['user1'] : $_POST['user2'];
 		if(in_array($_POST['user'], [1, 2]))
-			$mtg->error("Owner ranks can't be changed");
+			$mtg->error('Owner ranks can\'t be changed');
 		$db->query('SELECT `id` FROM `users` WHERE `userid` = ?');
 		$db->execute([$_POST['user']]);
 		if(!$db->num_rows())
@@ -367,12 +366,12 @@ function manageStaff($db, $mtg, $logs) {
 		$db->query('SELECT `staff_rank` FROM `users` WHERE `id` = ?');
 		$db->execute([$_GET['destaff']]);
 		if(!$db->num_rows())
-			$mtg->error("That player doesn't exist");
+			$mtg->error('That player doesn\'t exist');
 		$target = $mtg->username($_GET['destaff']);
 		if(!$db->fetch_single())
 			$mtg->error($target.' isn\'t a member of staff');
 		if($db->fetch_single() == 1)
-			$mtg->error($target." can't be re-ranked");
+			$mtg->error($target.' can\'t be re-ranked');
 		$db->query('UPDATE `users` SET `staff_rank` = 0 WHERE `id` = ?');
 		$db->execute([$_GET['destaff']]);
 		$logs->staff('Destaffed '.$target);

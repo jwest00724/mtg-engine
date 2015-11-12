@@ -1,7 +1,7 @@
 <?php
 define('NO_HEAD', true);
-require_once(__DIR__ . '/includes/globals_out.php');
-require_once(__DIR__ . '/includes/class/class_mtg_users.php');
+require_once __DIR__ . '/includes/globals_out.php';
+require_once __DIR__ . '/includes/class/class_mtg_users.php';
 $_POST['username'] = isset($_POST['username']) ? trim($_POST['username']) : null;
 $_POST['password'] = isset($_POST['password']) ? trim($_POST['password']) : null;
 if(empty($_POST['username'])) {

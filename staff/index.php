@@ -9,4 +9,4 @@ $path = __DIR__ . '/pull/'.$file;
 if(file_exists($path))
 	require_once $path;
 else
-	$mtg->error("Invalid pull request".($users->hasAccess('override_all') ? ' - '.$path : ''));
+	$mtg->error('Invalid pull request'.($users->hasAccess('override_all') ? ' - '.$path : ''));

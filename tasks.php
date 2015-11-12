@@ -7,7 +7,7 @@ if(array_key_exists('id', $_GET)) {
 		$_GET['code'] = isset($_GET['code']) && ctype_alnum($_GET['code']) ? $_GET['code'] : null;
 		if(!empty($_GET['code'])) {
 			if($_GET['code'] == $_SESSION['code']) {
-				$db->query("SELECT `name`, `formula`, `text_start`, `text_success`, `text_failure`, `text_hospital`, `text_jail`, `time_hospital`, `time_jail`, `text_reason_hospital`, `text_reason_jail`, `courses_required`, `groupID` FROM `tasks` WHERE `id` = ?");
+				$db->query('SELECT `name`, `formula`, `text_start`, `text_success`, `text_failure`, `text_hospital`, `text_jail`, `time_hospital`, `time_jail`, `text_reason_hospital`, `text_reason_jail`, `courses_required`, `groupID` FROM `tasks` WHERE `id` = ?');
 				$db->execute([$_GET['id']]);
 				if($db->num_rows()) {
 					$task = $db->fetch_row(true);
@@ -74,7 +74,7 @@ if(array_key_exists('id', $_GET)) {
 	} else
 		$mtg->error('You didn\'t select a valid task', false);
 }
-$db->query("SELECT `id`, `name` FROM `tasks_groups` WHERE `enabled` = 1 ORDER BY `ordering` ASC");
+$db->query('SELECT `id`, `name` FROM `tasks_groups` WHERE `enabled` = 1 ORDER BY `ordering` ASC');
 $db->execute();
 if(!$db->num_rows())
 	$mtg->info('There are currently no tasks available', true);
@@ -84,7 +84,7 @@ foreach($groups as $group) {
 	?><tr>
 		<th colspan="3" class="center"><?php echo $mtg->format($group['name']);?></th>
 	</tr><?php
-	$db->query("SELECT `id`, `name`, `nerve`, `courses_required` FROM `tasks` WHERE `groupID` = ? ORDER BY `nerve` ASC");
+	$db->query('SELECT `id`, `name`, `nerve`, `courses_required` FROM `tasks` WHERE `groupID` = ? ORDER BY `nerve` ASC');
 	$db->execute([$group['id']]);
 	if(!$db->num_rows())
 		echo '<tr><td colspan="3" class="center">There are no '.$mtg->format($group['name']).' tasks available</td></tr>';
@@ -100,7 +100,7 @@ foreach($groups as $group) {
 				$courses = $db->fetch_row();
 				foreach($courses as $course) {
 					$coursesInfo .= '<br /><span class="small';
-					$db->query("SELECT `id` FROM `courses_complete` WHERE `course` = ? AND `user` = ?");
+					$db->query('SELECT `id` FROM `courses_complete` WHERE `course` = ? AND `user` = ?');
 					$db->execute([$course['id'], $my['id']]);
 					$coursesInfo .= ' '.($db->num_rows() ? 'green' : 'red').'">'.$mtg->format($course['name']).'</span>';
 				}

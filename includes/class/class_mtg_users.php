@@ -19,7 +19,7 @@ class users {
 			return false;
 		if(date('d/m') == '14/02')
 			$amnt *= 6;
-		$db->query("UPDATE `users` SET `exp` = `exp` + ? WHERE `id` = ?");
+		$db->query('UPDATE `users` SET `exp` = `exp` + ? WHERE `id` = ?');
 		$db->execute([$amnt, $user]);
 		return true;
 	}
@@ -40,47 +40,48 @@ class users {
 	public function selectList($ddname = 'user', $selected = -1, $notIn = []) {
 		global $db, $mtg;
 		$first = $selected == -1 ? 0 : 1;
-		$ret = "<select name='".$ddname."'><option value='0'".($selected == -1 ? " selected='selected'" : '').">--- Select ---</option>";
+		$ret = '<select name="'.$ddname.'"><option value="0"'.($selected == -1 ? ' selected="selected"' : '').'>--- Select ---</option>';
 		$first = 1;
 		$extra = '';
 		if(count($notIn))
-			$extra .= " WHERE `id` NOT IN(".implode(',', $notIn).") ";
-		$db->query("SELECT `id`, `username` FROM `users` ? ORDER BY `username` ASC");
+			$extra .= ' WHERE `id` NOT IN('.implode(',', $notIn).') ';
+		$db->query('SELECT `id`, `username` FROM `users` ? ORDER BY `username` ASC');
 		$db->execute([$extra]);
 		$rows = $db->fetch_row();
 		foreach($rows as $row) {
-			$ret .= "\n<option value='".$row['id']."'";
+			$ret .= "\n".'<option value="'.$row['id'].'"';
 			if($selected == $row['id'] || !$first || isset($_POST[$ddname]) && $_POST[$ddname] == $row['id']) {
-				$ret .= " selected='selected'";
+				$ret .= ' selected="selected"';
 				$first = 1;
 			}
-			$ret .= ">".$mtg->format($row['username'])." [".$mtg->format($row['id'])."]</option>";
+			$ret .= '>'.$mtg->format($row['username']).' ['.$mtg->format($row['id']).']</option>';
 		}
-		$ret .= "\n</select>";
+		$ret .= "\n".'</select>';
 		return $ret;
 	}
 	public function exists($id = 0) {
 		global $db;
 		if(!$id)
 			return false;
-		$db->query("SELECT `id` FROM `users` WHERE `id` = ?");
+		$db->query('SELECT `id` FROM `users` WHERE `id` = ?');
 		$db->execute([$id]);
 		return $db->num_rows() ? true : false;
 	}
 	public function hasAccess($what, $id = 0) {
 		global $db, $my;
-		if(!array_key_exists('userid', $_SESSION) || !isset($_SESSION['userid']) || empty($_SESSION['userid'])) // Redundancy check, should never be needed, added as a safeguard
+		// Redundancy check, should never be needed, added as a safeguard
+		if(!array_key_exists('userid', $_SESSION) || !isset($_SESSION['userid']) || empty($_SESSION['userid']))
 			return false;
 		if(!$id)
 			$id = $my['id'];
 		if($id == $my['id'] && !$my['staff_rank'])
 			return false;
-		$db->query("SELECT `staff_rank` FROM `users` WHERE `id` = ?");
+		$db->query('SELECT `staff_rank` FROM `users` WHERE `id` = ?');
 		$db->execute([$id]);
 		$rank = $db->fetch_single();
 		if(!$rank)
 			return false;
-		$db->query("SELECT `".$what."`, `override_all` FROM `staff_ranks` WHERE `rank_id` = ?");
+		$db->query('SELECT `'.$what.'`, `override_all` FROM `staff_ranks` WHERE `rank_id` = ?');
 		$db->execute([$rank]);
 		if(!$db->num_rows())
 			return false;
@@ -91,24 +92,24 @@ class users {
 			return false;
 		return true;
 	}
-	public function send_event($id, $type = 'Uncategorized', $event) {
+	public function send_event($id, $type = 'Uncategorized', $event, $extra = 0) {
 		global $db;
 		if(!$this->exists($id))
 			return false;
-		$db->query("INSERT INTO `users_events` (`user`, `type`, `event`) VALUES (?, ?, ?)");
-		$db->execute([$id, $type, $event]);
+		$db->query('INSERT INTO `users_events` (`user`, `type`, `event`, `extra`) VALUES (?, ?, ?, ?)');
+		$db->execute([$id, $type, $event, $extra]);
 	}
 	public function send_message($to, $from, $subject = 'No subject', $message) {
 		global $db;
 		if(!$this->exists($to))
 			return false;
-		$db->query("INSERT INTO `users_messages` (`sender`, `receiver`, `subject`, `message`) VALUES (?, ?, ?, ?)");
+		$db->query('INSERT INTO `users_messages` (`sender`, `receiver`, `subject`, `message`) VALUES (?, ?, ?, ?)');
 		$db->execute([$from, $to, $subject, $message]);
 	}
 	public function jhCheck() {
 		global $my, $mtg;
 		if($my['jail'] || $my['hospital'])
-			$mtg->error("You're still in ".($my['jail'] ? 'jail' : 'hospital'));
+			$mtg->error('You\'re still in '.($my['jail'] ? 'jail' : 'hospital'));
 	}
 	public function hashPass($pass) {
 		return crypt($pass, '$6$rounds=5000$haewrFEegfw4h3w5qatnjqw35xcHq$');
@@ -116,11 +117,11 @@ class users {
 	public function name($id, $showID = false, $format = true) {
 		global $db, $my, $mtg;
 		if(!$id)
-			return "<span style='color:#555;font-style:italic;'>System</span>";
-		$db->query("SELECT `username`, `staff_rank`, `hospital`, `jail` FROM `users` WHERE `id` = ?");
+			return '<span style="color:#555;font-style:italic;">System</span>';
+		$db->query('SELECT `username`, `staff_rank`, `hospital`, `jail` FROM `users` WHERE `id` = ?');
 		$db->execute([$id]);
 		if(!$db->num_rows())
-			return "<span style='color:#555;font-style:italic;'>System</span>";
+			return '<span style="color:#555;font-style:italic;">System</span>';
 		$user = $db->fetch_row(true);
 		if(!$format) {
 			$noformat = $mtg->format($user['username']);
@@ -131,22 +132,22 @@ class users {
 		$ret = '';
 		$user['username'] = $mtg->format($user['username']);
 		if($user['staff_rank']) {
-			$db->query("SELECT `rank_name`, `rank_colour` FROM `staff_ranks` WHERE `rank_id` = ?");
+			$db->query('SELECT `rank_name`, `rank_colour` FROM `staff_ranks` WHERE `rank_id` = ?');
 			$db->execute([$user['staff_rank']]);
 			if(!$db->num_rows())
-				$ret .= "<a href='profile.php?player=".$id."'>".$user['username']."</a>";
+				$ret .= '<a href="profile.php?player='.$id.'">'.$user['username'].'</a>';
 			else {
 				$rank = $db->fetch_row(true);
-				$ret .= "<a href='profile.php?player=".$id."' title='".$mtg->format($rank['rank_name'])."'><span style='color:#".$rank['rank_colour'].";'>".$user['username']."</span></a>";
+				$ret .= '<a href="profile.php?player='.$id.'" title="'.$mtg->format($rank['rank_name']).'"><span style="color:#'.$rank['rank_colour'].';">'.$user['username'].'</span></a>';
 			}
 		} else
-			$ret .= "<a href='profile.php?player=".$id."'>".$user['username']."</a>";
+			$ret .= '<a href="profile.php?player='.$id.'">'.$user['username'].'</a>';
 		if($showID)
-			$ret .= " [".$mtg->format($id)."]";
+			$ret .= ' ['.$mtg->format($id).']';
 		if($user['hospital'])
-			$ret .= " <a href='hospital.php?ID=".$id."'><img src='img/silk/pill.png' title='Hospitalised' alt='Hospitalised' /></a>";
+			$ret .= ' <a href="hospital.php?ID='.$id.'"><img src="images/silk/pill.png" title="Hospitalised" alt="Hospitalised" /></a>';
 		if($user['jail'])
-			$ret .= " <a href='jail.php?action=rescue&amp;ID=".$id."'><img src='img/silk/lock.png' title='Jailed' alt='Jailed' /></a>";
+			$ret .= ' <a href="jail.php?action=rescue&amp;ID='.$id.'"><img src="images/silk/lock.png" title="Jailed" alt="Jailed" /></a>';
 		return $ret;
 	}
 	public function giveItem($item, $user = null, $qty = 1) {
@@ -173,14 +174,11 @@ class users {
 		global $db, $my;
 		if($user == $my['userid'])
 			return stripslashes($my['status']);
-		$db->query("SELECT `status`, `staff_rank`, `user_level`, `fedjail` FROM `users` WHERE `userid` = ".$user);
-		if(!$db->num_rows($select))
+		$db->query('SELECT `status`, `staff_rank` FROM `users` WHERE `userid` = ?');
+		$db->execute([$user]);
+		if(!$db->num_rows())
 			return 'Being non-existant!';
-		$get = $db->fetch_row($select);
-		if(!$get['user_level'])
-			return 'Getting beaten up';
-		if($get['fedjail'])
-			return 'Rotting away';
+		$get = $db->fetch_row(true);
 		$status = stripslashes($get['status']);
 		if(!$status)
 			return 'Unknown';
@@ -192,7 +190,7 @@ class users {
 		global $db, $my, $mtg;
 		if(!$id)
 			$id = $my['id'];
-		$db->query('SELECT `time_enforced`, `time_expires`, `enforcer` WHERE `user` = ? AND `ban_type` = ?');
+		$db->query('SELECT `time_enforced`, `time_expires`, `enforcer` FROM `users_bans` WHERE `user` = ? AND `ban_type` = ?');
 		$db->execute([$my['id'], $id]);
 		if(!$db->num_rows())
 			return false;

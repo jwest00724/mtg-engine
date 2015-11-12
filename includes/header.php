@@ -29,7 +29,7 @@ class headers {
 		return self::$inst;
 	}
 	function __construct($db, $set, $my, $mtg, $users) {
-		$db->query("UPDATE `users` SET `last_seen` = current_timestamp WHERE `id` = ?");
+		$db->query('UPDATE `users` SET `last_seen` = current_timestamp WHERE `id` = ?');
 		$db->execute([$my['id']]);
 		header("Content-type: text/html;charset=UTF-8");
 		?><!DOCTYPE html>
@@ -100,12 +100,12 @@ class headers {
 								'type' => 'success',
 								'content' => 'You\'ve logged out. Come back soon!'
 							];
-							exit(header("Location: index.php"));
+							exit(header('Location: index.php'));
 						}
 						if($my['hospital'])
-							echo "<strong>Nurse:</strong> You're currently in hospital for ".$mtg->time_format($my['hospital'] * 60).".<br />";
+							echo '<strong>Nurse:</strong> You\'re currently in hospital for '.$mtg->time_format($my['hospital'] * 60).'.<br />';
 						if($my['jail'])
-							echo "<strong>Officer:</strong> You're currently in jail for ".$mtg->time_format($my['jail'] * 60).".<br />";
+							echo '<strong>Officer:</strong> You\'re currently in jail for '.$mtg->time_format($my['jail'] * 60).'.<br />';
 	}
 	function __destruct() {
 		if(!isset($mtg)) {

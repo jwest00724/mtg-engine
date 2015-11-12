@@ -49,7 +49,7 @@ class database {
 		try{
 			$this->db = new PDO($dsn, $this->user, $this->pass, $options);
 		} catch(PDOException $e){
-			exit('<p><strong>CONSTRUCT ERROR</strong></p>'.$e->getMessage());
+			exit('<p class="red"><strong>CONSTRUCT ERROR</strong></p>'.$e->getMessage());
 		}
 	}
 
@@ -65,7 +65,7 @@ class database {
 		try {
 			$this->stmt = $this->db->prepare($query);
 		} catch(PDOException $e) {
-			exit('<p><strong>QUERY ERROR</strong></p>'.$e->getMessage());
+			exit('<p class="red"><strong>QUERY ERROR</strong></p>'.$e->getMessage());
 		}
 	}
 	public function bind($param, $value, $type = null) {
@@ -87,7 +87,7 @@ class database {
 		try {
 			$this->stmt->bindValue($param, $value, $type);
 		} catch(PDOException $e) {
-			exit('<p><strong>BIND ERROR</strong></p>'.$e->getMessage());
+			exit('<p class="red"><strong>BIND ERROR</strong></p>'.$e->getMessage());
 		}
 	}
 	public function execute(array $binds = null) {
@@ -99,9 +99,9 @@ class database {
 			else
 				return $this->stmt->execute();
 		} catch(PDOException $e) {
-			echo "<p><strong>EXECUTION ERROR</strong></p>".$e->getMessage()."<p><pre>";
+			echo '<p class="red"><strong>EXECUTION ERROR</strong></p>'.$e->getMessage().'<p><pre>';
 			var_dump($this->stmt->debugDumpParams());
-			echo "</pre></p>";
+			echo '</pre></p>';
 			exit;
 		}
 	}
@@ -115,7 +115,7 @@ class database {
 				$ret = array_shift($ret);
 			return $ret;
 		} catch(PDOException $e) {
-			exit('<p><strong>FETCH ROW ERROR</strong></p>'.$e->getMessage());
+			exit('<p class="red"><strong>FETCH ROW ERROR</strong></p>'.$e->getMessage());
 		}
 	}
 	public function fetch_single() {
@@ -125,7 +125,7 @@ class database {
 			$this->execute();
 			return $this->stmt->fetchColumn(0);
 		} catch(PDOException $e) {
-			exit('<p><strong>FETCH SINGLE ERROR</strong></p>'.$e->getMessage());
+			exit('<p class="red"><strong>FETCH SINGLE ERROR</strong></p>'.$e->getMessage());
 		}
 	}
 	public function fetch_object() {
@@ -135,44 +135,44 @@ class database {
 			$this->execute();
 			return $this->stmt->fetch(PDO::FETCH_OBJ);
 		} catch(PDOException $e) {
-			exit('<p><strong>FETCH OBJECT ERROR</strong></p>'.$e->getMessage());
+			exit('<p class="red"><strong>FETCH OBJECT ERROR</strong></p>'.$e->getMessage());
 		}
 	}
 	public function affected_rows() {
 		try {
 			return $this->stmt->rowCount();
 		} catch(PDOException $e) {
-			exit('<p><strong>AFFECTED ROWS ERROR</strong></p>'.$e->getMessage());
+			exit('<p class="red"><strong>AFFECTED ROWS ERROR</strong></p>'.$e->getMessage());
 		}
 	}
 	public function num_rows() {
 		try {
 			return $this->stmt->fetchColumn();
 		} catch(PDOException $e) {
-			exit('<p><strong>NUM ROWS ERROR</strong></p>'.$e->getMessage());
+			exit('<p class="red"><strong>NUM ROWS ERROR</strong></p>'.$e->getMessage());
 		}
 	}
 	public function insert_id() {
 		try {
 			return $this->db->lastInsertId();
 		} catch(PDOException $e) {
-			exit('<p><strong>LAST INSERT ID ERROR</strong></p>'.$e->getMessage());
+			exit('<p class="red"><strong>LAST INSERT ID ERROR</strong></p>'.$e->getMessage());
 		}
 	}
 	public function query_error() {
 		if(!isset($_SESSION['userid']))
 			$_SESSION['userid'] = 0;
 		if($_SESSION['userid'] == 1)
-			exit("<strong>QUERY ERROR:</strong> " . $this->error . "<br />Query was " . $this->last_query);
+			exit('<strong>QUERY ERROR:</strong> '.$this->error.'<br />Query was '.$this->last_query);
 		else
-			exit("An error has been detected");
+			exit('An error has been detected');
 	}
 	public function escape($str) {
 		return $str;
 	}
 	public function tableExists($table) {
 		try {
-			$result = $this->db->query("SELECT 1 FROM `".$table."` LIMIT 1");
+			$result = $this->db->query('SELECT 1 FROM `'.$table.'` LIMIT 1');
 		} catch (Exception $e) {
 			return false;
 		}
@@ -188,9 +188,9 @@ class database {
 		return $this->db->rollBack();
 	}
 	public function error() {
-		echo "<pre>";
+		echo '<pre>';
 		var_dump($this->stmt->debugDumpParams());
-		echo "</pre>";
+		echo '</pre>';
 	}
 
 	// Helper function(s)
@@ -200,13 +200,14 @@ class database {
 		$this->startTrans();
 		foreach($tables as $table) {
 			$this->query('TRUNCATE TABLE ?');
-			$this->execute(array($table));
+			$this->execute([$table]);
 		}
 		$this->endTrans();
 	}
 }
 $db = database::getInstance();
-$selectIPBans = $db->query("SELECT `ip` FROM `ipBans` WHERE `ip` = '".$db->escape($_SERVER['REMOTE_ADDR'])."'");
-if($db->num_rows($selectIPBans))
+$db->query('SELECT `ip` FROM `ipBans` WHERE `ip` = ?');
+$db->execute([$_SERVER['REMOTE_ADDR']]);
+if($db->num_rows())
 	exit;
 $_SERVER['PHP_SELF'] = str_replace('/mtg-engine', '', $_SERVER['PHP_SELF']); // Temporary, for dev purposes

@@ -6,10 +6,8 @@ require_once __DIR__ . '/includes/globals_out.php';
 	<h2>Terms and conditions for website usage</h2>
 </div>
 <div class="content">
-	<p>Welcome to our website. If you continue to browse and use this website, you are agreeing to comply with and be bound by the following terms and conditions of use, which together with our privacy policy govern <?php echo $_SERVER['HTTP_HOST']; ?>'s relationship with you in relation to this website. If you disagree with any part of these terms and conditions, please do not use our website.</p>
-
-	<p>The term '<?php echo $_SERVER['HTTP_HOST']; ?>' or 'us' or 'we' refers to the owner of the website. The term 'you' refers to the user or viewer of our website.</p>
-
+	<p>Welcome to our website. If you continue to browse and use this website, you are agreeing to comply with and be bound by the following terms and conditions of use, which together with our privacy policy govern <?php echo $_SERVER['HTTP_HOST'];?>'s relationship with you in relation to this website. If you disagree with any part of these terms and conditions, please do not use our website.</p>
+	<p>The term '<?php echo $_SERVER['HTTP_HOST'];?>' or 'us' or 'we' refers to the owner of the website. The term 'you' refers to the user or viewer of our website.</p>
 	<p>The use of this website is subject to the following terms of use:<ul>
 	<li>The content of the pages of this website is for your general information and use only. It is subject to change without notice.</li>
 	<li>Neither we nor any third parties provide any warranty or guarantee as to the accuracy, timeliness, performance, completeness or suitability of the information and materials found or offered on this website for any particular purpose. You acknowledge that such information and materials may contain inaccuracies or errors and we expressly exclude liability for any such inaccuracies or errors to the fullest extent permitted by law.</li>

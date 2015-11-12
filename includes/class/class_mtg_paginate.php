@@ -14,13 +14,13 @@ class Paginator {
 	var $querystring;
 	var $ipp_array;
 	function Paginator() {
-		$this->current_page   = 1;
-		$this->mid_range      = 7;
-		$this->ipp_array      = [10, 25, 50, 100, 'All'];
+		$this->current_page = 1;
+		$this->mid_range = 7;
+		$this->ipp_array = [10, 25, 50, 100, 'All'];
 		$this->items_per_page = !empty($_GET['ipp']) ? $_GET['ipp'] : $this->default_ipp;
 	}
 	function paginate() {
-		$_GET['ipp']  = isset($_GET['ipp']) && ctype_alnum($_GET['ipp']) ? $_GET['ipp'] : 25;
+		$_GET['ipp'] = isset($_GET['ipp']) && ctype_alnum($_GET['ipp']) ? $_GET['ipp'] : 25;
 		$_GET['page'] = isset($_GET['page']) && ctype_digit($_GET['page']) ? $_GET['page'] : 1;
 		if(!isset($this->default_ipp))
 			$this->default_ipp = 25;
@@ -32,21 +32,21 @@ class Paginator {
 			$this->num_pages = ceil($this->items_total / $this->items_per_page);
 		}
 		$this->current_page = $_GET['page']; // must be numeric > 0
-		$prev_page          = $this->current_page - 1;
-		$next_page          = $this->current_page + 1;
+		$prev_page = $this->current_page - 1;
+		$next_page = $this->current_page + 1;
 		if($_GET) {
-			$args = explode("&", $_SERVER['QUERY_STRING']);
+			$args = explode('&', $_SERVER['QUERY_STRING']);
 			foreach($args as $arg) {
 				$keyval = explode("=", $arg);
-				if($keyval[0] != "page" And $keyval[0] != "ipp")
-					$this->querystring .= "&" . $arg;
+				if($keyval[0] != 'page' And $keyval[0] != 'ipp')
+					$this->querystring .= '&' . $arg;
 			}
 		}
 		if($_POST) {
 			foreach($_POST as $key => $val) {
 				if(!is_array($val))
-					if($key != "page" And $key != "ipp")
-						$this->querystring .= "&amp;".$key."=".$val;
+					if($key != 'page' And $key != 'ipp')
+						$this->querystring .= '&amp;'.$key.'='.$val;
 			}
 		}
 		if($this->num_pages > 10) {
@@ -54,7 +54,7 @@ class Paginator {
 				? "<a class='page gradient' href='".$_SERVER['PHP_SELF']."?page=".$prev_page."&amp;ipp=".$this->items_per_page.$this->querystring."'>&laquo; Previous</a> "
 				: "<span class='page gradient'>&laquo; Previous</span> ";
 			$this->start_range = $this->current_page - floor($this->mid_range / 2);
-			$this->end_range   = $this->current_page + floor($this->mid_range / 2);
+			$this->end_range = $this->current_page + floor($this->mid_range / 2);
 			if($this->start_range <= 0) {
 				$this->end_range += abs($this->start_range) + 1;
 				$this->start_range = 1;

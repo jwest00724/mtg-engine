@@ -39,14 +39,14 @@ switch($_GET['action']) {
 									: $mtg->format($row['price']).' point'.$mtg->s($row['price']);
 								?></td>
 								<td><?php echo $row['user'] == $my['id']
-									? "<a href='markets.php?action=points&amp;sub=remove&amp;ID=".$row['id']."'>Remove</a>"
-									: "<a href='markets.php?action=points&amp;sub=buy&amp;ID=".$row['id']."'>Purchase</a> &middot; <a href='markets.php?action=points&amp;sub=gift&amp;ID=".$row['id']."'>Gift</a> &middot; <a href='markets.php?action=points&amp;sub=offer&amp;ID=".$row['id']."'>Make an Offer</a>";
+									? '<a href="markets.php?action=points&amp;sub=remove&amp;ID='.$row['id'].'">Remove</a>'
+									: '<a href="markets.php?action=points&amp;sub=buy&amp;ID='.$row['id'].'">Purchase</a> &middot; <a href="markets.php?action=points&amp;sub=gift&amp;ID='.$row['id'].'">Gift</a> &middot; <a href="markets.php?action=points&amp;sub=offer&amp;ID='.$row['id'].'">Make an Offer</a>';
 								?></td>
 							</tr><?php
 						}
 					}
 				?></table>
-				<p class='paginate'><?php echo $pages->display_pages();?></p><?php
+				<p class="paginate"><?php echo $pages->display_pages();?></p><?php
 				break;
 		}
 		break;
@@ -54,6 +54,6 @@ switch($_GET['action']) {
 		$mtg->info("Coming soon");
 		break;
 	default:
-		?><a href='markets.php?action=points'>Points Market</a> &middot; <a href='markets.php?action=items'>Items Market</a><?php
+		?><a href="markets.php?action=points">Points Market</a> &middot; <a href="markets.php?action=items">Items Market</a><?php
 		break;
 }

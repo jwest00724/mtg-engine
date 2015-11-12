@@ -18,12 +18,8 @@ class mtg_install_header {
 				<!--[if gt IE 8]><!-->
 				<link rel="stylesheet" href="css/layouts/side-menu.css" />
 				<!--<![endif]-->
-				<style type='text/css'>
-					.center {
-						text-align:center;
-					}
-				</style>
 				<link rel="stylesheet" type='text/css' href="css/message.css" />
+				<link rel="stylesheet" type='text/css' href="../css/style.css" />
 			</head>
 			<body>
 				<div id="layout">

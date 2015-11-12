@@ -14,28 +14,28 @@ class mtg_functions {
 		if(is_numeric($str))
 			return number_format($str, $dec);
 		else
-			$str = stripslashes(strip_tags($str, "<p><a><ul><ol><li>"));
+			$str = stripslashes(strip_tags($str, '<p><a><b><u><i><ul><ol><li>'));
 		return $dec ? nl2br($str) : $str;
 	}
 	public function error($msg, $lock = true) {
 		global $db, $my;
-		echo "<div class='notification notification-error'><i class='fa fa-times-circle'></i><p>",$msg,"</p></div>";
+		echo '<div class="notification notification-error"><i class="fa fa-times-circle"></i><p>',$msg,'</p></div>';
 		if($lock)
 			exit;
 	}
 	public function success($msg, $lock = false) {
 		$go = isset($_POST) ? '-2' : '-1';
-		echo "<div class='notification notification-success'><i class='fa fa-check-circle'></i><p>",$msg,"</p></div>";
+		echo '<div class="notification notification-success"><i class="fa fa-check-circle"></i><p>',$msg,'</p></div>';
 		if($lock)
 			exit;
 	}
 	public function info($msg, $lock = false) {
-		echo "<div class='notification notification-info'><i class='fa fa-info-circle'></i><p>",$msg,"</p></div>";
+		echo '<div class="notification notification-info"><i class="fa fa-info-circle"></i><p>',$msg,'</p></div>';
 		if($lock)
 			exit;
 	}
 	public function warning($msg, $lock = false) {
-		echo "<div class='notification notification-secondary'><i class='fa fa-secondary-circle'></i><p>",$msg,"</p></div>";
+		echo '<div class="notification notification-secondary"><i class="fa fa-secondary-circle"></i><p>',$msg,'</p></div>';
 		if($lock)
 			exit;
 	}
@@ -54,9 +54,9 @@ class mtg_functions {
 		}
 	}
 	public function time_format($seconds, $mode = 'long'){
-		$names  = array(
-			'long' => array('millenia', 'year', 'month', 'day', 'hour', 'minute', 'second'),
-			'short' => array('mil', 'yr', 'mnth', 'day', 'hr', 'min', 'sec')
+		$names  = [
+			'long' => ['millenia', 'year', 'month', 'day', 'hour', 'minute', 'second'],
+			'short' => ['mil', 'yr', 'mnth', 'day', 'hr', 'min', 'sec']
 		);
 		$seconds  = floor($seconds);
 		$minutes  = intval($seconds / 60);
@@ -73,27 +73,27 @@ class mtg_functions {
 		$years -= ($millenia * 1000);
 		$result   = array();
 		if($millenia)
-			array_push($result, sprintf("%s %s", number_format($millenia), $names[$mode][0]));
+			$result[] = sprintf("%s %s", number_format($millenia), $names[$mode][0]);
 		if($years)
-			array_push($result, sprintf("%s %s%s", number_format($years), $names[$mode][1], $years == 1 ? "" : "s"));
+			$result[] = sprintf("%s %s%s", number_format($years), $names[$mode][1], $this->s($years));
 		if($months)
-			array_push($result, sprintf("%s %s%s", number_format($months), $names[$mode][2], $months == 1 ? "" : "s"));
+			$result[] = sprintf("%s %s%s", number_format($months), $names[$mode][2], $this->s($months));
 		if($days)
-			array_push($result, sprintf("%s %s%s", number_format($days), $names[$mode][3], $days == 1 ? "" : "s"));
+			$result[] = sprintf("%s %s%s", number_format($days), $names[$mode][3], $this->s($days));
 		if($hours)
-			array_push($result, sprintf("%s %s%s", number_format($hours), $names[$mode][4], $hours == 1 ? "" : "s"));
+			$result[] = sprintf("%s %s%s", number_format($hours), $names[$mode][4], $this->s($hours));
 		if($minutes && count($result) < 2)
-			array_push($result, sprintf("%s %s%s", number_format($minutes), $names[$mode][5], $minutes == 1 ? "" : "s"));
+			$result[] = sprintf("%s %s%s", number_format($minutes), $names[$mode][5], $this->s($minutes));
 		if(($seconds && count($result) < 2) || !count($result))
-			array_push($result, sprintf("%s %s%s", number_format($seconds), $names[$mode][6], $seconds == 1 ? "" : "s"));
-		return implode(", ", $result);
+			$result[] = sprintf("%s %s%s", number_format($seconds), $names[$mode][6], $this->s($seconds));
+		return implode(', ', $result);
 	}
 	public function checkExists($table, $col, $value, $where = '') {
 		global $db;
 		if(!$where)
 			$where = $col;
-		$db->query("SELECT `?` FROM `?` WHERE `?` = ?");
-		$db->execute(array($col, $table, $where, $value));
+		$db->query('SELECT `'.$col.'` FROM `'.$table.'` WHERE `'.$where.'` = ?');
+		$db->execute([$value]);
 		return $db->num_rows() ? true : false;
 	}
 	public function handleProfilePic($image, $dims = []) {

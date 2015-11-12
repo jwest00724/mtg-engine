@@ -1,23 +1,21 @@
 <?php
-/*Copyright (c) 2015 Orsokuma
+/*DON'T BE A DICK PUBLIC LICENSE
 
-Permission is hereby granted, free of charge, to any person obtaining a
-copy of this software and associated documentation files (the "Software"),
-to deal in the Software without restriction, including without limitation
-the rights to use, copy, modify, merge, publish, distribute, sublicense,
-and/or sell copies of the Software, and to permit persons to whom the
-Software is furnished to do so, subject to the following conditions:
+Everyone is permitted to copy and distribute verbatim or modified copies of this license document, and changing it is allowed as long as the name is changed.
 
-The above copyright notice and this permission notice shall be included in
-all copies or substantial portions of the Software.
+    DON'T BE A DICK PUBLIC LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-DEALINGS IN THE SOFTWARE.
+    Do whatever you like with the original work, just don't be a dick.
+
+    Being a dick includes - but is not limited to - the following instances:
+
+    1a. Outright copyright infringement - Don't just copy this and change the name.
+    1b. Selling the unmodified original with no work done what-so-ever, that's REALLY being a dick.
+    1c. Modifying the original work to contain hidden harmful content. That would make you a PROPER dick.
+
+    If you become rich through modifications, related works/services, or supporting the original work, share the love. Only a dick would make loads off this work and not buy the original works creator(s) a pint.
+
+    Code is provided with no warranty. Using somebody else's code and bitching when it goes wrong makes you a DONKEY dick. Fix the problem yourself. A non-dick would submit the fix back.
 */
 if(strpos($_SERVER['REQUEST_URI'], basename(__FILE__)) !== false)
 	exit;
@@ -31,7 +29,7 @@ class headers {
 		return self::$inst;
 	}
 	function __construct($set) {
-		header("Content-type: text/html;charset=UTF-8");
+		header('Content-type: text/html;charset=UTF-8');
 		?><!DOCTYPE html>
 		<html lang="en">
 			<head>
@@ -48,11 +46,6 @@ class headers {
 				<!--[if gt IE 8]><!-->
 				<link rel="stylesheet" href="css/layouts/side-menu.css" />
 				<!--<![endif]-->
-				<style type='text/css'>
-					.center {
-						text-align:center;
-					}
-				</style>
 				<link rel="stylesheet" type='text/css' href="css/message.css" />
 				<link rel="stylesheet" type='text/css' href="css/style.css" />
 			</head>
