@@ -2,15 +2,18 @@
 define('HEADER_TEXT', 'Home');
 require_once(__DIR__ . '/includes/globals.php');
 ?><p>
-	<span style='font-size:1.3em;'>Hello there <?php echo $users->name($my['id']);?>!</span><br />
-	<span style='font-size:1.1em;'>Welcome <?php echo $my['last_seen'] ? 'back ' : '';?>to <?php echo $set['game_name'];?></span>
+	<span style="font-size:1.3em;">Hello there <?php echo $users->name($my['id']);?>!</span><br />
+	<span style="font-size:1.1em;">Welcome <?php echo $my['last_seen'] ? 'back ' : '';?>to <?php echo $set['game_name'];?></span>
 </p>
-<table width='100%'>
+<table width="100%" class="pure-table">
 	<tr>
-		<th width='12.5%'>Name</th>
-		<td width='37.5%' class="right"><?php echo $users->name($my['id']);?></td>
-		<th width='12.5%'>Points</th>
-		<td width='37.5%' class="right"><?php echo $mtg->format($my['points']);?></td>
+		<thead><th colspan="4">Information</th></thead>
+	</tr>
+	<tr>
+		<th width="12.5%">Name</th>
+		<td width="37.5%" class="right"><?php echo $users->name($my['id']);?></td>
+		<th width="12.5%">Points</th>
+		<td width="37.5%" class="right"><?php echo $mtg->format($my['points']);?></td>
 	</tr>
 	<tr>
 		<th>Money</th>
@@ -25,7 +28,7 @@ require_once(__DIR__ . '/includes/globals.php');
 		<td class="right"><?php echo $mtg->format($my['exp'], 2);?>/<?php echo $users->expRequired();?> (<?php echo $users->expPercent();?>)</td>
 	</tr>
 	<tr>
-		<th colspan='4'>Stats</th>
+		<thead><th colspan="4">Stats</th></thead>
 	</tr>
 	<tr>
 		<th>Strength</th>
