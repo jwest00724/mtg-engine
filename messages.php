@@ -24,37 +24,34 @@ $read = [
 switch($_GET['action']) {
 	case 'write':
 		if(!array_key_exists('submit', $_POST)) {
-			?><h3>Mail - Compose</h3><hr />
+			?><h3 class="content-subhead">Message - Compose</h3>
 			<form action="messages.php?action=write" method="post" class="pure-form pure-form-aligned">
-				<table width="100%" class="pure-table">
-					<tr>
-						<th width="50%">Enter player IDs, separated by a comma</th>
-						<th width="50%">Subject</th>
-					</tr>
-					<tr>
-						<td><input type="text" class="pure-input-1-2" name="user2" value="<?php echo isset($_GET['player']) && ctype_digit($_GET['player']) ? $_GET['player'] : null;?>" placeholder="Example: 1,2,3" /></td>
-						<td><input type="text" class="pure-input-1-2" name="subject" placeholder="Example: Hi there!"/></td>
-					</tr>
-					<tr>
-						<th colspan="2">Message</th>
-					</tr>
-					<tr>
-						<td colspan="2"><textarea rows="10" cols="75" class="pure-input" name="message" style="width:98%;"><?php echo isset($_GET['msg']) ? urldecode($_GET['msg']) : null;?></textarea></td>
-					</tr>
-					<tr>
-						<td colspan="4"><input type="submit" class="pure-button pure-button-primary" name="submit" value="Send Message" /></td>
-					</tr>
-				</table>
+				<div class="pure-control-group">
+					<label for="recipients">Enter player IDs, separated by a comma</label>
+					<input type="text" class="pure-input-1-2" name="user2" value="<?php echo isset($_GET['player']) && ctype_digit($_GET['player']) ? $_GET['player'] : null;?>" placeholder="Example: 1,2,3" />
+				</div>
+				<div class="pure-control-group">
+					<label for="subject">Subject</label>
+					<input type="text" class="pure-input-1-2" name="subject" placeholder="Example: Hi there!" />
+				</div>
+				<div class="pure-control-group">
+					<label for="message">Message</label>
+					<textarea rows="7" cols="50" name="message" class="pure-input-1-2"><?php echo isset($_GET['msg']) ? urldecode($_GET['msg']) : null;?></textarea>
+				</div>
+				<div class="pure-controls">
+					<button type="submit" name="submit" class="pure-button pure-button-primary">Send Message</button>
+					<button type="reset" class="pure-button pure-button-secondary"><i class="fa fa-recycle"></i> Reset</button>
+				</div>
 			</form><?php
 			if($users->exists($_GET['ID'])) {
 				?><table width="100%" class="pure-table">
 					<tr>
-						<th colspan="2">The 5 most recent mails between you and <?php echo $users->name($_GET['ID']);?></th>
+						<th colspan="2">The 5 most recent messages between you and <?php echo $users->name($_GET['ID']);?></th>
 					</tr><?php
 				$db->query('SELECT `time_sent`, `message`, `sender` FROM `users_messages` WHERE (`sender` = ? AND `receiver` = ?) OR (`receiver` = ? AND `sender` = ?) ORDER BY `time_sent` DESC LIMIT 5');
 				$db->execute([$my['id'], $_GET['ID'], $_GET['ID'], $my['id']]);
 				if(!$db->num_rows())
-					echo '<tr><td colspan="2" class="center">You have spoken to '.$users->name($_GET['ID']).' yet</td></tr>';
+					echo '<tr><td colspan="2" class="center">You haven\'t spoken to '.$users->name($_GET['ID']).' yet</td></tr>';
 				else {
 					$rows = $db->fetch_row();
 					foreach($rows as $r) {
@@ -100,7 +97,7 @@ switch($_GET['action']) {
 			$count = count(array_keys($uni));
 			if(!$count)
 				$mtg->error('No players were found');
-			$msg = $count > 1 ? $msg . "\r\n\r\nMessage sent to: " . mailUsernames($uni) : $msg;
+			$msg = $count > 1 ? $msg . "\r\n\r\nMessage sent to: " . messageUsernames($uni) : $msg;
 			$db->startTrans();
 			foreach($uni as $to) {
 				$sentTo .= $users->name($to) . ', ';
@@ -111,6 +108,7 @@ switch($_GET['action']) {
 		}
 		break;
 	case 'read':
+		?><h3 class="content-subhead">Message - Read Message</h3><?php
 		if(empty($_GET['ID']))
 			$mtg->error('You didn\'t select a valid message');
 		$db->query("SELECT `receiver`, `sender` FROM `users_messages` WHERE `id` = ?");
@@ -149,6 +147,7 @@ switch($_GET['action']) {
 		?></table><?php
 		break;
 	case 'delete':
+		?><h3 class="content-subhead">Message - Delete Message</h3><?php
 		if(empty($_GET['ID']))
 			$mtg->error('Invalid ID.');
 		$db->query('SELECT `receiver` FROM `users_messages` WHERE `id` = ?');
@@ -162,6 +161,7 @@ switch($_GET['action']) {
 		$mtg->success('Your message has been sent to your archive');
 		break;
 	case 'archive':
+		?><h3 class="content-subhead">Message - Archived Messages</h3><?php
 		$db->query('SELECT COUNT(`id`) FROM `users_messages` WHERE `deleted` = 1 AND `receiver` = ?');
 		$db->execute([$my['id']]);
 		$cnt = $db->fetch_single();
@@ -199,6 +199,7 @@ switch($_GET['action']) {
 		<p class="paginate"><?php echo $pages->display_pages();?></p><?php
 		break;
 	case 'restore':
+		?><h3 class="content-subhead">Message - Restore Message</h3><?php
 		if(empty($_GET['ID']))
 			$mtg->error('You didn\'t select a valid message');
 		$db->query('SELECT `receiver`, `deleted` FROM `users_messages` WHERE `id` = ?');
@@ -215,6 +216,7 @@ switch($_GET['action']) {
 		$mtg->success('The message has been moved back to your Inbox');
 		break;
 	default:
+		?><h3 class="content-subhead">Messages</h3><?php
 		?><table width="100%" class="pure-table pure-table-striped">
 			<tr>
 				<th width="20%">Conversation</th>
@@ -237,7 +239,7 @@ switch($_GET['action']) {
 					<td>
 						<a href="messages.php?action=read&amp;ID=<?php echo $row['id'];?>">Read</a> &middot;
 						<a href="messages.php?action=write&amp;player=<?php echo $row['sender'];?>">Respond</a> &middot;
-						<a href="messages.php?action=delete&amp;ID=<?php echo $row['id'];?>">Delete Message</a>
+						<a href="messages.php?action=delete&amp;ID=<?php echo $row['id'];?>">Archive</a>
 					</td>
 				</tr><?php
 			}
@@ -246,7 +248,7 @@ switch($_GET['action']) {
 		break;
 }
 
-function mailUsernames(array $array = null) {
+function messageUsernames(array $array = null) {
 	global $users;
 	$ret = '';
 	if(!count($array))
