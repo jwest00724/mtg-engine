@@ -38,3 +38,6 @@ hr {
 .right {
 	text-align: right;
 }
+.bold {
+	font-weight: 700;
+}
