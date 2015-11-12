@@ -113,7 +113,14 @@ function gameSettings($db, $my, $mtg, $set) {
 				<td><input type="text" name="register_promo_cash" value="<?php echo $mtg->format($set['register_promo_cash']);?>" /></td>
 			</tr>
 			<tr>
-				<td colspan="2" class="center"><input type="submit" name="submit" value="Update Settings" /></td>
+				<thead><th colspan="2">Game Settings</th></thead>
+			</tr>
+			<tr>
+				<th>Currency Symbol</th>
+				<td><input type="text" name="main_currency_symbol" value="<?php echo htmlentities($mtg->format($set['main_currency_symbol']));?>" /></td>
+			</tr>
+			<tr>
+				<td colspan="2" class="center"><input type="submit" name="submit" value="Update Settings" class="pure-button pure-button-primary" /></td>
 			</tr>
 		</table>
 	</form><?php
