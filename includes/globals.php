@@ -39,7 +39,7 @@ require_once __DIR__ . '/class/class_mtg_site.php';
 require_once __DIR__ . '/class/class_mtg_logs.php';
 require_once __DIR__ . '/class/class_mtg_items.php';
 require_once __DIR__ . '/header.php';
-$h = headers::getInstance($db, $set, $my, $mtg, $users);
+$h = MTG\headers::getInstance($db, $set, $my, $mtg, $users);
 if(defined('MENU_STAFF') && !$my['staff_rank'])
 	$mtg->error('You don\'t have access');
 $my['total_stats'] = $my['strength'] + $my['agility'] + $my['guard'] + $my['labour'] + $my['iq'];
