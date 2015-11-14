@@ -10,6 +10,7 @@ $links = [
 	'messages.php' => 'Messages [msg_count]',
 	'events.php' => 'Notifications [ev_count]',
 	'divider1' => 'Exploration',
+	'bank.php' => 'Bank',
 	'hospital.php' => 'Hospital [hosp_count]',
 	'jail.php' => 'Jail [jail_count]',
 	'tasks.php' => 'Tasks',
