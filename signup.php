@@ -39,33 +39,31 @@ require_once __DIR__ . '/includes/class/class_mtg_users.php';
 		$mtg->success('You\'ve signed up! We\'re logging you in now <meta http-equiv="refresh" content="2; url=index.php" />', true);
 	} else {
 		?><form action="signup.php" method="post" class="pure-form pure-form-aligned">
-			<fieldset>
-				<legend>Register for a free account</legend>
-				<div class="pure-control-group">
-					<label for="username">Username</label>
-					<input type='text' name="username" required />
-				</div>
-				<div class="pure-control-group">
-					<label for="password">Password</label>
-					<input type="password" name="password" required />
-				</div>
-				<div class="pure-control-group">
-					<label for="confirmation">Confirm Password</label>
-					<input type="password" name="cpassword" required />
-				</div>
-				<div class="pure-control-group">
-					<label for="email">Email</label>
-					<input type="email" name="email" required />
-				</div>
-				<div class="pure-control-group">
-					<label for="dob">Date of Birth</label>
-					<input type="date" name="dob" placeholder="Optional" />
-				</div>
-				<div class="pure-controls">
-					<button type="submit" name="submit" class="pure-button pure-button-primary">Sign Up</button>
-					<button type="reset" class="pure-button pure-button-secondary"><i class="fa fa-recycle"></i> Sign Up</button>
-				</div>
-			</fieldset>
+			<legend>Register for a free account</legend>
+			<div class="pure-control-group">
+				<label for="username">Username</label>
+				<input type='text' name="username" required />
+			</div>
+			<div class="pure-control-group">
+				<label for="password">Password</label>
+				<input type="password" name="password" required />
+			</div>
+			<div class="pure-control-group">
+				<label for="confirmation">Confirm Password</label>
+				<input type="password" name="cpassword" required />
+			</div>
+			<div class="pure-control-group">
+				<label for="email">Email</label>
+				<input type="email" name="email" required />
+			</div>
+			<div class="pure-control-group">
+				<label for="dob">Date of Birth</label>
+				<input type="date" name="dob" placeholder="Optional" />
+			</div>
+			<div class="pure-controls">
+				<button type="submit" name="submit" class="pure-button pure-button-primary">Sign Up</button>
+				<button type="reset" class="pure-button pure-button-secondary"><i class="fa fa-recycle"></i> Sign Up</button>
+			</div>
 		</form><?php
 	}
 ?></div>
