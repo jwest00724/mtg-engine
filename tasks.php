@@ -7,12 +7,25 @@ if(array_key_exists('id', $_GET)) {
 		$_GET['code'] = isset($_GET['code']) && ctype_alnum($_GET['code']) ? $_GET['code'] : null;
 		if(!empty($_GET['code'])) {
 			if($_GET['code'] == $_SESSION['code']) {
-				$db->query('SELECT `name`, `formula`, `text_start`, `text_success`, `text_failure`, `text_hospital`, `text_jail`, `time_hospital`, `time_jail`, `text_reason_hospital`, `text_reason_jail`, `courses_required`, `groupID` FROM `tasks` WHERE `id` = ?');
+				$db->query('SELECT `name`, `formula`, `text_start`, `text_success`, `text_failure`, `text_hospital`, `text_jail`, `time_hospital`, `time_jail`, `text_reason_hospital`, `text_reason_jail`, `courses_required`, `group_id`, `upgraded_only` FROM `tasks` WHERE `id` = ?');
 				$db->execute([$_GET['id']]);
 				if($db->num_rows()) {
 					$task = $db->fetch_row(true);
+					if($task['upgraded_only'] && !$my['upgraded'])
+						$mtg->error('That task can be completed only by those whom have an upgraded account.');
+					if($task['courses_required']) {
+						$required = explode(',', trim($task['courses_required']));
+						if(count($required)) {
+							foreach($required as $req) {
+								$db->query('SELECT `id` FROM `users_courses_complete` WHERE `course` = ? AND `user` = ?');
+								$db->execute([$req, $my['id']]);
+								if(!$db->num_rows())
+									$mtg->error('You haven\'t completed all the courses required for this task');
+							}
+						}
+					}
 					$db->query('SELECT `enabled` FROM `tasks_groups` WHERE `id` = ?');
-					$db->execute([$task['groupID']]);
+					$db->execute([$task['group_id']]);
 					if($db->fetch_single() != 1) {
 						require_once __DIR__ . '/includes/class/jbbcode/Parser.php';
 						$parser = new jBBCode\Parser();
@@ -82,9 +95,10 @@ $groups = $db->fetch_row();
 ?><table class="pure-table" width="100%"><?php
 foreach($groups as $group) {
 	?><tr>
-		<th colspan="3" class="center"><?php echo $mtg->format($group['name']);?></th>
+		<thead><th colspan="3" class="center"><?php echo $mtg->format($group['name']);?></th></thead>
 	</tr><?php
-	$db->query('SELECT `id`, `name`, `nerve`, `courses_required` FROM `tasks` WHERE `groupID` = ? ORDER BY `nerve` ASC');
+	$extra = !$my['upgraded'] ? ' AND `upgraded_only` = 0' : '';
+	$db->query('SELECT `id`, `name`, `nerve`, `courses_required`, `upgraded_only` FROM `tasks` WHERE `group_id` = ?'.$extra.' ORDER BY `nerve` ASC');
 	$db->execute([$group['id']]);
 	if(!$db->num_rows())
 		echo '<tr><td colspan="3" class="center">There are no '.$mtg->format($group['name']).' tasks available</td></tr>';
@@ -99,14 +113,14 @@ foreach($groups as $group) {
 				$db->execute();
 				$courses = $db->fetch_row();
 				foreach($courses as $course) {
-					$coursesInfo .= '<br /><span class="small';
 					$db->query('SELECT `id` FROM `courses_complete` WHERE `course` = ? AND `user` = ?');
 					$db->execute([$course['id'], $my['id']]);
-					$coursesInfo .= ' '.($db->num_rows() ? 'green' : 'red').'">'.$mtg->format($course['name']).'</span>';
+					$coursesInfo .= '<br /><span class="small '.($db->num_rows() ? 'green' : 'red').'">'.$mtg->format($course['name']).'</span>';
 				}
 			}
+			$upgrade = $task['upgraded_only'] ? '<img src="images/silk/joystick_add.png" title="Upgraded only!" alt="[Upgraded only]" /> ' : '';
 			?><tr>
-				<td<?php echo !$n ? ' width="33%"' : '';?>><?php echo $mtg->format($task['name']).$coursesInfo;?></td>
+				<td<?php echo !$n ? ' width="33%"' : '';?>><?php echo $upgrade.$mtg->format($task['name']).$coursesInfo;?></td>
 				<td<?php echo !$n ? ' width="34%"' : '';?>><?php echo $mtg->format($task['nerve']);?></td>
 				<td<?php echo !$n ? ' width="33%"' : '';?>><a href="tasks.php?id=<?php echo $task['id'];?>&amp;code=<?php echo $_SESSION['code'];?>">Attempt</a></td>
 			</tr><?php
