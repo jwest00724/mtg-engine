@@ -9,30 +9,30 @@ switch($_GET['action']) {
 	case 'delete':
 		if(empty($_GET['ID']))
 			$mtg->error("You didn't select a valid event");
-		$db->query("SELECT `user` FROM `users_events` WHERE `id` = ?");
+		$db->query('SELECT `user` FROM `users_events` WHERE `id` = ?');
 		$db->execute([$_GET['ID']]);
 		if(!$db->num_rows())
-			$mtg->error("That event doesn't exist");
+			$mtg->error('That event doesn\'t exist');
 		if($db->fetch_single() != $my['id'])
 			$mtg->error("That's not your event");
-		$db->query("UPDATE `users_events` SET `deleted` = 1 WHERE `id` = ?");
+		$db->query('UPDATE `users_events` SET `deleted` = 1 WHERE `id` = ?');
 		$db->execute([$_GET['ID']]);
-		$mtg->success("Your event has been deleted");
+		$mtg->success('Your event has been deleted');
 		break;
 	default:
-		$db->query("SELECT COUNT(`id`) FROM `users_events` WHERE `user` = ?");
+		$db->query('SELECT COUNT(`id`) FROM `users_events` WHERE `user` = ?');
 		$db->execute([$my['id']]);
 		$pages->items_total = $db->fetch_single();
 		$pages->mid_range = 3;
 		$pages->paginate();
-		?><p class='paginate'><?php echo $pages->display_pages();?></p>
-		<table width='100%' class='pure-table pure-table-striped'>
+		?><p class="paginate"><?php echo $pages->display_pages();?></p>
+		<table width="100%" class="pure-table pure-table-striped">
 			<tr>
-				<th width='25%'>Info</th>
-				<th width='65%'>Event</th>
-				<th width='10%'>Actions</th>
+				<th width="25%">Info</th>
+				<th width="65%">Event</th>
+				<th width="10%">Actions</th>
 			</tr><?php
-			$db->query("SELECT `id`, `text`, `type`, `time_sent`, `extra`, `read` FROM `users_events` WHERE `user` = ? AND `deleted` = 0 ORDER BY `time_sent` DESC ".$pages->limit);
+			$db->query('SELECT * FROM `users_events` WHERE `user` = ? AND `deleted` = 0 ORDER BY `time_sent` DESC '.$pages->limit);
 			$db->execute([$my['id']]);
 			if(!$db->num_rows())
 				echo "<tr><td colspan='3'>You have no events</td></tr>";
@@ -53,15 +53,15 @@ switch($_GET['action']) {
 							<strong>Category:</strong> <?php echo ucfirst($row['type']);?>
 						</td>
 						<td><?php echo $row['text'];?></td>
-						<td><a href='events.php?action=delete&amp;ID=<?php echo $row['id'];?>'>Delete</a></td>
+						<td><a href="events.php?action=delete&amp;ID=<?php echo $row['id'];?>">Delete</a></td>
 					</tr><?php
 				}
 				if(count($ids)) {
-					$db->query('UPDATE `users_events` SET `read` = 1 WHERE `id` IN('.implode(',', $ids).')');
+					$db->query('UPDATE `users_events` SET `read` = 1 WHERE `id` IN ('.implode(',', $ids).')');
 					$db->execute();
 				}
 			}
 		?></table>
-		<p class='paginate'><?php echo $pages->display_pages();?></p><?php
+		<p class="paginate"><?php echo $pages->display_pages();?></p><?php
 		break;
 }
