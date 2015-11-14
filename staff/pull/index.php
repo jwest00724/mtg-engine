@@ -72,15 +72,17 @@ function gameSettings($db, $my, $mtg, $set) {
 		$strs = ['game_name', 'game_description', 'register_promo_code', 'main_currency_symbol'];
 		foreach($strs as $what)
 			$_POST[$what] = isset($_POST[$what]) && is_string($_POST[$what]) ? trim($_POST[$what]) : null;
-		$nums = ['register_start_cash', 'register_promo_cash', 'game_owner_id'];
+		$nums = ['register_start_cash', 'register_promo_cash', 'game_owner_id', 'bank_enabled', 'bank_cost', 'max_health_gained', 'max_nerve_gained', 'max_power_gained', 'max_energy_gained', 'level_gained'];
 		foreach($nums as $what)
 			$_POST[$what] = isset($_POST[$what]) && ctype_digit(str_replace(',', '', $_POST[$what])) ? str_replace(',', '', $_POST[$what]) : 0;
 		$posted = array_merge($strs, $nums);
+		$db->startTrans();
 		foreach($posted as $what) {
 			$db->query("UPDATE `settings_game` SET `value` = ? WHERE `name` = ?");
 			$db->execute([$_POST[$what], $what]);
 			$set[$what] = $_POST[$what];
 		}
+		$db->endTrans();
 		$mtg->success("You've updated the game's settings");
 	}
 	?><form action="staff/?action=settings" method="post" class="pure-form pure-form-aligned">
@@ -115,7 +117,22 @@ function gameSettings($db, $my, $mtg, $set) {
 			<label for="currency-symbol">Currency Symbol</label>
 			<input type="text" name="main_currency_symbol" value="<?php echo htmlentities($mtg->format($set['main_currency_symbol']));?>" class="pure-u-1-3" />
 		</div>
+		<div class="pure-control-group">
+			<label for="bank-enabled">Banking: Enable</label>
+			<select name="bank_enabled" class="pure-u-1-3">
+				<option value="1" class="green"<?php echo $set['bank_enabled'] ? ' selected' : '';?>>Enabled</option>
+				<option value="0" class="red"<?php echo !$set['bank_enabled'] ? ' selected' : '';?>>Disabled</option>
+			</select>
+		</div>
+		<div class="pure-control-group">
+			<label for="bank_cost">Banking: Account Cost</label>
+			<input type="text" name="bank_cost" value="<?php echo $mtg->format($set['bank_cost']);?>" class="pure-u-1-3" />
+		</div>
 		<legend>Level Gain Settings</legend>
+		<div class="pure-control-group">
+			<label for="level_gained">Levels Gained</label>
+			<input type="text" name="level_gained" value="<?php echo $mtg->format($set['level_gained']);?>" class="pure-u-1-3" />
+		</div>
 		<div class="pure-control-group">
 			<label for="max_health_gained">Maximum Health Increase</label>
 			<input type="text" name="max_health_gained" value="<?php echo $mtg->format($set['max_health_gained']);?>" class="pure-u-1-3" />
