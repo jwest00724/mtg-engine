@@ -3,12 +3,18 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 14, 2015 at 01:55 AM
+-- Generation Time: Nov 14, 2015 at 12:27 PM
 -- Server version: 5.6.26
 -- PHP Version: 5.6.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
 
 --
 -- Database: `mtgv9`
@@ -18,8 +24,6 @@ SET time_zone = "+00:00";
 
 --
 -- Table structure for table `breport`
---
--- Creation: Nov 06, 2015 at 11:51 AM
 --
 
 DROP TABLE IF EXISTS `breport`;
@@ -40,8 +44,6 @@ CREATE TABLE IF NOT EXISTS `breport` (
 --
 -- Table structure for table `breport_responses`
 --
--- Creation: Nov 06, 2015 at 11:51 AM
---
 
 DROP TABLE IF EXISTS `breport_responses`;
 CREATE TABLE IF NOT EXISTS `breport_responses` (
@@ -56,8 +58,6 @@ CREATE TABLE IF NOT EXISTS `breport_responses` (
 
 --
 -- Table structure for table `cities`
---
--- Creation: Nov 06, 2015 at 11:51 AM
 --
 
 DROP TABLE IF EXISTS `cities`;
@@ -75,8 +75,6 @@ CREATE TABLE IF NOT EXISTS `cities` (
 --
 -- Table structure for table `inventory`
 --
--- Creation: Nov 06, 2015 at 11:51 AM
---
 
 DROP TABLE IF EXISTS `inventory`;
 CREATE TABLE IF NOT EXISTS `inventory` (
@@ -90,8 +88,6 @@ CREATE TABLE IF NOT EXISTS `inventory` (
 
 --
 -- Table structure for table `items`
---
--- Creation: Nov 06, 2015 at 11:51 AM
 --
 
 DROP TABLE IF EXISTS `items`;
@@ -119,8 +115,6 @@ CREATE TABLE IF NOT EXISTS `items` (
 --
 -- Table structure for table `itemtypes`
 --
--- Creation: Nov 06, 2015 at 11:51 AM
---
 
 DROP TABLE IF EXISTS `itemtypes`;
 CREATE TABLE IF NOT EXISTS `itemtypes` (
@@ -132,8 +126,6 @@ CREATE TABLE IF NOT EXISTS `itemtypes` (
 
 --
 -- Table structure for table `jobranks`
---
--- Creation: Nov 06, 2015 at 11:51 AM
 --
 
 DROP TABLE IF EXISTS `jobranks`;
@@ -159,8 +151,6 @@ CREATE TABLE IF NOT EXISTS `jobranks` (
 --
 -- Table structure for table `jobs`
 --
--- Creation: Nov 06, 2015 at 11:51 AM
---
 
 DROP TABLE IF EXISTS `jobs`;
 CREATE TABLE IF NOT EXISTS `jobs` (
@@ -174,8 +164,6 @@ CREATE TABLE IF NOT EXISTS `jobs` (
 
 --
 -- Table structure for table `logs_query_errors`
---
--- Creation: Nov 06, 2015 at 11:51 AM
 --
 
 DROP TABLE IF EXISTS `logs_query_errors`;
@@ -194,8 +182,6 @@ CREATE TABLE IF NOT EXISTS `logs_query_errors` (
 --
 -- Table structure for table `logs_staff`
 --
--- Creation: Nov 06, 2015 at 11:51 AM
---
 
 DROP TABLE IF EXISTS `logs_staff`;
 CREATE TABLE IF NOT EXISTS `logs_staff` (
@@ -210,8 +196,6 @@ CREATE TABLE IF NOT EXISTS `logs_staff` (
 
 --
 -- Table structure for table `mail`
---
--- Creation: Nov 06, 2015 at 11:51 AM
 --
 
 DROP TABLE IF EXISTS `mail`;
@@ -231,8 +215,6 @@ CREATE TABLE IF NOT EXISTS `mail` (
 --
 -- Table structure for table `market_items`
 --
--- Creation: Nov 06, 2015 at 11:51 AM
---
 
 DROP TABLE IF EXISTS `market_items`;
 CREATE TABLE IF NOT EXISTS `market_items` (
@@ -250,8 +232,6 @@ CREATE TABLE IF NOT EXISTS `market_items` (
 --
 -- Table structure for table `market_points`
 --
--- Creation: Nov 06, 2015 at 11:51 AM
---
 
 DROP TABLE IF EXISTS `market_points`;
 CREATE TABLE IF NOT EXISTS `market_points` (
@@ -266,8 +246,6 @@ CREATE TABLE IF NOT EXISTS `market_points` (
 
 --
 -- Table structure for table `preports`
---
--- Creation: Nov 06, 2015 at 11:51 AM
 --
 
 DROP TABLE IF EXISTS `preports`;
@@ -286,8 +264,6 @@ CREATE TABLE IF NOT EXISTS `preports` (
 --
 -- Table structure for table `preports_responses`
 --
--- Creation: Nov 06, 2015 at 11:51 AM
---
 
 DROP TABLE IF EXISTS `preports_responses`;
 CREATE TABLE IF NOT EXISTS `preports_responses` (
@@ -301,9 +277,20 @@ CREATE TABLE IF NOT EXISTS `preports_responses` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `settings_game`
+-- Table structure for table `settings_crons`
 --
--- Creation: Nov 07, 2015 at 11:06 AM
+
+DROP TABLE IF EXISTS `settings_crons`;
+CREATE TABLE IF NOT EXISTS `settings_crons` (
+  `id` int(11) NOT NULL,
+  `type` varchar(25) NOT NULL DEFAULT '',
+  `last` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `settings_game`
 --
 
 DROP TABLE IF EXISTS `settings_game`;
@@ -318,8 +305,6 @@ CREATE TABLE IF NOT EXISTS `settings_game` (
 --
 -- Table structure for table `settings_mods`
 --
--- Creation: Nov 10, 2015 at 08:01 AM
---
 
 DROP TABLE IF EXISTS `settings_mods`;
 CREATE TABLE IF NOT EXISTS `settings_mods` (
@@ -332,8 +317,6 @@ CREATE TABLE IF NOT EXISTS `settings_mods` (
 
 --
 -- Table structure for table `shopitems`
---
--- Creation: Nov 06, 2015 at 11:51 AM
 --
 
 DROP TABLE IF EXISTS `shopitems`;
@@ -350,8 +333,6 @@ CREATE TABLE IF NOT EXISTS `shopitems` (
 --
 -- Table structure for table `shops`
 --
--- Creation: Nov 06, 2015 at 11:51 AM
---
 
 DROP TABLE IF EXISTS `shops`;
 CREATE TABLE IF NOT EXISTS `shops` (
@@ -365,8 +346,6 @@ CREATE TABLE IF NOT EXISTS `shops` (
 
 --
 -- Table structure for table `staff_ranks`
---
--- Creation: Nov 11, 2015 at 02:46 PM
 --
 
 DROP TABLE IF EXISTS `staff_ranks`;
@@ -382,19 +361,22 @@ CREATE TABLE IF NOT EXISTS `staff_ranks` (
   `staff_panel_tasks_add` enum('Yes','No') NOT NULL DEFAULT 'No',
   `staff_panel_tasks_edit` enum('Yes','No') NOT NULL DEFAULT 'No',
   `staff_panel_tasks_delete` enum('Yes','No') NOT NULL DEFAULT 'No',
+  `staff_panel_tasks_groups_manage` enum('Yes','No') NOT NULL DEFAULT 'No',
+  `staff_panel_tasks_groups_add` enum('Yes','No') NOT NULL DEFAULT 'No',
+  `staff_panel_tasks_groups_edit` enum('Yes','No') NOT NULL DEFAULT 'No',
+  `staff_panel_tasks_groups_delete` enum('Yes','No') NOT NULL DEFAULT 'No',
   `staff_panel_staff_ranks_manage` enum('Yes','No') NOT NULL DEFAULT 'No',
   `staff_panel_staff_ranks_add` enum('Yes','No') NOT NULL DEFAULT 'No',
   `staff_panel_staff_ranks_edit` enum('Yes','No') NOT NULL DEFAULT 'No',
   `staff_panel_staff_ranks_delete` enum('Yes','No') NOT NULL DEFAULT 'No',
-  `staff_panel_code_version_manage` enum('Yes','No') NOT NULL DEFAULT 'No'
+  `staff_panel_code_version_manage` enum('Yes','No') NOT NULL DEFAULT 'No',
+  `staff_panel_logs_staff` enum('Yes','No') NOT NULL DEFAULT 'No'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
 --
 -- Table structure for table `tasks`
---
--- Creation: Nov 11, 2015 at 12:21 AM
 --
 
 DROP TABLE IF EXISTS `tasks`;
@@ -403,27 +385,32 @@ CREATE TABLE IF NOT EXISTS `tasks` (
   `name` varchar(255) NOT NULL,
   `nerve` int(11) NOT NULL DEFAULT '0',
   `formula` mediumtext NOT NULL,
-  `money` bigint(25) NOT NULL DEFAULT '0',
-  `points` int(11) NOT NULL DEFAULT '0',
-  `item` int(11) NOT NULL DEFAULT '0',
-  `groupID` int(11) NOT NULL DEFAULT '0',
+  `group_id` int(11) NOT NULL DEFAULT '0',
+  `courses_required` varchar(255) NOT NULL DEFAULT '',
   `text_start` mediumtext NOT NULL,
   `text_success` mediumtext NOT NULL,
   `text_failure` mediumtext NOT NULL,
   `text_jail` mediumtext NOT NULL,
+  `text_hospital` text NOT NULL,
   `time_jail` int(11) NOT NULL DEFAULT '0',
   `text_reason_jail` varchar(255) NOT NULL,
   `time_hospital` int(11) NOT NULL DEFAULT '0',
   `text_reason_hospital` varchar(255) NOT NULL DEFAULT '',
-  `xp_awarded` int(11) NOT NULL DEFAULT '0'
+  `upgraded_only` tinyint(1) NOT NULL DEFAULT '0',
+  `awarded_money_min` int(11) NOT NULL DEFAULT '0',
+  `awarded_money_max` int(11) NOT NULL DEFAULT '0',
+  `awarded_points_min` int(11) NOT NULL DEFAULT '0',
+  `awarded_points_max` int(11) NOT NULL DEFAULT '0',
+  `awarded_xp_min` int(11) NOT NULL DEFAULT '0',
+  `awarded_xp_max` int(11) NOT NULL DEFAULT '0',
+  `awarded_item` int(11) NOT NULL DEFAULT '0',
+  `awarded_item_qty` int(11) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
 --
 -- Table structure for table `tasks_groups`
---
--- Creation: Nov 11, 2015 at 12:24 AM
 --
 
 DROP TABLE IF EXISTS `tasks_groups`;
@@ -438,8 +425,6 @@ CREATE TABLE IF NOT EXISTS `tasks_groups` (
 
 --
 -- Table structure for table `users`
---
--- Creation: Nov 12, 2015 at 02:31 PM
 --
 
 DROP TABLE IF EXISTS `users`;
@@ -460,15 +445,14 @@ CREATE TABLE IF NOT EXISTS `users` (
   `staff_rank` bigint(25) NOT NULL DEFAULT '0',
   `last_seen` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `profile_picture` varchar(255) NOT NULL DEFAULT '',
-  `status` text NOT NULL
+  `status` text NOT NULL,
+  `upgraded` int(11) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
 --
 -- Table structure for table `users_bans`
---
--- Creation: Nov 11, 2015 at 12:38 AM
 --
 
 DROP TABLE IF EXISTS `users_bans`;
@@ -486,8 +470,6 @@ CREATE TABLE IF NOT EXISTS `users_bans` (
 --
 -- Table structure for table `users_equipment`
 --
--- Creation: Nov 06, 2015 at 11:51 AM
---
 
 DROP TABLE IF EXISTS `users_equipment`;
 CREATE TABLE IF NOT EXISTS `users_equipment` (
@@ -501,8 +483,6 @@ CREATE TABLE IF NOT EXISTS `users_equipment` (
 
 --
 -- Table structure for table `users_events`
---
--- Creation: Nov 14, 2015 at 12:53 AM
 --
 
 DROP TABLE IF EXISTS `users_events`;
@@ -522,8 +502,6 @@ CREATE TABLE IF NOT EXISTS `users_events` (
 --
 -- Table structure for table `users_finances`
 --
--- Creation: Nov 12, 2015 at 02:32 PM
---
 
 DROP TABLE IF EXISTS `users_finances`;
 CREATE TABLE IF NOT EXISTS `users_finances` (
@@ -538,8 +516,6 @@ CREATE TABLE IF NOT EXISTS `users_finances` (
 
 --
 -- Table structure for table `users_messages`
---
--- Creation: Nov 07, 2015 at 10:47 AM
 --
 
 DROP TABLE IF EXISTS `users_messages`;
@@ -558,8 +534,6 @@ CREATE TABLE IF NOT EXISTS `users_messages` (
 
 --
 -- Table structure for table `users_stats`
---
--- Creation: Nov 10, 2015 at 11:16 PM
 --
 
 DROP TABLE IF EXISTS `users_stats`;
@@ -682,6 +656,12 @@ ALTER TABLE `preports`
 -- Indexes for table `preports_responses`
 --
 ALTER TABLE `preports_responses`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `settings_crons`
+--
+ALTER TABLE `settings_crons`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -853,6 +833,11 @@ ALTER TABLE `preports`
 ALTER TABLE `preports_responses`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
+-- AUTO_INCREMENT for table `settings_crons`
+--
+ALTER TABLE `settings_crons`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
 -- AUTO_INCREMENT for table `settings_game`
 --
 ALTER TABLE `settings_game`
@@ -922,3 +907,6 @@ ALTER TABLE `users_messages`
 --
 ALTER TABLE `users_stats`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
