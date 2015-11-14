@@ -7,7 +7,8 @@ if(array_key_exists('id', $_GET)) {
 		$_GET['code'] = isset($_GET['code']) && ctype_alnum($_GET['code']) ? $_GET['code'] : null;
 		if(!empty($_GET['code'])) {
 			if($_GET['code'] == $_SESSION['code']) {
-				$db->query('SELECT `name`, `formula`, `text_start`, `text_success`, `text_failure`, `text_hospital`, `text_jail`, `time_hospital`, `time_jail`, `text_reason_hospital`, `text_reason_jail`, `courses_required`, `group_id`, `upgraded_only` FROM `tasks` WHERE `id` = ?');
+				$_SESSION['code'] = md5(microtime(true));
+				$db->query('SELECT * FROM `tasks` WHERE `id` = ?');
 				$db->execute([$_GET['id']]);
 				if($db->num_rows()) {
 					$task = $db->fetch_row(true);
@@ -26,36 +27,57 @@ if(array_key_exists('id', $_GET)) {
 					}
 					$db->query('SELECT `enabled` FROM `tasks_groups` WHERE `id` = ?');
 					$db->execute([$task['group_id']]);
-					if($db->fetch_single() != 1) {
+					if($db->fetch_single() == 1) {
 						require_once __DIR__ . '/includes/class/jbbcode/Parser.php';
 						$parser = new jBBCode\Parser();
 						$parser->addCodeDefinitionSet(new JBBCode\DefaultCodeDefinitionSet());
 						$find = ['[TOTAL_STATS]', '[STRENGTH]', '[AGILITY]', '[GUARD]', '[LABOUR]', '[IQ]', '[MONEY]', '[POINTS]', '[POWER]', '[ENERGY]', '[NERVE]', '[LIFE]', '[EXP]', '[EXP_GIVEN]', '[MONEY_GIVEN]', '[POINTS_GIVEN]', '[HOSPITAL_TIME]', '[JAIL_TIME]'];
-						$task['money'] = $task['money'] > 0 ? mt_rand($task['money'] / 2, $task['money'] * 2) : 0;
-						$task['points'] = $task['points'] > 0 ? mt_rand($task['points'] / 2, $task['points'] * 2) : 0;
-						$repl = [$my['total_stats'], $my['strength'], $my['agility'], $my['guard'], $my['labour'], $my['IQ'], $my['money'], $my['points'], $my['power'], $my['energy'], $my['nerve'], $my['life'], $my['exp'], $task['xp_awarded'], '$'.$mtg->format($task['money']), $mtg->format($task['points']).' point'.$mtg->s($task['points']), $mtg->time_format($task['time_hospital'] * 60), $mtg->time_format($task['time_jail'] * 60)];
+						if($task['awarded_money_min'] && $task['awarded_money_max'])
+							$task['money'] = mt_rand($task['awarded_money_min'], $task['awarded_money_max']);
+						else if($task['awarded_money_min'] && !$task['awarded_money_max'])
+							$task['money'] = $task['awarded_money_min'];
+						else
+							$task['money'] = 0;
+						if($task['awarded_points_min'] && $task['awarded_points_max'])
+							$task['points'] = mt_rand($task['awarded_points_min'], $task['awarded_points_max']);
+						else if($task['awarded_points_min'] && !$task['awarded_points_max'])
+							$task['points'] = $task['awarded_points_min'];
+						else
+							$task['points'] = 0;
+						if($task['awarded_xp_min'] && $task['awarded_xp_max'])
+							$task['xp_awarded'] = mt_rand($task['awarded_xp_min'], $task['awarded_xp_max']);
+						else if($task['awarded_xp_min'] && !$task['awarded_xp_max'])
+							$task['xp_awarded'] = $task['awarded_points_min'];
+						else
+							$task['xp_awarded'] = 0;
+						$repl = [$my['total_stats'], $my['strength'], $my['agility'], $my['guard'], $my['labour'], $my['iq'], $my['money'], $my['points'], $my['power'], $my['energy'], $my['nerve'], $my['health'], $my['exp'], $task['xp_awarded'], $set['main_currency_symbol'].$mtg->format($task['money']), $mtg->format($task['points']).' point'.$mtg->s($task['points']), $mtg->time_format($task['time_hospital'] * 60), $mtg->time_format($task['time_jail'] * 60)];
 						$strs = ['text_start', 'text_success', 'text_failure', 'text_jail', 'text_reason_jail', 'text_hospital', 'text_reason_jail'];
 						foreach($strs as $str)
-							$task[$str] = str_replace($find, $repl, $task[$str]);
+							if(array_key_exists($str, $task))
+								$task[$str] = str_replace($find, $repl, $task[$str]);
 						$parser->parse(nl2br($mtg->format($task['text_start'])));
 						echo '<p>',$parser->getAsHTML(),'</p>';
-						$process = '$formula='.str_replace($find, $repl, $task['formula']);
-						@eval($process);
-						$rand = mt_rand(1, 100);
-						if($rand >=0 && $rand <= 10) {
+						$process = '$formula = '.str_replace($find, $repl, $task['formula']).';';
+						eval($process);
+						$formula += mt_rand(0, 50);
+						if($formula >=0 && $formula <= 10 && ($task['time_jail'] || $task['time_hospital'])) {
+							if($task['time_jail'] && $task['time_hospital']) {
+								$rand = mt_rand(0, 1);
+								$which = $rand == 1 ? 'hospital' : 'jail';
+							} else
+								$which = $task['jail_time'] ? 'jail' : 'hospital';
 							$db->startTrans();
-							$db->query('UPDATE `users` SET `?` = ?, `?_reason` = ? WHERE id = ?');
-							$db->execute([$which, $task['time_'.$which], $which, $task['text_reason_'.$which]]);
-							$row = $which == 'jail' ? 'jailed' : 'hospitalised';
-							$db->query('UPDATE `users_stats` SET `tasks_?` = `tasks_?` + 1 WHERE `id` = ?');
-							$db->execute([$row, $row, $my['id']]);
+							$db->query('UPDATE `users` SET `'.$which.'` = ?, `'.$which.'_reason` = ? WHERE id = ?');
+							$db->execute([$task['time_'.$which], $task['text_reason_'.$which]]);
+							$col = $which == 'jail' ? 'jailed' : 'hospitalised';
+							$db->query('UPDATE `users_stats` SET `tasks_'.$col.'` = `tasks_'.$col.'` + 1 WHERE `id` = ?');
+							$db->execute([$my['id']]);
 							$db->endTrans();
-							$which = $task['time_jail'] > 0 ? 'jail' : 'hospital';
 							$parser->parse(nl2br($mtg->format($task['text_'.$which])));
 							echo '<p class="green">',$parser->getAsHTML(),'</p>';
-						} else if($rand >= 11 && $rand <= 40) {
+						} else if($formula >= 11 && $formula <= 40 || (!$task['time_jail'] && !$task['time_hospital'])) {
 							$db->query('UPDATE `users_stats` SET `tasks_failed` = `tasks_failed` + 1 WHERE `id` = ?');
-							$db->execute([$row, $row, $my['id']]);
+							$db->execute([$my['id']]);
 							$parser->parse(nl2br($mtg->format($task['text_failure'])));
 							echo '<p class="orange">',$parser->getAsHTML(),'</p>';
 						} else {
@@ -64,14 +86,16 @@ if(array_key_exists('id', $_GET)) {
 								$db->query('UPDATE `users_finances` SET `money` = `money` + ? WHERE `id` = ?');
 								$db->execute([$task['money'], $my['id']]);
 							}
-							if($row['points'] > 0) {
+							if($task['points'] > 0) {
 								$db->query('UPDATE `users_finances` SET `points` = `points` + ? WHERE `id` = ?');
 								$db->execute([$task['points'], $my['id']]);
 							}
-							if($row['xp_awarded'] > 0) {
+							if($task['xp_awarded'] > 0) {
 								$db->query('UPDATE `users` SET `exp` = `exp` + ? WHERE `id` = ?');
 								$db->execute([$task['xp_awarded'], $my['id']]);
 							}
+							$db->query('UPDATE `users_stats` SET `tasks_complete` = `tasks_complete` + 1 WHERE `id` = ?');
+							$db->execute([$my['id']]);
 							$db->endTrans();
 							$parser->parse(nl2br($mtg->format($task['text_success'])));
 							echo '<p class="green">',$parser->getAsHTML(),'</p>';
