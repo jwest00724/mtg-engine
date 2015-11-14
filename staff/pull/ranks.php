@@ -2,7 +2,7 @@
 if(!defined('MTG_ENABLE'))
 	exit;
 if(!$users->hasAccess('override_all'))
-	$mtg->error("You don't have access");
+	$mtg->error('You don\'t have access');
 $fields = [];
 $db->query('SHOW COLUMNS FROM `staff_ranks` WHERE `Type` = "enum(\'Yes\',\'No\')"');
 $db->execute();
