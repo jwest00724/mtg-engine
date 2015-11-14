@@ -14,6 +14,8 @@ if(array_key_exists('id', $_GET)) {
 					$task = $db->fetch_row(true);
 					if($task['upgraded_only'] && !$my['upgraded'])
 						$mtg->error('That task can be completed only by those whom have an upgraded account.');
+					if($task['nerve'] > $my['nerve'])
+						$mtg->error('You don\'t have enough nerve to complete this task');
 					if($task['courses_required']) {
 						$required = explode(',', trim($task['courses_required']));
 						if(count($required)) {
@@ -70,14 +72,14 @@ if(array_key_exists('id', $_GET)) {
 							$db->query('UPDATE `users` SET `'.$which.'` = ?, `'.$which.'_reason` = ? WHERE id = ?');
 							$db->execute([$task['time_'.$which], $task['text_reason_'.$which]]);
 							$col = $which == 'jail' ? 'jailed' : 'hospitalised';
-							$db->query('UPDATE `users_stats` SET `tasks_'.$col.'` = `tasks_'.$col.'` + 1 WHERE `id` = ?');
-							$db->execute([$my['id']]);
+							$db->query('UPDATE `users_stats` SET `nerve` = `nerve` = ?, `tasks_'.$col.'` = `tasks_'.$col.'` + 1 WHERE `id` = ?');
+							$db->execute([$task['nerve'], $my['id']]);
 							$db->endTrans();
 							$parser->parse(nl2br($mtg->format($task['text_'.$which])));
 							echo '<p class="green">',$parser->getAsHTML(),'</p>';
 						} else if($formula >= 11 && $formula <= 40 || (!$task['time_jail'] && !$task['time_hospital'])) {
-							$db->query('UPDATE `users_stats` SET `tasks_failed` = `tasks_failed` + 1 WHERE `id` = ?');
-							$db->execute([$my['id']]);
+							$db->query('UPDATE `users_stats` SET `nerve` = `nerve` - ?, `tasks_failed` = `tasks_failed` + 1 WHERE `id` = ?');
+							$db->execute([$task['nerve'], $my['id']]);
 							$parser->parse(nl2br($mtg->format($task['text_failure'])));
 							echo '<p class="orange">',$parser->getAsHTML(),'</p>';
 						} else {
@@ -94,8 +96,8 @@ if(array_key_exists('id', $_GET)) {
 								$db->query('UPDATE `users` SET `exp` = `exp` + ? WHERE `id` = ?');
 								$db->execute([$task['xp_awarded'], $my['id']]);
 							}
-							$db->query('UPDATE `users_stats` SET `tasks_complete` = `tasks_complete` + 1 WHERE `id` = ?');
-							$db->execute([$my['id']]);
+							$db->query('UPDATE `users_stats` SET `nerve` = `nerve` - ?, `tasks_complete` = `tasks_complete` + 1 WHERE `id` = ?');
+							$db->execute([$task['nerve'], $my['id']]);
 							$db->endTrans();
 							$parser->parse(nl2br($mtg->format($task['text_success'])));
 							echo '<p class="green">',$parser->getAsHTML(),'</p>';
