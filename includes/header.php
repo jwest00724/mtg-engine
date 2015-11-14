@@ -1,4 +1,5 @@
 <?php
+namespace MTG;
 /*DON'T BE A DICK PUBLIC LICENSE
 
 Everyone is permitted to copy and distribute verbatim or modified copies of this license document, and changing it is allowed as long as the name is changed.
@@ -111,7 +112,7 @@ class headers {
 	function __destruct() {
 		if(!isset($mtg)) {
 			require_once __DIR__ . '/class/class_mtg_functions.php';
-			$mtg = MTG\mtg_functions::getInstance();
+			$mtg = mtg_functions::getInstance();
 		}
 		$year = date('Y');
 		?>			</div>
