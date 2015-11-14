@@ -179,13 +179,25 @@ class database {
 		return $result !== false;
 	}
 	public function startTrans() {
-		return $this->db->beginTransaction();
+		try {
+			return $this->db->beginTransaction();
+		} catch (Exception $e) {
+			exit('<strong>BEGIN TRANSACTION ERROR:</strong> '.$e->getMessage());
+		}
 	}
 	public function endTrans() {
-		return $this->db->commit();
+		try {
+			return $this->db->commit();
+		} catch (Exception $e) {
+			exit('<strong>COMMIT TRANSACTION ERROR:</strong> '.$e->getMessage());
+		}
 	}
 	public function cancelTransaction() {
-		return $this->db->rollBack();
+		try {
+			return $this->db->rollBack();
+		} catch (Exception $e) {
+			exit('<strong>ROLLBACK TRANSACTION ERROR:</strong> '.$e->getMessage());
+		}
 	}
 	public function error() {
 		echo '<pre>';
