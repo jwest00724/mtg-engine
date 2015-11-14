@@ -335,8 +335,12 @@ switch($_GET['action']) {
 					</div>
 					<div class="pure-control-group">
 						<label for="currency">Currency</label>
-						<label for="money" class="pure-radio"><input type="radio" name="currency" value="money" checked="checked" /> Cash</label>
-						<label for="points" class="pure-radio"><input type="radio" name="currency" value="points" /> Points</label>
+						<label for="money" class="pure-radio">
+							<input id="money" type="radio" name="currency" value="money" checked="checked" /> Cash
+						</label>
+						<label for="points" class="pure-radio">
+							<input id="points" type="radio" name="currency" value="points" /> Points
+						</label>
 					</div>
 					<div class="pure-controls">
 						<button type="submit" name="submit" class="pure-button pure-button-primary">List your item</button>
