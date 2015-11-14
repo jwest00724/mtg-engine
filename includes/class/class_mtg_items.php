@@ -38,10 +38,10 @@ class items {
 		$item = $mtg->format($db->fetch_single());
 		return $link == true ? '<a href="items.php?action=info&amp;ID='.$id.'">'.$item.'</a>' : $item;
 	}
-	public function listAll($ddname = 'item', $selected = null, $notIn = []) {
+	public function listAll($ddname = 'item', $selected = null, $notIn = [], $pure = '') {
 		global $db, $mtg;
 		$first = $selected == null ? 0 : 1;
-		$ret = '<select name="'.$ddname.'"><option value="0"'.($selected == null ? ' selected="selected"' : '').'>--- Select ---</option>';
+		$ret = '<select name="'.$ddname.'"'.($pure ? ' class="'.$pure.'"' : '').'><option value="0"'.($selected == null ? ' selected="selected"' : '').'>--- Select ---</option>';
 		$first = 1;
 		$extra = '';
 		if(count($notIn))
