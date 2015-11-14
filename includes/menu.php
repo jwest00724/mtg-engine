@@ -2,6 +2,8 @@
 if(!defined('MTG_ENABLE'))
 	exit;
 ?><ul class="pure-menu-list"><?php
+if($users->hasAccess('staff_panel_access'))
+	echo '<li class="pure-menu-item menu-item-divided"><a href="staff" class="pure-menu-link">Staff Panel</a></li>'."\n";
 $links = [
 	'divider0' => 'Menu',
 	'index.php' => 'Home',
@@ -44,6 +46,4 @@ foreach($links as $url => $disp) {
 	else
 		printf('<li class="pure-menu-item"><a href="%s" class="pure-menu-link%s">%s</a></li>'."\n", $url, $_SERVER['PHP_SELF'] == '/'.$url ? ' pure-menu-selected' : null, $disp);
 }
-if($users->hasAccess('staff_panel_access'))
-	echo '<li class="pure-menu-item menu-item-divided"><a href="staff" class="pure-menu-link">Staff Panel</a></li>'."\n";
 ?></ul>
