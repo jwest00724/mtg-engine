@@ -2,3 +2,4 @@
 error_log
 Procfile
 vendor/*
+/includes/config.php
