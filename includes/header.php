@@ -74,11 +74,11 @@ class headers {
 							<li class="pure-menu-item"><strong>Merits:</strong> <?php echo $mtg->format($my['merits']);?></li>
 						</ul><hr />
 						<ul class="pure-menu-list">
-							<li class="pure-menu-item">ENERGY: <?php echo round($my['energy'] / $my['energy_max'] * 100);?>%</li>
-							<li class="pure-menu-item">NERVE: <?php echo round($my['nerve'] / $my['nerve_max'] * 100);?>%</li>
-							<li class="pure-menu-item">HAPPY: <?php echo round($my['happy'] / $my['happy_max'] * 100);?>%</li>
-							<li class="pure-menu-item">LIFE: <?php echo round($my['health'] / $my['health_max'] * 100);?>%</li>
-							<li class="pure-menu-item">EXP: <?php echo $mtg->format($my['exp'], 2).'/'.$users->expRequired(true);?></li>
+							<li class="pure-menu-item">Energy: <?php echo $my['energy'].'/'.$my['energy_max'];?></li>
+							<li class="pure-menu-item">Nerve: <?php echo $my['nerve'].'/'.$my['nerve_max'];?></li>
+							<li class="pure-menu-item">Happy: <?php echo $my['happy'].'/'.$my['happy_max'];?></li>
+							<li class="pure-menu-item">Life: <?php echo $my['health'].'/'.$my['health_max'];?></li>
+							<li class="pure-menu-item">Exp: <?php echo $mtg->format($my['exp'], 2).'/'.$users->expRequired(true);?></li>
 						</ul>
 					</div>
 					<div class="pure-menu"><?php
