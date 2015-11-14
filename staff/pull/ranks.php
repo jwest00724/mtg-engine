@@ -57,12 +57,14 @@ function listRanks($db, $mtg) {
 	global $fields;
 	?><h3 class="content-subhead">Viewing your staff ranks</h3>
 	<h4><a href="staff/?pull=ranks&amp;action=add">Add Rank</a></h4>
-	<table class="pure-table" width="100%">
-		<tr>
-			<th width="40%">Rank</th>
-			<th width="20%">Order</th>
-			<th width="40%">Actions</th>
-		</tr><?php
+	<table width="100%" class="pure-table pure-table-striped">
+		<thead>
+			<tr>
+				<th width="40%">Rank</th>
+				<th width="20%">Order</th>
+				<th width="40%">Actions</th>
+			</tr>
+		</thead><?php
 		$db->query('SELECT `rank_id`, `rank_name`, `rank_desc`, `rank_colour`, `rank_order` FROM `staff_ranks` ORDER BY `rank_order` ASC');
 		$db->execute();
 		if(!$db->num_rows())
@@ -114,7 +116,7 @@ function addRank($db, $mtg, $logs, $fields) {
 				</div><?php
 			}
 			?><div class="pure-controls">
-				<button type="submit" name="submit" class="pure-button pure-button-primary">Add Rank</button>
+				<button type="submit" name="submit" class="pure-button pure-button-primary"><i class="fa fa-plus"></i> Add Rank</button>
 				<button type="reset" class="pure-button pure-button-secondary"><i class="fa fa-recycle"></i> Reset</button>
 			</div>
 		</form><?php
@@ -142,8 +144,8 @@ function addRank($db, $mtg, $logs, $fields) {
 		$db->execute([$order]);
 		$new = $db->insert_id();
 		foreach($_POST as $what => $value) {
-			$db->query('UPDATE `staff_ranks` SET `?` = ? WHERE `rank_id` = ?');
-			$db->execute([$what, $value, $new]);
+			$db->query('UPDATE `staff_ranks` SET `'.$what.'` = ? WHERE `rank_id` = ?');
+			$db->execute([$value, $new]);
 		}
 		$db->endTrans();
 		$logs->staff('Created a new staff rank: '.$mtg->format($_POST['rank_name']));
@@ -163,43 +165,42 @@ function editRank($db, $mtg, $logs, $fields) {
 			if(!$db->num_rows())
 				$mtg->error('That rank doesn\'t exist');
 			$row = $db->fetch_row(true);
-			?><form action="staff/?pull=ranks&amp;action=edit&amp;ID=<?php echo $_GET['ID'];?>&amp;step=1" method="post">
-				<table class="table" width="100%">
-					<tr>
-						<th width="60%">Name</th>
-						<td width="40%"><input type="text" name="rank_name" value="<?php echo $mtg->format($row['rank_name']);?>" /></td>
-					</tr>
-					<tr>
-						<th>Colour</th>
-						<td><input type="text" name="rank_colour" maxlength="6" value="<?php echo $row['rank_colour'];?>" /></td>
-					</tr>
-					<tr>
-						<th>Description</th>
-						<td><input type="text" name="rank_desc" value="<?php echo $row['rank_desc'];?>" /></td>
-					</tr>
-					<tr>
-						<th>Order</th>
-						<td><input type="text" name="rank_order" value="<?php echo $row['rank_order'];?>" /></td>
-					</tr><?php
-					foreach($fields as $col) {
-						$name = ucwords(str_replace('_', ' ', $col));
-						$db->query('SELECT `'.$col.'` FROM `staff_ranks` WHERE `rank_id` = ?');
-						$db->execute([$_GET['ID']]);
-						$single = $db->fetch_single();
-						if($row['override_all'] == 'Yes')
-							$single = 'Yes';
-						?><tr>
-							<th><?php echo str_replace(' Ip ', ' IP ', $name);?></th>
-							<td><select name="<?php echo $col;?>" style="width:50%;">
-								<option value="No" class="red"<?php echo $single == 'No' ? ' selected="selected"' : '';?>>Disabled</option>
-								<option value="Yes" class="green"<?php echo $single == 'Yes' ? ' selected="selected"' : '';?>>Enabled</option>
-							</select></td>
-						</tr><?php
-					}
-					?><tr>
-						<td colspan="2" class="center"><input type="submit" name="submit" value="Edit Rank" /></td>
-					</tr>
-				</table>
+			?><form action="staff/?pull=ranks&amp;action=edit&amp;ID=<?php echo $_GET['ID'];?>&amp;step=1" method="post" class="pure-form pure-form-aligned">
+				<div class="pure-control-group">
+					<label for="rank_name">Name</label>
+					<input type="text" name="rank_name" value="<?php echo $mtg->format($row['rank_name']);?>" class="pure-u-1-3" required />
+				</div>
+				<div class="pure-control-group">
+					<label for="rank_colour">Colour</label>
+					<input type="text" name="rank_colour" maxlength="6" value="<?php echo $row['rank_colour'];?>" class="pure-u-1-3" />
+				</div>
+				<div class="pure-control-group">
+					<label for="rank_description">Description</label>
+					<input type="text" name="rank_desc" value="<?php echo $row['rank_desc'];?>" class="pure-u-1-3" />
+				</div>
+				<div class="pure-control-group">
+					<label for="rank_order">Order</label>
+					<input type="text" name="rank_order" value="<?php echo $row['rank_order'];?>" class="pure-u-1-3" />
+				</div><?php
+				foreach($fields as $col) {
+					$name = ucwords(str_replace('_', ' ', $col));
+					$db->query('SELECT `'.$col.'` FROM `staff_ranks` WHERE `rank_id` = ?');
+					$db->execute([$_GET['ID']]);
+					$single = $db->fetch_single();
+					if($row['override_all'] == 'Yes')
+						$single = 'Yes';
+					?><div class="pure-control-group">
+						<label for="<?php echo $col;?>"><?php echo str_replace([' Ip ', 'Staff Panel ', ' '], [' IP ', '', ': '], $name);?></label>
+						<select name="<?php echo $col;?>" class="pure-u-1-3">
+							<option value="No" class="red"<?php echo $single == 'No' ? ' selected="selected"' : '';?>>Disabled</option>
+							<option value="Yes" class="green"<?php echo $single == 'Yes' ? ' selected="selected"' : '';?>>Enabled</option>
+						</select>
+					</div><?php
+				}
+				?><div class="pure-controls">
+					<button type="submit" name="submit" class="pure-button pure-button-primary">Edit Rank</button>
+					<button type="reset" class="pure-button pure-button-secondary"><i class="fa fa-recycle"></i> Reset</button>
+				</div>
 			</form><?php
 			break;
 		case 1:
@@ -237,14 +238,14 @@ function deleteRank($db, $mtg, $logs) {
 	$rank = $mtg->format($db->fetch_single());
 	if($_GET['ID'] == 1)
 		$mtg->error('You can\'t delete that rank');
-	if(!isset($_GET['ans'])) {
+	if(!isset($_POST['ans'])) {
 		?>Are you sure you want to delete <?php echo $rank;?>?<br />
-		<a href="staff/?pull=ranks&amp;action=del&amp;ID=<?php echo $_GET['ID'];?>&amp;ans=yes">Yes</a><?php
+		<form action="staff/?pull=ranks&amp;action=del&amp;ID=<?php echo $_GET['ID'];?>" method="post" class="pure-form">
+			<button type="submit" name="ans" class="pure-button pure-button-important-confirmation"><i class="fa fa-bin"></i> Yes, I'm sure</button>
+		</form><?php
 	} else {
 		$db->startTrans();
 		$db->query('DELETE FROM `staff_ranks` WHERE `rank_id` = ?');
-		$db->execute([$_GET['ID']]);
-		$db->query('DELETE FROM `staff_ranks_rules` WHERE `rank` = ?');
 		$db->execute([$_GET['ID']]);
 		$db->query('UPDATE `users` SET `staff_rank` = 0 WHERE `staff_rank` = ?');
 		$db->execute([$_GET['ID']]);
@@ -263,7 +264,7 @@ function viewRank($db, $mtg, $fields) {
 	if(!$db->num_rows())
 		$mtg->error('That rank doesn\'t exist');
 	$row = $db->fetch_row(true);
-	?><table class="table" width="100%">
+	?><table width="100%" class="pure-table pure-table-striped">
 		<tr>
 			<th colspan="2"><?php echo $mtg->format($row['rank_name']);?> - Basics [<a href="staff/?pull=ranks&amp;action=edit&amp;ID=<?php echo $_GET['ID'];?>">Edit</a>]</th>
 		</tr>
