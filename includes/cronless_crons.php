@@ -11,12 +11,20 @@ if($deficit >= 60) {
 	$n = floor($deficit / 60);
 	$db->startTrans();
 	$db->query('UPDATE `users_stats` SET
-		`happy` = IF(`happy` + ((`happy` * 0.05) * ?) > `happy_max`, `happy_max`, `happy` + (`happy` * 0.05) * ?),
-		`nerve` = IF(`nerve` + ((`nerve` * 0.15) * ?) > `nerve_max`, `nerve_max`, `nerve` + (`nerve` * 0.15) * ?),
-		`power` = IF(`power` + ((`power` * 0.25) * ?) > `power_max`, `power_max`, `power` + (`power` * 0.25) * ?),
-		`health` = IF(`health` + ((`health` * 0.05) * ?) > `health_max`, `health_max`, `health` + (`health` * 0.05) * ?)');
-	$db->execute([$n, $n, $n, $n, $n, $n, $n, $n]);
+		`health` = LEAST(`health` + (((`health_max` * 0.25) + 2) * ?), `health_max`),
+		`nerve` = LEAST(`nerve` + (((`nerve_max` * 0.33) + 2) * ?), `nerve_max`),
+		`power` = LEAST(`power` + (((`power_max` * 0.4) + 2) * ?), `power_max`),
+		`happy` = LEAST(`happy` + (((`happy_max` * 0.35) + 2) * ?), `happy_max`),
+		`energy` = LEAST(`energy` + (((`energy_max` * 0.15) + 2) * ?), `energy_max`)');
+	$db->execute([$n, $n, $n, $n, $n]);
 	$db->query('UPDATE `settings_crons` SET `last` = ? WHERE `type` = "1min"');
-	$db->execute([date('Y-m-d H:i:s', time() + 60)]);
+	$db->execute([date('Y-m-d H:i:s')]);
+	$time = time();
+	$floor = $time - floor($time / 60) * 60;
+	if($floor > 0) {
+		$next = time() - $floor;
+		$db->query('UPDATE `settings_crons` SET `last` = ? WHERE `type` = "1min"');
+		$db->execute([date('Y-m-d H:i:s', $next)]);
+	}
 	$db->endTrans();
 }
