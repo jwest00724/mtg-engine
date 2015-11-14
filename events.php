@@ -25,8 +25,6 @@ switch($_GET['action']) {
 		$pages->items_total = $db->fetch_single();
 		$pages->mid_range = 3;
 		$pages->paginate();
-		$db->query("SELECT `id`, `text`, `type`, `time_sent`, `extra` FROM `users_events` WHERE `user` = ? ORDER BY `time_sent` DESC ".$pages->limit);
-		$db->execute([$my['id']]);
 		?><p class='paginate'><?php echo $pages->display_pages();?></p>
 		<table width='100%' class='pure-table pure-table-striped'>
 			<tr>
@@ -34,22 +32,33 @@ switch($_GET['action']) {
 				<th width='65%'>Event</th>
 				<th width='10%'>Actions</th>
 			</tr><?php
+			$db->query("SELECT `id`, `text`, `type`, `time_sent`, `extra`, `read` FROM `users_events` WHERE `user` = ? AND `deleted` = 0 ORDER BY `time_sent` DESC ".$pages->limit);
+			$db->execute([$my['id']]);
 			if(!$db->num_rows())
 				echo "<tr><td colspan='3'>You have no events</td></tr>";
 			else {
+				$ids = [];
 				$rows = $db->fetch_row();
 				foreach($rows as $row) {
+					if(!$row['read'])
+						$ids[] = $row['id'];
 					$row['text'] = $mtg->format($row['text']);
-					if(preg_match('/\{id\}/', $row['text']))
-						$row['text'] = str_replace('{id}', $users->name($row['extra']));
+					if(preg_match('/\{id\}/', $row['text']) && $row['extra'])
+						$row['text'] = str_replace('{id}', $users->name($row['extra']), $row['text']);
 					?><tr>
-						<td>
-							<strong>Received:</strong> <?php echo date('H:i:s d/m/Y', strtotime($row['time_sent']));?><br />
+						<td><?php
+							if(!$row['read'])
+								echo '<img src="images/silk/exclamation.png" title="New" alt="New!" /> ';
+							?><strong>Received:</strong> <?php echo date('H:i:s d/m/Y', strtotime($row['time_sent']));?><br />
 							<strong>Category:</strong> <?php echo ucfirst($row['type']);?>
 						</td>
 						<td><?php echo $row['text'];?></td>
 						<td><a href='events.php?action=delete&amp;ID=<?php echo $row['id'];?>'>Delete</a></td>
 					</tr><?php
+				}
+				if(count($ids)) {
+					$db->query('UPDATE `users_events` SET `read` = 1 WHERE `id` IN('.implode(',', $ids).')');
+					$db->execute();
 				}
 			}
 		?></table>
