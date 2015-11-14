@@ -114,7 +114,7 @@ class users {
 		global $db;
 		if(!$this->exists($id))
 			return false;
-		$db->query('INSERT INTO `users_events` (`user`, `type`, `event`, `extra`) VALUES (?, ?, ?, ?)');
+		$db->query('INSERT INTO `users_events` (`user`, `type`, `text`, `extra`) VALUES (?, ?, ?, ?)');
 		$db->execute([$id, $type, $event, $extra]);
 	}
 	public function send_message($to, $from, $subject = 'No subject', $message) {
