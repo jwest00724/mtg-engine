@@ -193,11 +193,11 @@ class users {
 		return $get['staff_rank'] && !$my['staff_rank'] ? 'Staff secrecy' : $status;
 	}
 	public function checkBan($type = 'game', $id = null) {
-		global $db, $my, $mtg;
+		global $db, $my, $mtg, $users;
 		if(!$id)
 			$id = $my['id'];
-		$db->query('SELECT `time_enforced`, `time_expires`, `enforcer` FROM `users_bans` WHERE `user` = ? AND `ban_type` = ?');
-		$db->execute([$my['id'], $id]);
+		$db->query('SELECT `time_enforced`, `time_expires`, `enforcer`, `ban_type` FROM `users_bans` WHERE `user` = ? AND `ban_type` = ? AND `time_expires` >= ?');
+		$db->execute([$id, $type, date('Y-m-d H:i:s')]);
 		if(!$db->num_rows())
 			return false;
 		$ban = $db->fetch_row(true);
@@ -207,8 +207,12 @@ class users {
 				break;
 			case 'messages':
 				$system = 'messaging systems';
+				break;
+			case 'forum':
+				$system = 'forums';
+				break;
 		}
-		return $mtg->error('You\'ve been banned from the '.$system.'.<br />Your ban was enforced by '.$users->name($ban['enforcer']).' on '.date('l jS \of F Y h:i:sA', $ban['time_enforced']).' and is due to expire '.date('l jS \of F Y h:i:sA', $ban['time_expires']));
+		$mtg->error('You\'ve been banned from the '.$system.'.<br />Your ban was enforced by '.$users->name($ban['enforcer']).' on '.date('l jS \of F Y g:i:sa', strtotime($ban['time_enforced'])).' and is due to expire '.date('l jS \of F Y g:i:sa', strtotime($ban['time_expires'])).'.<br />There\'s '.$mtg->time_format(strtotime($ban['time_expires']) - time()).' remaining');
 	}
 	public function listInventory($id, $ddname = 'item', $selected = null, $notIn = []) {
 		global $db, $mtg;
