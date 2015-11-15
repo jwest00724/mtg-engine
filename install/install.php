@@ -234,46 +234,41 @@ define('DB_NAME', '".$_POST['name']."');";
 		break;
 	case 5:
 		?><h2 class="content-subhead">Database installed, let's configure the game</h2>
-		<form action="install.php?step=6" method="post" class="pure-form-aligned">
-			<table class="pure-table" width="75%">
-				<tr>
-					<th colspan="2" class="center">Basic Settings</th>
-				</tr>
-				<tr>
-					<th width="25%">Game Name</th>
-					<td width="75%"><input type="text" name="game_name" /></td>
-				</tr>
-				<tr>
-					<th>Game Owner</th>
-					<td><input type="text" name="game_owner" /></td>
-				</tr>
-				<tr>
-					<th>Game Description</th>
-					<td><textarea style="width:75%;" rows="10" name="game_description"></textarea></td>
-				</tr>
-				<tr>
-					<th colspan="2" class="center">Your Account</th>
-				</tr>
-				<tr>
-					<th>Username</th>
-					<td><input type="text" name="username" /></td>
-				</tr>
-				<tr>
-					<th>Password</th>
-					<td><input type="password" name="pass" /></td>
-				</tr>
-				<tr>
-					<th>Confirm Password</th>
-					<td><input type="password" name="cpass" /></td>
-				</tr>
-				<tr>
-					<th>Email</th>
-					<td><input type="email" name="email" /></td>
-				</tr>
-				<tr>
-					<td colspan="2" class="center"><input type="submit" class="pure-button pure-button-primary" name="submit" value="Modify Settings and Create Account" /></td>
-				</tr>
-			</table>
+		<form action="install.php?step=6" method="post" class="pure-form pure-form-aligned">
+			<legend>Basic Settings</legend>
+			<div class="pure-control-group">
+				<label for="game_name">Game Name</label>
+				<input type="text" name="game_name" class="pure-u-1-3" />
+			</div>
+			<div class="pure-control-group">
+				<label for="game_owner">Game Owner</label>
+				<input type="text" name="game_owner" class="pure-u-1-3" />
+			</div>
+			<div class="pure-control-group">
+				<label for="game_description">Game Description</label>
+				<textarea name="game_description" class="pure-u-1-3"></textarea>
+			</div>
+			<legend>Your Account</legend>
+			<div class="pure-control-group">
+				<label for="username">Username</label>
+				<input type="text" name="username" class="pure-u-1-3" required />
+			</div>
+			<div class="pure-control-group">
+				<label for="pass">Password</label>
+				<input type="password" name="pass" class="pure-u-1-3" required />
+			</div>
+			<div class="pure-control-group">
+				<label for="cpass">Confirm Password</label>
+				<input type="password" name="cpass" class="pure-u-1-3" required />
+			</div>
+			<div class="pure-control-group">
+				<label for="email">Email</label>
+				<input type="email" name="email" class="pure-u-1-3" required />
+			</div>
+			<div class="pure-controls">
+				<button type="submit" name="submit" class="pure-button pure-button-primary">Modify Settings and Create Account</button>
+				<button type="reset" class="pure-button pure-button-secondary"><i class="fa fa-recycle"></i> Reset</button>
+			</div>
 		</form>
 		<p>
 			*<strong>Game Name:</strong> The name of your game<br />
@@ -282,12 +277,12 @@ define('DB_NAME', '".$_POST['name']."');";
 		</p><?php
 		break;
 	case 6:
-		if(!isset($_POST['submit']))
+		if(!array_key_exists('submit', $_POST))
 			error('You didn\'t come from step 5..');
 		if(empty($_POST['game_name']))
 			error('You must enter a game name. If you\'re not sure, enter a temporarily value (such as &ldquo;To Be Named&rdquo;, for example)');
 		require_once $mainPath . '/includes/class/class_mtg_db_mysqli.php';
-		$db->query('UPDATE `game_settings` SET `value` = :value WHERE `name` = :name');
+		$db->query('UPDATE `settings_game` SET `value` = :value WHERE `name` = :name');
 		$settings = [
 			[
 				':value' => $_POST['game_name'],
