@@ -20,11 +20,13 @@ switch($_GET['action']) {
 		$rows = $db->fetch_row();
 		?><p class="paginate"><?php echo $pages->display_pages();?></p>
 		<table class="pure-table pure-table-striped" width="100%">
-			<tr>
-				<th width="25%">Player</th>
-				<th width="25%">Last Seen</th>
-				<th width="50%">Actions</th>
-			</tr><?php
+			<thead>
+				<tr>
+					<th width="25%">Player</th>
+					<th width="25%">Last Seen</th>
+					<th width="50%">Actions</th>
+				</tr>
+			</thead><?php
 			foreach($rows as $row) {
 				?><tr>
 					<td><?php echo $users->name($row['id']);?></td>
@@ -46,11 +48,13 @@ switch($_GET['action']) {
 		$rows = $db->fetch_row();
 		?><p class="paginate"><?php echo $pages->display_pages();?></p>
 		<table class="pure-table pure-table-striped" width="100%">
-			<tr>
-				<th width="25%">Player</th>
-				<th width="25%">Last Seen</th>
-				<th width="50%">Actions</th>
-			</tr><?php
+			<thead>
+				<tr>
+					<th width="25%">Player</th>
+					<th width="25%">Last Seen</th>
+					<th width="50%">Actions</th>
+				</tr>
+			</thead><?php
 			foreach($rows as $row) {
 				?><tr>
 					<td><?php echo $users->name($row['id']);?></td>
