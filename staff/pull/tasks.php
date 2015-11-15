@@ -135,6 +135,18 @@ function addTask($db, $mtg, $items, $logs) {
 		$db->execute([$_POST['name']]);
 		if($db->num_rows())
 			$mtg->error('Another task with that name already exists');
+		$_POST['courses'] = array_key_exists('courses', $_POST) ? $_POST['courses'] : 0;
+		if($_POST['courses']) {
+			$courses = explode(',', $_POST['courses']);
+			if(!count($courses))
+				$mtg->error('You didn\'t enter a valid course format. It must be course IDs separated by a comma');
+			foreach($courses as $course) {
+				$db->query('SELECT `id` FROM `courses` WHERE `id` = ?');
+				$db->execute([$course]);
+				if(!$db->num_rows())
+					$mtg->error('One of the courses you entered doesn\'t exist (course ID :'.$course.')');
+			}
+		}
 		$db->query('INSERT INTO `tasks` (`name`, `nerve`, `formula`, `group_id`, `courses_required`, `text_start`, `text_success`, `text_failure`, `text_jail`, `text_hospital`, `time_jail`, `text_reason_jail`, `time_hospital`, `text_reason_hospital`, `upgraded_only`, `awarded_money_min`, `awarded_money_max`, `awarded_points_min`, `awarded_points_max`, `awarded_xp_min`, `awarded_xp_max`, `awarded_item`, `awarded_item_qty`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)');
 		$db->execute([$_POST['name'], $_POST['nerve'], $_POST['formula'], $_POST['group'], $_POST['courses'], $_POST['start'], $_POST['success'], $_POST['failure'], $_POST['jailed'], $_POST['hospitalised'], $_POST['jail'], $_POST['reason_jail'], $_POST['hospital'], $_POST['reason_hospital'], $_POST['upgraded'], $_POST['money_min'], $_POST['money_max'], $_POST['points_min'], $_POST['points_max'], $_POST['xp_min'], $_POST['xp_max'], $_POST['item'], $_POST['item_qty']]);
 		$logs->staff('Created task: '.$mtg->format($_POST['name']));
@@ -230,7 +242,7 @@ function addTask($db, $mtg, $items, $logs) {
 			<textarea id="text-hospitalised" name="hospitalised" class="pure-u-1-3"></textarea>
 		</div>
 		<div class="pure-controls">
-			<button type="submit" name="submit" class="pure-button pure-button-primary"><i class="fa fa-plus"></i> Create Task</button>
+			<button type="submit" name="submit" value="true" class="pure-button pure-button-primary"><i class="fa fa-plus"></i> Create Task</button>
 			<button type="reset" class="pure-button pure-button-secondary"><i class="fa fa-recycle"></i> Reset</button>
 		</div>
 	</form>
@@ -274,6 +286,18 @@ function editTask($db, $mtg, $items, $logs) {
 		$db->execute([$_POST['name'], $_GET['ID']]);
 		if($db->num_rows())
 			$mtg->error('Another task with that name already exists');
+		$_POST['courses'] = array_key_exists('courses', $_POST) ? $_POST['courses'] : 0;
+		if($_POST['courses']) {
+			$courses = explode(',', $_POST['courses']);
+			if(!count($courses))
+				$mtg->error('You didn\'t enter a valid course format. It must be course IDs separated by a comma');
+			foreach($courses as $course) {
+				$db->query('SELECT `id` FROM `courses` WHERE `id` = ?');
+				$db->execute([$course]);
+				if(!$db->num_rows())
+					$mtg->error('One of the courses you entered doesn\'t exist (course ID :'.$course.')');
+			}
+		}
 		$db->query('REPLACE INTO `tasks` (`id`, `name`, `nerve`, `formula`, `group_id`, `courses_required`, `text_start`, `text_success`, `text_failure`, `text_jail`, `text_hospital`, `time_jail`, `text_reason_jail`, `time_hospital`, `text_reason_hospital`, `upgraded_only`, `awarded_money_min`, `awarded_money_max`, `awarded_points_min`, `awarded_points_max`, `awarded_xp_min`, `awarded_xp_max`, `awarded_item`, `awarded_item_qty`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)');
 		$db->execute([$_GET['ID'], $_POST['name'], $_POST['nerve'], $_POST['formula'], $_POST['group'], $_POST['courses'], $_POST['start'], $_POST['success'], $_POST['failure'], $_POST['jailed'], $_POST['hospitalised'], $_POST['jail'], $_POST['reason_jail'], $_POST['hospital'], $_POST['reason_hospital'], $_POST['upgraded'], $_POST['money_min'], $_POST['money_max'], $_POST['points_min'], $_POST['points_max'], $_POST['xp_min'], $_POST['xp_max'], $_POST['item'], $_POST['item_qty']]);
 		$logs->staff('Edited task: '.$mtg->format($_POST['name']));
@@ -370,7 +394,7 @@ function editTask($db, $mtg, $items, $logs) {
 				<textarea id="text-hospitalised" name="hospitalised" class="pure-u-1-3"><?php echo $mtg->format($row['text_hospital']);?></textarea>
 			</div>
 			<div class="pure-controls">
-				<button type="submit" name="submit" class="pure-button pure-button-primary"><i class="fa fa-cog"></i> Edit Task</button>
+				<button type="submit" name="submit" value="true" class="pure-button pure-button-primary"><i class="fa fa-cog"></i> Edit Task</button>
 				<button type="reset" class="pure-button pure-button-secondary"><i class="fa fa-recycle"></i> Reset</button>
 			</div>
 		</form>
@@ -395,7 +419,7 @@ function deleteTask($db, $mtg, $logs) {
 	if(!array_key_exists('submit', $_POST)) {
 		?>Are you sure you wish to delete the &ldquo;<?php echo $name;?>?
 		<form action="staff/?pull=tasks&amp;action=del&amp;ID=<?php echo $_GET['ID'];?>" method="post" class="pure-form">
-			<button type="submit" name="submit" class="pure-button pure-button-important-confirmation">Yes, I'm sure</button>
+			<button type="submit" name="submit" value="true" class="pure-button pure-button-important-confirmation">Yes, I'm sure</button>
 		</form><?php
 	} else {
 		$db->query('DELETE FROM `tasks` WHERE `id` = ?');
@@ -474,7 +498,7 @@ function addTaskGroup($db, $mtg, $logs) {
 			<input type="text" name="order" placeholder="<?php echo $order;?>" class="pure-u-1-3" />
 		</div>
 		<div class="pure-controls">
-			<button type="submit" name="submit" class="pure-button pure-button-primary"><i class="fa fa-plus"></i>Add Task Group</button>
+			<button type="submit" name="submit" value="true" class="pure-button pure-button-primary"><i class="fa fa-plus"></i>Add Task Group</button>
 			<button type="reset" class="pure-button pure-button-secondary"><i class="fa fa-recycle"></i> Reset</button>
 		</div>
 	</form>
@@ -522,7 +546,7 @@ function editTaskGroup($db, $mtg, $logs) {
 				<input type="text" name="order" value="<?php echo $row['ordering'];?>" class="pure-u-1-3" />
 			</div>
 			<div class="pure-controls">
-				<button type="submit" name="submit" class="pure-button pure-button-primary">Edit Task Group</button>
+				<button type="submit" name="submit" value="true" class="pure-button pure-button-primary">Edit Task Group</button>
 				<button type="reset" class="pure-button pure-button-secondary"><i class="fa fa-recycle"></i> Reset</button>
 			</div>
 		</form>
@@ -557,7 +581,7 @@ function deleteTaskGroup($db, $mtg, $logs) {
 				</label>
 			</div>
 			<div class="pure-controls">
-				<button type="submit" name="submit" class="pure-button pure-button-important-confirmation"><i class="fa fa-trash"></i> Delete Task Group</button>
+				<button type="submit" name="submit" value="true" class="pure-button pure-button-important-confirmation"><i class="fa fa-trash"></i> Delete Task Group</button>
 				<button type="reset" class="pure-button pure-button-secondary"><i class="fa fa-recycle"></i> Reset</button>
 			</div>
 		</form><?php
