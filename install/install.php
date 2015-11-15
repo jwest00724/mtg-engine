@@ -316,7 +316,7 @@ define('DB_NAME', '".$_POST['name']."');";
 			error('Your passwords didn\'t match');
 		require_once $mainPath . '/includes/class/class_mtg_users.php';
 		$db->startTrans();
-		$db->query('INSERT INTO `staff_ranks` (`rank_id`, `rank_name`, `rank_order`, `rank_colour`, `override_all`) VALUES (1, 'Owner', 1, '000033', 'Yes')');
+		$db->query('INSERT INTO `staff_ranks` (`rank_id`, `rank_name`, `rank_order`, `rank_colour`, `override_all`) VALUES (1, "Owner", 1, "000033", "Yes")');
 		$db->execute();
 		$db->query('INSERT INTO `users` (`id`, `username`, `password`, `email`, `staff_rank`) VALUES (1, ?, ?, ?, 1)');
 		$db->execute([$_POST['username'], $users->hashPass($_POST['pass']), $_POST['email']]);
