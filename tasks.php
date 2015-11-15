@@ -36,18 +36,24 @@ if(array_key_exists('id', $_GET)) {
 						$find = ['[TOTAL_STATS]', '[STRENGTH]', '[AGILITY]', '[GUARD]', '[LABOUR]', '[IQ]', '[MONEY]', '[POINTS]', '[POWER]', '[ENERGY]', '[NERVE]', '[LIFE]', '[EXP]', '[EXP_GIVEN]', '[MONEY_GIVEN]', '[POINTS_GIVEN]', '[HOSPITAL_TIME]', '[JAIL_TIME]'];
 						if($task['awarded_money_min'] && $task['awarded_money_max'])
 							$task['money'] = mt_rand($task['awarded_money_min'], $task['awarded_money_max']);
+						else if(!$task['awarded_money_min'] && $task['awarded_money_max'])
+							$task['money'] = mt_rand(0, $task['awarded_money_max']);
 						else if($task['awarded_money_min'] && !$task['awarded_money_max'])
 							$task['money'] = $task['awarded_money_min'];
 						else
 							$task['money'] = 0;
 						if($task['awarded_points_min'] && $task['awarded_points_max'])
 							$task['points'] = mt_rand($task['awarded_points_min'], $task['awarded_points_max']);
+						else if(!$task['awarded_points_min'] && $task['awarded_points_max'])
+							$task['points'] = mt_rand(0, $task['awarded_points_max']);
 						else if($task['awarded_points_min'] && !$task['awarded_points_max'])
 							$task['points'] = $task['awarded_points_min'];
 						else
 							$task['points'] = 0;
 						if($task['awarded_xp_min'] && $task['awarded_xp_max'])
 							$task['xp_awarded'] = mt_rand($task['awarded_xp_min'], $task['awarded_xp_max']);
+						else if(!$task['awarded_xp_min'] && $task['awarded_xp_max'])
+							$task['xp_awarded'] = mt_rand(0, $task['awarded_xp_max']);
 						else if($task['awarded_xp_min'] && !$task['awarded_xp_max'])
 							$task['xp_awarded'] = $task['awarded_points_min'];
 						else

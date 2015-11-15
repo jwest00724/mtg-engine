@@ -74,14 +74,20 @@ function manageTasks($db, $mtg) {
 					$rewards .= '<strong>XP:</strong> Between '.$mtg->format($task['awarded_xp_min']).' and '.$mtg->format($task['awarded_xp_max']).'<br />';
 				else if($task['awarded_xp_min'] && !$task['awarded_xp_max'])
 					$rewards .= '<strong>XP:</strong> '.$mtg->format($task['awarded_xp_min']).'<br />';
+				else if(!$task['awarded_xp_min'] && $task['awarded_xp_max'])
+					$rewards .= '<strong>XP:</strong> Between 0 and '.$mtg->format($task['awarded_xp_max']).'<br />';
 				if($task['awarded_money_min'] && $task['awarded_money_max'])
 					$rewards .= '<strong>Cash:</strong> Between '.$set['main_currency_symbol'].$mtg->format($task['awarded_money_min']).' and '.$set['main_currency_symbol'].$mtg->format($task['awarded_money_max']).'<br />';
 				else if($task['awarded_money_min'] && !$task['awarded_money_max'])
 					$rewards .= '<strong>Cash:</strong> '.$set['main_currency_symbol'].$mtg->format($task['awarded_money_min']).'<br />';
+				else if(!$task['awarded_money_min'] && $task['awarded_money_max'])
+					$rewards .= '<strong>Cash:</strong> Between 0 and '.$set['main_currency_symbol'].$mtg->format($task['awarded_money_max']).'<br />';
 				if($task['awarded_points_min'] && $task['awarded_points_max'])
 					$rewards .= '<strong>Points:</strong> Between '.$mtg->format($task['awarded_points_min']).' and '.$mtg->format($task['awarded_points_min']).'<br />';
 				else if($task['awarded_points_min'] && !$task['awarded_points_max'])
 					$rewards .= '<strong>Points:</strong> '.$mtg->format($task['awarded_points_min']).'<br />';
+				else if(!$task['awarded_points_min'] && $task['awarded_points_max'])
+					$rewards .= '<strong>Points:</strong> Between 0 and '.$mtg->format($task['awarded_points_max']).'<br />';
 				if($task['awarded_item'])
 					$rewards .= '<strong>Item:</strong> '.$items->name($task['awarded_item']).'<br />';
 				$coursesInfo = '';
@@ -125,9 +131,7 @@ function addTask($db, $mtg, $items, $logs) {
 			$mtg->error('The task group you selected doesn\'t exist');
 		$rewardsWithMinMax = ['money', 'points', 'xp'];
 		foreach($rewardsWithMinMax as $what)
-			if($_POST[$what.'_max'] && !$_POST[$what.'_min'])
-				$mtg->error('You entered a maximum '.$what.' value, but not a minimum');
-			else if($_POST[$what.'_max'] && $_POST[$what.'_min'] > $_POST[$what.'_max'])
+			if($_POST[$what.'_max'] && $_POST[$what.'_min'] > $_POST[$what.'_max'])
 				$mtg->error('You entered a higher minimum value for the '.$what.' reward');
 		if($_POST['item'] && !$_POST['item_qty'])
 			$mtg->error('You selected an item as a reward, but didn\'t enter a valid quantity');
@@ -276,9 +280,7 @@ function editTask($db, $mtg, $items, $logs) {
 			$mtg->error('The task group you selected doesn\'t exist');
 		$rewardsWithMinMax = ['money', 'points', 'xp'];
 		foreach($rewardsWithMinMax as $what)
-			if($_POST[$what.'_max'] && !$_POST[$what.'_min'])
-				$mtg->error('You entered a maximum '.$what.' value, but not a minimum');
-			else if($_POST[$what.'_max'] && $_POST[$what.'_min'] > $_POST[$what.'_max'])
+			if($_POST[$what.'_max'] && $_POST[$what.'_min'] > $_POST[$what.'_max'])
 				$mtg->error('You entered a higher minimum value for the '.$what.' reward');
 		if($_POST['item'] && !$_POST['item_qty'])
 			$mtg->error('You selected an item as a reward, but didn\'t enter a valid quantity');
