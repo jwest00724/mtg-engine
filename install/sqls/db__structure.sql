@@ -460,7 +460,9 @@ CREATE TABLE IF NOT EXISTS `users` (
   `last_seen` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `profile_picture` varchar(255) NOT NULL DEFAULT '',
   `status` text NOT NULL,
-  `upgraded` TIMESTAMP NOT NULL DEFAULT '0000-00-00 00:00:00'
+  `upgraded` TIMESTAMP NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `account_locked` TIMESTAMP NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `login_attempts` TINYINT(5) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
