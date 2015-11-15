@@ -97,7 +97,7 @@ if(!empty($_GET['code'])) {
 		if(@mail($_POST['email'], $mtg->format($set['game_name']).': Password Reset', $message, 'From: support@'.$_SERVER['HTTP_HOST']))
 			$mtg->success('An email has been sent to you. Some providers can be a little slow, so please be patient - remember to check your spam box too!<br />Your reset code is only valid for 1 hour');
 		else {
-			$users->send_event($set['game_owner'], 'Administration', 'Password reset email couldn\'t be sent - check pending resets for '.$users->name($id, true));
+			$users->send_event($set['game_owner_id'], 'Administration', 'Password reset email couldn\'t be sent - check pending resets for '.$users->name($id, true));
 			$mtg->error('A password reset email couldn\'t be sent. Not to worry, the administration has been informed. You should receive a response to the email address you provided within 48 hours (normally a lot sooner!)');
 		}
 	}
