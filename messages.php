@@ -40,7 +40,7 @@ switch($_GET['action']) {
 					<textarea rows="7" cols="50" name="message" class="pure-input-1-2"><?php echo isset($_GET['msg']) ? urldecode($_GET['msg']) : null;?></textarea>
 				</div>
 				<div class="pure-controls">
-					<button type="submit" name="submit" class="pure-button pure-button-primary"><i class="fa fa-envelope"></i> Send Message</button>
+					<button type="submit" name="submit" value="true" class="pure-button pure-button-primary"><i class="fa fa-envelope"></i> Send Message</button>
 					<button type="reset" class="pure-button pure-button-secondary"><i class="fa fa-recycle"></i> Reset</button>
 				</div>
 			</form><?php
