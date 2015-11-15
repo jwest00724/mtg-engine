@@ -10,7 +10,7 @@ CREATE TABLE IF NOT EXISTS `settings_game` (
   `id` int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
   `name` varchar(255) NOT NULL DEFAULT '',
   `value` mediumtext NOT NULL DEFAULT ''
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `settings_game`
@@ -26,9 +26,12 @@ INSERT INTO `settings_game` (`id`, `name`, `value`) VALUES
 (7, 'game_owner_id', '1'),
 (8, 'main_currency_symbol', '&pound;'),
 (9, 'staff_notepad', 'Blah'),
-(10, 'engine_version', '9.0.0232'),
+(10, 'engine_version', '9.0.0257'),
 (11, 'max_health_gained', '25'),
 (12, 'max_energy_gained', '3'),
 (13, 'max_nerve_gained', '2'),
 (14, 'max_power_gained', '3'),
-(15, 'level_gained', '1');
+(15, 'level_gained', '1'),
+(16, 'bank_enabled', '1'),
+(17, 'bank_cost', '100000'),
+(18, 'forums_enabled', '1');
