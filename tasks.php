@@ -56,9 +56,9 @@ if(array_key_exists('id', $_GET)) {
 	else
 		$task['points'] = 0;
 	if($task['awarded_xp_min'] && $task['awarded_xp_max'])
-		$task['xp_awarded'] = mt_rand($task['awarded_xp_min'], $task['awarded_xp_max']);
+		$task['xp_awarded'] = mt_rand($task['awarded_xp_min'] * 100, $task['awarded_xp_max'] * 100) / 100;
 	else if(!$task['awarded_xp_min'] && $task['awarded_xp_max'])
-		$task['xp_awarded'] = mt_rand(0, $task['awarded_xp_max']);
+		$task['xp_awarded'] = mt_rand(0, $task['awarded_xp_max'] * 100) / 100;
 	else if($task['awarded_xp_min'] && !$task['awarded_xp_max'])
 		$task['xp_awarded'] = $task['awarded_points_min'];
 	else
