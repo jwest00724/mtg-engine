@@ -29,7 +29,7 @@ if(!$db->num_rows()) {
 	exit(header("Location: login.php"));
 }
 $user = $db->fetch_row(true);
-if(strtotime($user['account_locked']) >= time() || $user['login_attempts'] >= 5) {
+if(strtotime($user['account_locked']) >= time() && $user['login_attempts'] >= 5) {
 	$_SESSION['msg'] = [
 		'type' => 'error',
 		'content' => 'Your account has been temporarily locked due to too many failed login attempts.<br />You can try again in '.$mtg->time_format(strtotime($user['account_locked']) - time())
@@ -55,4 +55,4 @@ if($user['password'] != $users->hashPass($_POST['password'])) {
 	exit(header("Location: login.php"));
 }
 $_SESSION['userid'] = $user['id'];
-header("Location: index.php");
+header('Location: index.php');
