@@ -12,7 +12,7 @@ if(array_key_exists('id', $_GET)) {
 				$db->execute([$_GET['id']]);
 				if($db->num_rows()) {
 					$task = $db->fetch_row(true);
-					if($task['upgraded_only'] && !$my['upgraded'])
+					if($task['upgraded_only'] && time() > strtotime($my['upgraded']))
 						$mtg->error('That task can be completed only by those whom have an upgraded account.');
 					if($task['nerve'] > $my['nerve'])
 						$mtg->error('You don\'t have enough nerve to complete this task');

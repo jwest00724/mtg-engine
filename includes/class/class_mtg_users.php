@@ -136,7 +136,7 @@ class users {
 		global $db, $my, $mtg;
 		if(!$id)
 			return '<span style="color:#555;font-style:italic;">System</span>';
-		$db->query('SELECT `username`, `staff_rank`, `hospital`, `jail` FROM `users` WHERE `id` = ?');
+		$db->query('SELECT `username`, `staff_rank`, `hospital`, `jail`, `upgraded` FROM `users` WHERE `id` = ?');
 		$db->execute([$id]);
 		if(!$db->num_rows())
 			return '<span style="color:#555;font-style:italic;">System</span>';
@@ -158,7 +158,9 @@ class users {
 				$rank = $db->fetch_row(true);
 				$ret .= '<a href="profile.php?player='.$id.'" title="'.$mtg->format($rank['rank_name']).'"><span style="color:#'.$rank['rank_colour'].';">'.$user['username'].'</span></a>';
 			}
-		} else
+		} else if(strtotime($user['upgraded']) >= time())
+			$ret .= '<a href="profile.php?player='.$id.'" class="upgraded">'.$user['username'].'</a>';
+		else
 			$ret .= '<a href="profile.php?player='.$id.'">'.$user['username'].'</a>';
 		if($showID)
 			$ret .= ' ['.$mtg->format($id).']';
