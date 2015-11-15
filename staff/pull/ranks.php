@@ -116,7 +116,7 @@ function addRank($db, $mtg, $logs, $fields) {
 				</div><?php
 			}
 			?><div class="pure-controls">
-				<button type="submit" name="submit" class="pure-button pure-button-primary"><i class="fa fa-plus"></i> Add Rank</button>
+				<button type="submit" name="submit" value="true" class="pure-button pure-button-primary"><i class="fa fa-plus"></i> Add Rank</button>
 				<button type="reset" class="pure-button pure-button-secondary"><i class="fa fa-recycle"></i> Reset</button>
 			</div>
 		</form><?php
@@ -198,7 +198,7 @@ function editRank($db, $mtg, $logs, $fields) {
 					</div><?php
 				}
 				?><div class="pure-controls">
-					<button type="submit" name="submit" class="pure-button pure-button-primary">Edit Rank</button>
+					<button type="submit" name="submit" value="true" class="pure-button pure-button-primary">Edit Rank</button>
 					<button type="reset" class="pure-button pure-button-secondary"><i class="fa fa-recycle"></i> Reset</button>
 				</div>
 			</form><?php
@@ -329,7 +329,7 @@ function setStaffRank($db, $mtg, $logs) {
 				?></select>
 			</div>
 			<div class="pure-controls">
-				<button type="submit" name="submit" class="pure-button pure-button-primary">Change Rank</button>
+				<button type="submit" name="submit" value="true" class="pure-button pure-button-primary">Change Rank</button>
 				<button type="reset" class="pure-button pure-button-secondary"><i class="fa fa-recycle"></i> Reset</button>
 			</div>
 		</form><?php
@@ -420,7 +420,7 @@ function manageStaff($db, $mtg, $logs) {
 				 			?></select>
 				 		</div>
 				 		<div class="pure-controls">
-			 				<button type="submit" name="submit" class="pure-button pure-button-primary">Re-rank</button>
+			 				<button type="submit" name="submit" value="true" class="pure-button pure-button-primary">Re-rank</button>
 			 			</div>
 			 		</form></td>
 
