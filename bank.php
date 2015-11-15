@@ -10,7 +10,7 @@ if($my['bank'] < 0) {
 				Would you like to open a bank account?<br />
 				It'll cost you <?php echo $set['main_currency_symbol'].$mtg->format($set['bank_cost']);?>
 			</legend>
-			<button type="submit" name="submit" class="pure-button pure-button-primary"<?php echo $set['bank_cost'] > $my['money'] ? ' disabled' : '';?>>Yes, open a new account</button>
+			<button type="submit" name="submit" value="true" class="pure-button pure-button-primary"<?php echo $set['bank_cost'] > $my['money'] ? ' disabled' : '';?>>Yes, open a new account</button>
 		</form><?php
 	} else {
 		if($set['bank_cost'] > $my['money'])
@@ -48,7 +48,7 @@ function bankIndex($my, $mtg) {
 			<input type="text" name="amount" placeholder="<?php echo $mtg->format($my['money']);?>" />
 		</div>
 		<div class="pure-controls">
-			<button type="submit" name="deposit" class="pure-button pure-button-primary"><i class="fa fa-arrow-right"></i> Deposit</button>
+			<button type="submit" name="deposit" value="true" class="pure-button pure-button-primary"><i class="fa fa-arrow-right"></i> Deposit</button>
 			<button type="reset" class="pure-button pure-button-secondary"><i class="fa fa-recycle"></i> Reset</button>
 		</div>
 	</form>
@@ -59,7 +59,7 @@ function bankIndex($my, $mtg) {
 			<input type="text" name="amount" placeholder="<?php echo $mtg->format($my['bank']);?>" />
 		</div>
 		<div class="pure-controls">
-			<button type="submit" name="withdraw" class="pure-button pure-button-primary"><i class="fa fa-arrow-left"></i> Withdraw</button>
+			<button type="submit" name="withdraw" value="true" class="pure-button pure-button-primary"><i class="fa fa-arrow-left"></i> Withdraw</button>
 			<button type="reset" class="pure-button pure-button-secondary"><i class="fa fa-recycle"></i> Reset</button>
 		</div>
 	</form><?php
