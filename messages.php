@@ -3,10 +3,11 @@ define('HEADER_TEXT', 'Messaging');
 require_once __DIR__ . '/includes/globals.php';
 if(!$site->checkEnabled('messaging'))
 	$mtg->error("The messaging ability has been disabled");
+$users->checkBan('messages');
 require_once __DIR__ . '/includes/class/jbbcode/Parser.php';
 $parser = new JBBCode\Parser();
 $parser->addCodeDefinitionSet(new JBBCode\DefaultCodeDefinitionSet());
-require_once(__DIR__ . '/includes/class/class_mtg_paginate.php');
+require_once __DIR__ . '/includes/class/class_mtg_paginate.php';
 $pages = new Paginator();
 $_GET['ID'] = isset($_GET['ID']) && ctype_digit($_GET['ID']) ? $_GET['ID'] : null;
 $_GET['action'] = isset($_GET['action']) && ctype_alpha($_GET['action']) ? strtolower(trim($_GET['action'])) : null;
@@ -15,10 +16,10 @@ $read = [
 	0 => '<span class="small red">Unread</span>'
 ];
 ?><table width="100%" class="pure-table">
-	<tr class="center">
-		<td width="33%"><a href="messages.php">Inbox</a></td>
-		<td width="34%"><a href="messages.php?action=write">Write</a></td>
-		<td width="33%"><a href="messages.php?action=archive">Archive</a></td>
+	<tr>
+		<th width="33%"><a href="messages.php">Inbox</a></th>
+		<th width="34%"><a href="messages.php?action=write">Write</a></th>
+		<th width="33%"><a href="messages.php?action=archive">Archive</a></th>
 	</tr>
 </table><?php
 switch($_GET['action']) {
