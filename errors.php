@@ -1,4 +1,5 @@
 <?php
+define('HEADER_TEXT', 'Error!');
 require_once __DIR__ . '/includes/globals.php';
 $_GET['which'] = isset($_GET['which']) && ctype_digit($_GET['which']) ? $_GET['which'] : null;
 switch($_GET['which']) {
