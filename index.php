@@ -16,16 +16,16 @@ require_once(__DIR__ . '/includes/globals.php');
 		<td width="37.5%" class="right"><?php echo $mtg->format($my['points']);?></td>
 	</tr>
 	<tr>
-		<th>Money</th>
-		<td class="right"><?php echo $set['main_currency_symbol'].$mtg->format($my['money']);?></td>
-		<th>Bank</th>
-		<td class="right"><?php echo $my['bank'] > -1 ? $set['main_currency_symbol'].$mtg->format($my['bank']) : 'No account';?></td>
-	</tr>
-	<tr>
 		<th>Level</th>
 		<td class="right"><?php echo $mtg->format($my['level']);?></td>
 		<th>EXP</th>
 		<td class="right"><?php echo $mtg->format($my['exp'], 2);?>/<?php echo $users->expRequired();?> (<?php echo $users->expPercent();?>)</td>
+	</tr>
+	<tr>
+		<th>Money</th>
+		<td class="right"><?php echo $set['main_currency_symbol'].$mtg->format($my['money']);?></td>
+		<th>Bank</th>
+		<td class="right"><?php echo $my['bank'] > -1 ? $set['main_currency_symbol'].$mtg->format($my['bank']) : 'No account';?></td>
 	</tr>
 	<tr>
 		<thead><th colspan="4">Stats</th></thead>
