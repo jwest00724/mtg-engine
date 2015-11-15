@@ -35,10 +35,8 @@ class headers {
 		header("Content-type: text/html;charset=UTF-8");
 		?><!DOCTYPE html>
 		<html lang="en">
-			<head><?php echo "\n\t\t\t\t";
-				if(preg_match('/localhost/i', $_SERVER['HTTP_HOST']))
-					echo '<base href="http://localhost/mtg-engine/">'."\n\t\t\t\t";
-				?><meta charset="utf-8">
+			<head>
+				<meta charset="utf-8">
 				<meta name="viewport" content="width=device-width, initial-scale=1.0">
 				<meta name="description" content="MTG Codes v9" />
 				<meta name="author" content="Magictallguy" />
