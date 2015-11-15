@@ -9,7 +9,7 @@ $pages = new Paginator();
 	<a href="list.php?action=online"<?php echo $_GET['action'] == 'online' ? ' class="bold"' : '';?>>List of Players Online</a>
 </div><?php
 switch($_GET['action']) {
-	case 'players':
+	default: case 'players':
 		$db->query('SELECT COUNT(`id`) FROM `users`');
 		$db->execute();
 		$pages->items_total = $db->fetch_single();
