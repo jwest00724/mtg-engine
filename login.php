@@ -32,5 +32,5 @@ require_once __DIR__ . '/includes/globals_out.php';
 			</div>
 		</fieldset>
 	</form>
-	Not got an account? <a href="signup.php">Sign up for free</a>
+	Not got an account? <a href="signup.php">Sign up for free</a> &middot; Or have you forgotten your password? <a href="reset.php">Reset it here!</a>
 </div>
