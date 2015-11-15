@@ -80,7 +80,7 @@ switch($_GET['action']) {
 						<input type="text" name="price" />
 					</div>
 					<div class="pure-controls">
-						<button type="submit" name="submit" class="pure-button pure-button-primary">List your points</button>
+						<button type="submit" name="submit" value="true" class="pure-button pure-button-primary">List your points</button>
 						<button type="reset" class="pure-button pure-button-secondary"><i class="fa fa-recycle"></i> Reset</button>
 					</div>
 				</form><?php
@@ -343,7 +343,7 @@ switch($_GET['action']) {
 						</label>
 					</div>
 					<div class="pure-controls">
-						<button type="submit" name="submit" class="pure-button pure-button-primary">List your item</button>
+						<button type="submit" name="submit" value="true" class="pure-button pure-button-primary">List your item</button>
 						<button type="reset" class="pure-button pure-button-secondary"><i class="fa fa-recycle"></i> Reset</button>
 					</div>
 				</form><?php
