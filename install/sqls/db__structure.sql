@@ -556,8 +556,9 @@ CREATE TABLE `users_reset` (
   `id` int(11) not null auto_increment,
   `user` int(11) not null default '0',
   `requested` timestamp not null default CURRENT_TIMESTAMP,
-  `email` varchar(255) not null,
-  `code` varchar(32) not null,
+  `email` varchar(255) not null default '',
+  `code` varchar(32) not null default '',
+  `ip` varchar(255) not null default ''
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
 -- --------------------------------------------------------
