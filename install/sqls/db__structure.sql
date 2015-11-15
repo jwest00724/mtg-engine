@@ -73,6 +73,20 @@ CREATE TABLE IF NOT EXISTS `cities` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `forums`
+--
+
+CREATE TABLE `forums` (
+  `id` INT(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  `name` VARCHAR(255) NOT NULL DEFAULT '',
+  `description` VARCHAR(255) NOT NULL DEFAULT '',
+  `publicity` ENUM('all', 'upgraded', 'staff') NOT NULL DEFAULT 'all',
+  `is_recycle` TINYINT(1) NOT NULL DEFAULT 0
+);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `inventory`
 --
 
@@ -462,7 +476,7 @@ CREATE TABLE IF NOT EXISTS `users_bans` (
   `time_enforced` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `time_expires` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `enforcer` int(11) NOT NULL DEFAULT '0',
-  `ban_type` enum('messages','game') NOT NULL DEFAULT 'game'
+  `ban_type` enum('messages','game','forum') NOT NULL DEFAULT 'game'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
