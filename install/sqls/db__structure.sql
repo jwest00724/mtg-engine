@@ -549,6 +549,20 @@ CREATE TABLE IF NOT EXISTS `users_messages` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `users_reset`
+--
+
+CREATE TABLE `users_reset` (
+  `id` int(11) not null auto_increment,
+  `user` int(11) not null default '0',
+  `requested` timestamp not null default CURRENT_TIMESTAMP,
+  `email` varchar(255) not null,
+  `code` varchar(32) not null,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `users_stats`
 --
 
