@@ -17,6 +17,12 @@ hr {
 .small {
 	font-size: .8em;
 }
+.medium {
+	font-size: 1.1em;
+}
+.large {
+	font-size: 1.5em;
+}
 .red {
 	color: #ed4747;
 }
@@ -30,10 +36,13 @@ hr {
 	color: #fa8100;
 }
 .purple {
-	color: #B96DE1;
+	color: #b96de1;
 }
 .brown {
-	color: #5E2605;
+	color: #5e2605;
+}
+.upgraded {
+	color: #ff4949;
 }
 .left {
 	text-align: left;
