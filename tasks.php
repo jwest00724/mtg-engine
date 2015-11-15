@@ -38,7 +38,7 @@ if(array_key_exists('id', $_GET)) {
 	require_once __DIR__ . '/includes/class/jbbcode/Parser.php';
 	$parser = new jBBCode\Parser();
 	$parser->addCodeDefinitionSet(new JBBCode\DefaultCodeDefinitionSet());
-	$find = ['[TOTAL_STATS]', '[STRENGTH]', '[AGILITY]', '[GUARD]', '[LABOUR]', '[IQ]', '[MONEY]', '[POINTS]', '[POWER]', '[ENERGY]', '[NERVE]', '[LIFE]', '[EXP]', '[EXP_GIVEN]', '[MONEY_GIVEN]', '[POINTS_GIVEN]', '[HOSPITAL_TIME]', '[JAIL_TIME]'];
+	$find = ['[TOTAL_STATS]', '[STRENGTH]', '[AGILITY]', '[GUARD]', '[LABOUR]', '[IQ]', '[MONEY]', '[POINTS]', '[POWER]', '[ENERGY]', '[NERVE]', '[LIFE]', '[EXP]', '[EXP_GIVEN]', '[MONEY_GIVEN]', '[POINTS_GIVEN]', '[ITEM_GIVEN]', '[HOSPITAL_TIME]', '[JAIL_TIME]'];
 	if($task['awarded_money_min'] && $task['awarded_money_max'])
 		$task['money'] = mt_rand($task['awarded_money_min'], $task['awarded_money_max']);
 	else if(!$task['awarded_money_min'] && $task['awarded_money_max'])
@@ -63,7 +63,15 @@ if(array_key_exists('id', $_GET)) {
 		$task['xp_awarded'] = $task['awarded_points_min'];
 	else
 		$task['xp_awarded'] = 0;
-	$repl = [$my['total_stats'], $my['strength'], $my['agility'], $my['guard'], $my['labour'], $my['iq'], $my['money'], $my['points'], $my['power'], $my['energy'], $my['nerve'], $my['health'], $my['exp'], $task['xp_awarded'], $set['main_currency_symbol'].$mtg->format($task['money']), $mtg->format($task['points']).' point'.$mtg->s($task['points']), $mtg->time_format($task['time_hospital'] * 60), $mtg->time_format($task['time_jail'] * 60)];
+	if($task['awarded_item']) {
+		$db->query('SELECT `name` FROM `items` WHERE `id` = ?');
+		$db->execute([$task['awarded_item']]);
+		$task['item'] = $db->num_rows() ? $items->name($task['awarded_item']).' x'.$mtg->format($task['awarded_item_qty']) : 'None';
+	} else {
+		$task['awarded_item'] = 0;
+		$task['item'] = 'None';
+	}
+	$repl = [$my['total_stats'], $my['strength'], $my['agility'], $my['guard'], $my['labour'], $my['iq'], $my['money'], $my['points'], $my['power'], $my['energy'], $my['nerve'], $my['health'], $my['exp'], $task['xp_awarded'], $set['main_currency_symbol'].$mtg->format($task['money']), $mtg->format($task['points']).' point'.$mtg->s($task['points']), $task['item'], $mtg->time_format($task['time_hospital'] * 60), $mtg->time_format($task['time_jail'] * 60)];
 	$strs = ['text_start', 'text_success', 'text_failure', 'text_jail', 'text_reason_jail', 'text_hospital', 'text_reason_jail'];
 	foreach($strs as $str)
 		if(array_key_exists($str, $task))
@@ -107,6 +115,8 @@ if(array_key_exists('id', $_GET)) {
 			$db->query('UPDATE `users` SET `exp` = `exp` + ? WHERE `id` = ?');
 			$db->execute([$task['xp_awarded'], $my['id']]);
 		}
+		if($task['awarded_item'])
+			$users->giveItem($task['awarded_item'], $my['id'], $task['awarded_item_qty']);
 		$db->query('UPDATE `users_stats` SET `nerve` = `nerve` - ?, `tasks_complete` = `tasks_complete` + 1 WHERE `id` = ?');
 		$db->execute([$task['nerve'], $my['id']]);
 		$db->endTrans();
