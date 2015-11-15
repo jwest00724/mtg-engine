@@ -72,7 +72,7 @@ function gameSettings($db, $my, $mtg, $set) {
 		$strs = ['game_name', 'game_description', 'register_promo_code', 'main_currency_symbol'];
 		foreach($strs as $what)
 			$_POST[$what] = isset($_POST[$what]) && is_string($_POST[$what]) ? trim($_POST[$what]) : null;
-		$nums = ['register_start_cash', 'register_promo_cash', 'game_owner_id', 'bank_enabled', 'bank_cost', 'max_health_gained', 'max_nerve_gained', 'max_power_gained', 'max_energy_gained', 'level_gained', 'forum_enabled'];
+		$nums = ['register_start_cash', 'register_promo_cash', 'game_owner_id', 'bank_enabled', 'bank_cost', 'max_health_gained', 'max_nerve_gained', 'max_power_gained', 'max_energy_gained', 'level_gained', 'forums_enabled'];
 		foreach($nums as $what)
 			$_POST[$what] = isset($_POST[$what]) && ctype_digit(str_replace(',', '', $_POST[$what])) ? str_replace(',', '', $_POST[$what]) : 0;
 		$posted = array_merge($strs, $nums);
@@ -125,15 +125,15 @@ function gameSettings($db, $my, $mtg, $set) {
 			</select>
 		</div>
 		<div class="pure-control-group">
-			<label for="forum_enabled">Forum: Enable</label>
-			<select name="forum_enabled" class="pure-u-1-3">
-				<option value="1" class="green"<?php echo $set['forum_enabled'] ? ' selected' : '';?>>Enabled</option>
-				<option value="0" class="red"<?php echo !$set['forum_enabled'] ? ' selected' : '';?>>Disabled</option>
-			</select>
-		</div>
-		<div class="pure-control-group">
 			<label for="bank_cost">Banking: Account Cost</label>
 			<input type="text" name="bank_cost" value="<?php echo $mtg->format($set['bank_cost']);?>" class="pure-u-1-3" />
+		</div>
+		<div class="pure-control-group">
+			<label for="forum_enabled">Forum: Enable</label>
+			<select name="forums_enabled" class="pure-u-1-3">
+				<option value="1" class="green"<?php echo $set['forums_enabled'] ? ' selected' : '';?>>Enabled</option>
+				<option value="0" class="red"<?php echo !$set['forums_enabled'] ? ' selected' : '';?>>Disabled</option>
+			</select>
 		</div>
 		<legend>Level Gain Settings</legend>
 		<div class="pure-control-group">
