@@ -58,6 +58,6 @@ if(array_key_exists('submit', $_POST)) {
 		<label for="email">Email</label>
 		<input type="email" name="email" placeholder="<?php echo $mtg->format($my['email']);?>" class="pure-input-1-2" />
 	</div>
-	<button type="submit" name="submit" class="pure-button pure-button-primary">Update Settings</button>
+	<button type="submit" name="submit" value="true" class="pure-button pure-button-primary">Update Settings</button>
 	<button type="reset" class="pure-button pure-button-secondary"><i class="fa fa-recycle"></i> Reset</button>
 </form>
