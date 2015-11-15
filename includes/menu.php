@@ -17,6 +17,7 @@ $links = [
 	'gym.php' => 'Gym',
 	'markets.php' => 'Markets',
 	'list.php' => 'Lists',
+	'forum.php' => 'Forum',
 	'divider2' => 'Account',
 	'settings.php' => 'Settings',
 	'?action=logout' => 'Logout'
