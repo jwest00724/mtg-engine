@@ -19,6 +19,11 @@ switch($_GET['action']) {
 		$db->execute([$_GET['ID']]);
 		$mtg->success('Your event has been deleted');
 		break;
+	case 'deleteall':
+		$db->query('UPDATE `users_events` SET `deleted` = 1 WHERE `deleted` = 0 AND `read` = 1 AND `user` = ?');
+		$db->execute([$my['id']]);
+		$mtg->success('Your events have been deleted');
+		break;
 	default:
 		$db->query('SELECT COUNT(`id`) FROM `users_events` WHERE `user` = ?');
 		$db->execute([$my['id']]);
@@ -26,6 +31,7 @@ switch($_GET['action']) {
 		$pages->mid_range = 3;
 		$pages->paginate();
 		?><p class="paginate"><?php echo $pages->display_pages();?></p>
+		<div class="content-menu"><a href="events.php?action=deleteall">Delete All Events</a></div>
 		<table width="100%" class="pure-table pure-table-striped">
 			<tr>
 				<th width="25%">Info</th>
