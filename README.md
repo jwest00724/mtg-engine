@@ -2,7 +2,7 @@
 PHP, MySQL, HTML, CSS.
 Text-based online RPG
 
-## Where's the demo?!
+### Where's the demo?!
 Thanks to Justin from [JMBGaming](http://jmbgaming.com), you can now view and explore, in depth, the entirety of MTG Engine right [here](http://engine.magictallguy.tk)!
 
 ### There's nothin' there?! ###
@@ -20,6 +20,12 @@ Once I've got that up and running, modifications should be pretty straight forwa
 ### I found a bug! ###
 At this stage, that is to be expected.
 If you're able to repair it, please do and submit the fix back. If not, simply open a report here!
+
+### I want to contribute to the code ###
+Awesome! Simply fork my repo, make your changes/additions, and submit a merge request!
+
+### I want to contribute to your coffee stocks ###
+Everyone knows developers need coffee - you can make sure I've got some by clicking [here](http://paypal.me/Magictallguy)! ;)
 
 ### Who do I talk to? ###
 
