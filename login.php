@@ -28,7 +28,7 @@ require_once __DIR__ . '/includes/globals_out.php';
 				<input type="password" name="password" required />
 			</div>
 			<div class="pure-controls">
-				<button type="submit" class="pure-button pure-button-primary">Login</button>
+				<button type="submit" name="submit" value="true" class="pure-button pure-button-primary"><i class="fa fa-chevron-right"></i> Login</button>
 			</div>
 		</fieldset>
 	</form>
