@@ -1,6 +1,6 @@
 --
 -- MySQL 5.5.5
--- Sun, 15 Nov 2015 17:53:45 +0000
+-- Mon, 16 Nov 2015 13:04:14 +0000
 --
 
 CREATE TABLE `breport` (
@@ -266,7 +266,7 @@ CREATE TABLE `staff_ranks` (
    `staff_panel_forum_board_edit` enum('Yes','No') not null default 'No',
    `staff_panel_forum_board_delete` enum('Yes','No') not null default 'No',
    PRIMARY KEY (`rank_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=2;
 
 
 CREATE TABLE `tasks` (
@@ -332,7 +332,7 @@ CREATE TABLE `users` (
    `account_locked` timestamp not null default CURRENT_TIMESTAMP,
    `login_attempts` int(11) not null default '0',
    PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=2;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=3;
 
 
 CREATE TABLE `users_bans` (
@@ -352,7 +352,7 @@ CREATE TABLE `users_equipment` (
    `equip_secondary` int(11) not null default '0',
    `equip_armor` int(11) not null default '0',
    PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=2;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=3;
 
 
 CREATE TABLE `users_events` (
@@ -375,7 +375,7 @@ CREATE TABLE `users_finances` (
    `bank` bigint(25) not null default '-1',
    `merits` bigint(25) not null default '0',
    PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=2;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=3;
 
 
 CREATE TABLE `users_messages` (
@@ -388,7 +388,7 @@ CREATE TABLE `users_messages` (
    `read` tinyint(1) not null default '0',
    `deleted` tinyint(1) not null default '0',
    PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=2;
 
 
 CREATE TABLE `users_reset` (
@@ -400,6 +400,13 @@ CREATE TABLE `users_reset` (
    `ip` varchar(255) not null,
    PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=5;
+
+
+CREATE TABLE `users_settings` (
+   `id` int(11) not null auto_increment,
+   `logout_threshold` enum('300','900','1800','3600','86400','never') not null default '900',
+   PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=2;
 
 
 CREATE TABLE `users_stats` (
@@ -425,4 +432,4 @@ CREATE TABLE `users_stats` (
    `tasks_hospitalised` bigint(25) not null default '0',
    PRIMARY KEY (`id`),
    UNIQUE KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=2;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=3;
