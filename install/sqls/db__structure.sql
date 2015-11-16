@@ -262,8 +262,11 @@ CREATE TABLE `staff_ranks` (
    `staff_panel_staff_ranks_delete` enum('Yes','No') not null default 'No',
    `staff_panel_code_version_manage` enum('Yes','No') not null default 'No',
    `staff_panel_logs_staff` enum('Yes','No') not null default 'No',
+   `staff_panel_forum_board_add` enum('Yes','No') not null default 'No',
+   `staff_panel_forum_board_edit` enum('Yes','No') not null default 'No',
+   `staff_panel_forum_board_delete` enum('Yes','No') not null default 'No',
    PRIMARY KEY (`rank_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=2;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
 CREATE TABLE `tasks` (
