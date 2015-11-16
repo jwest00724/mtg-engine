@@ -43,10 +43,10 @@ function addBoard($db, $mtg, $logs) {
 			$mtg->error('Another '.($_POST['publicity'] == 'all' ? 'public' : $_POST['publicity']).' board with that name already exists');
 		$_POST['recycle'] = isset($_POST['recycle']) ? 1 : 0;
 		if($_POST['recycle']) {
-			$db->query('SELECT `id` FROM `forums` WHERE `publicity` = ? AND `is_recycle` = 1');
-			$db->execute([$_POST['publicity']]);
+			$db->query('SELECT `id` FROM `forums` WHERE `is_recycle` = 1');
+			$db->execute();
 			if($db->num_rows())
-				$mtg->error('A '.($_POST['publicity'] == 'all' ? 'public' : $_POST['publicity']).' recycling board already exists');
+				$mtg->error('A recycling board already exists');
 		}
 		$_POST['desc'] = array_key_exists('desc', $_POST) && is_string($_POST['desc']) ? $_POST['desc'] : 'n/a';
 		$db->query('INSERT INTO `forums` (`name`, `description`, `publicity`, `is_recycle`) VALUES (?, ?, ?, ?)');
@@ -106,10 +106,10 @@ function editBoard($db, $mtg, $logs) {
 				$mtg->error('Another '.($_POST['publicity'] == 'all' ? 'public' : $_POST['publicity']).' board with that name already exists');
 			$_POST['recycle'] = isset($_POST['recycle']) ? 1 : 0;
 			if($_POST['recycle']) {
-				$db->query('SELECT `id` FROM `forums` WHERE `publicity` = ? AND `is_recycle` = 1 AND `id` <> ?');
-				$db->execute([$_POST['publicity'], $_POST['id']]);
+				$db->query('SELECT `id` FROM `forums` WHERE `is_recycle` = 1 AND `id` <> ?');
+				$db->execute([$_POST['id']]);
 				if($db->num_rows())
-					$mtg->error('Another '.($_POST['publicity'] == 'all' ? 'public' : $_POST['publicity']).' recycling board already exists');
+					$mtg->error('Another recycling board already exists');
 			}
 			$_POST['desc'] = array_key_exists('desc', $_POST) && is_string($_POST['desc']) ? $_POST['desc'] : 'n/a';
 			$db->query('UPDATE `forums` SET `name` = ?, `description` = ?, `publicity` = ?, `is_recycle` = ? WHERE `id` = ?');
