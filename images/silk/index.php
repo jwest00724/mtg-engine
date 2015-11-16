@@ -3,7 +3,7 @@ $_GET['letter'] = isset($_GET['letter']) && ctype_alpha($_GET['letter']) && strl
 ?><!DOCTYPE html>
 <html lang="en">
 <head>
-<base href="http://localhost/mtg-engine/images/silk/">
+<base href="http://<?php echo $_SERVER['HTTP_HOST'];?>/images/silk/">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="MTG Codes v9" />
