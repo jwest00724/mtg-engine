@@ -1,6 +1,6 @@
 --
 -- MySQL 5.5.5
--- Mon, 16 Nov 2015 13:04:14 +0000
+-- Mon, 16 Nov 2015 14:20:40 +0000
 --
 
 CREATE TABLE `breport` (
@@ -44,6 +44,29 @@ CREATE TABLE `forums` (
    `description` varchar(255) not null,
    `publicity` enum('all','upgraded','staff') not null default 'all',
    `is_recycle` tinyint(1) not null default '0',
+   `latest_post` int(11) not null default '0',
+   PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=5;
+
+
+CREATE TABLE `forums_posts` (
+   `id` int(11) not null auto_increment,
+   `user` int(11) not null default '0',
+   `content` text not null,
+   `posted` timestamp not null default CURRENT_TIMESTAMP,
+   PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;
+
+
+CREATE TABLE `forums_topics` (
+   `id` int(11) not null auto_increment,
+   `name` varchar(255) not null,
+   `description` varchar(255) not null,
+   `parent_board` int(11) not null default '0',
+   `latest_post` int(11) not null default '0',
+   `latest_poster` int(11) not null default '0',
+   `pinned` tinyint(1) not null default '0',
+   `locked` tinyint(1) not null default '0',
    PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;
 
@@ -132,7 +155,7 @@ CREATE TABLE `logs_staff` (
    `action` text not null,
    `ip` varchar(15) not null,
    PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=7;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=14;
 
 
 CREATE TABLE `mail` (
