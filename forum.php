@@ -96,7 +96,7 @@ function index($db, $my, $mtg, $users) {
 		}
 	}
 	?></table></p><?php
-	if(strtolower($my['upgraded']) >= time()) {
+	if(strtotime($my['upgraded']) >= time()) {
 		$db->query('SELECT `id`, `name`, `description`, `latest_post_id`, `latest_topic_id`, `latest_post_user`, `latest_post_time` FROM `forums` WHERE `publicity` = "upgraded" ORDER BY `name` ASC');
 		$db->execute();
 		?><h3 class="content-subhead">Upgraded Boards</h3>
