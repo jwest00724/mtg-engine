@@ -1,5 +1,5 @@
 <?php
-$_GET['action'] = isset($_GET['action']) && ctype_alpha($_GET['action']) ? strtolower(trim($_GET['action'])) : null;
+$_GET['action'] = isset($_GET['action']) && ctype_alpha($_GET['action']) ? strtolower(trim($_GET['action'])) : 'players';
 define('HEADER_TEXT', 'Lists');
 require_once __DIR__ . '/includes/globals.php';
 require_once __DIR__ . '/includes/class/class_mtg_paginate.php';
@@ -9,7 +9,7 @@ $pages = new Paginator();
 	<a href="list.php?action=online"<?php echo $_GET['action'] == 'online' ? ' class="bold"' : '';?>>List of Players Online</a>
 </div><?php
 switch($_GET['action']) {
-	default: case 'players':
+	case 'players':
 		$db->query('SELECT COUNT(`id`) FROM `users`');
 		$db->execute();
 		$pages->items_total = $db->fetch_single();
@@ -39,12 +39,12 @@ switch($_GET['action']) {
 		break;
 	case 'online':
 		$db->query('SELECT COUNT(`id`) FROM `users` WHERE `last_seen` >= ?');
-		$db->execute([time() - 900]);
+		$db->execute([date('Y-m-d H:i:s', time() - 900)]);
 		$pages->items_total = $db->fetch_single();
 		$pages->mid_range = 3;
 		$pages->paginate();
 		$db->query('SELECT `id`, `last_seen` FROM `users` WHERE `last_seen` >= ? ORDER BY `id` ASC '.$pages->limit);
-		$db->execute([time() - 900]);
+		$db->execute([date('Y-m-d H:i:s', time() - 900)]);
 		$rows = $db->fetch_row();
 		?><p class="paginate"><?php echo $pages->display_pages();?></p>
 		<table class="pure-table pure-table-striped" width="100%">
