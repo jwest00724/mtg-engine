@@ -302,5 +302,35 @@ class users {
 			return $offlineIcon;
 		return $db->fetch_single() >= time() - 900 ? $onlineIcon : $offlineIcon;
 	}
+	public function changeSetting($setting, $value, $id = 0) {
+		global $db, $my;
+		if(!$id || !ctype_digit($id))
+			$id = $my['id'];
+		$db->query('SELECT `id` FROM `users_settings` WHERE `id` = ?');
+		$db->execute([$id]);
+		if(!$db->num_rows()) {
+			$db->query('INSERT INTO `users_settings` (`id`, `'.$setting.'`) VALUES (?, ?)');
+			$db->execute([$id, $value]);
+		} else {
+			$db->query('UPDATE `users_settings` SET `'.$setting.'` = ? WHERE `id` = ?');
+			$db->execute([$value, $id]);
+		}
+	}
+	public function getSetting($setting, $id = 0) {
+		global $db, $my;
+		if(!$id || !ctype_digit($id))
+			$id = $my['id'];
+		$db->query('SELECT `'.$setting.'` FROM `users_settings` WHERE `id` = ?');
+		$db->execute([$id]);
+		if($db->num_rows())
+			return $db->fetch_single();
+		else {
+			$db->query('INSERT INTO `users_settings` (`id`) VALUES (?)');
+			$db->execute([$id]);
+			$db->query('SELECT `'.$setting.'` FROM `users_settings` WHERE `id` = ?');
+			$db->execute([$id]);
+			return $db->fetch_single();
+		}
+	}
 }
 $users = users::getInstance();
