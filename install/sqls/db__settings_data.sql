@@ -1,6 +1,6 @@
 --
 -- MySQL 5.5.5
--- Sun, 15 Nov 2015 17:54:19 +0000
+-- Mon, 16 Nov 2015 13:04:40 +0000
 --
 
 CREATE TABLE `settings_game` (
@@ -20,7 +20,7 @@ INSERT INTO `settings_game` (`id`, `name`, `value`) VALUES
 ('7', 'game_owner_id', '1'),
 ('8', 'main_currency_symbol', '&pound;'),
 ('9', 'staff_notepad', 'Blah'),
-('10', 'engine_version', '9.0.0294'),
+('10', 'engine_version', '9.0.0314'),
 ('11', 'max_health_gained', '25'),
 ('12', 'max_energy_gained', '3'),
 ('13', 'max_nerve_gained', '2'),
