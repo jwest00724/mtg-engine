@@ -1,6 +1,6 @@
 --
 -- MySQL 5.5.5
--- Mon, 16 Nov 2015 14:20:40 +0000
+-- Mon, 16 Nov 2015 23:20:22 +0000
 --
 
 CREATE TABLE `breport` (
@@ -40,35 +40,46 @@ CREATE TABLE `cities` (
 
 CREATE TABLE `forums` (
    `id` int(11) not null auto_increment,
-   `name` varchar(255) not null,
-   `description` varchar(255) not null,
-   `publicity` enum('all','upgraded','staff') not null default 'all',
+   `name` varchar(255) CHARSET latin1 not null,
+   `description` varchar(255) CHARSET latin1 not null,
+   `publicity` enum('all','upgraded','staff') CHARSET latin1 not null default 'all',
    `is_recycle` tinyint(1) not null default '0',
-   `latest_post` int(11) not null default '0',
+   `latest_post_id` int(11) not null default '0',
+   `latest_topic_id` int(11) not null default '0',
+   `latest_post_user` int(11) not null default '0',
+   `latest_post_time` timestamp not null default '0000-00-00 00:00:00',
    PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=5;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=5;
 
 
 CREATE TABLE `forums_posts` (
    `id` int(11) not null auto_increment,
+   `parent_topic` int(11) not null default '0',
    `user` int(11) not null default '0',
-   `content` text not null,
+   `content` text CHARSET latin1 not null,
    `posted` timestamp not null default CURRENT_TIMESTAMP,
+   `edit_times` int(11) not null default '0',
+   `edit_user` int(11) not null default '0',
+   `edit_date` timestamp not null default '0000-00-00 00:00:00',
+   `deleted` tinyint(1) not null default '0',
    PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
 
 
 CREATE TABLE `forums_topics` (
    `id` int(11) not null auto_increment,
-   `name` varchar(255) not null,
-   `description` varchar(255) not null,
+   `name` varchar(255) CHARSET latin1 not null,
+   `description` varchar(255) CHARSET latin1 not null,
+   `creation_time` timestamp not null default CURRENT_TIMESTAMP,
    `parent_board` int(11) not null default '0',
-   `latest_post` int(11) not null default '0',
-   `latest_poster` int(11) not null default '0',
    `pinned` tinyint(1) not null default '0',
    `locked` tinyint(1) not null default '0',
+   `creator` int(11) not null default '0',
+   `latest_post_id` int(11) not null default '0',
+   `latest_post_user` int(11) not null default '0',
+   `latest_post_time` timestamp not null default '0000-00-00 00:00:00',
    PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
 
 
 CREATE TABLE `inventory` (
@@ -155,7 +166,7 @@ CREATE TABLE `logs_staff` (
    `action` text not null,
    `ip` varchar(15) not null,
    PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=14;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=25;
 
 
 CREATE TABLE `mail` (
@@ -288,6 +299,13 @@ CREATE TABLE `staff_ranks` (
    `staff_panel_forum_board_add` enum('Yes','No') not null default 'No',
    `staff_panel_forum_board_edit` enum('Yes','No') not null default 'No',
    `staff_panel_forum_board_delete` enum('Yes','No') not null default 'No',
+   `forum_post_edit` enum('Yes','No') not null default 'No',
+   `forum_post_delete` enum('Yes','No') not null default 'No',
+   `forum_post_locked` enum('Yes','No') not null default 'No',
+   `forum_topic_lock` enum('Yes','No') not null default 'No',
+   `forum_topic_pin` enum('Yes','No') not null default 'No',
+   `forum_topic_delete` enum('Yes','No') not null default 'No',
+   `forum_topic_move` enum('Yes','No') not null default 'No',
    PRIMARY KEY (`rank_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=2;
 
@@ -351,11 +369,11 @@ CREATE TABLE `users` (
    `last_seen` timestamp not null default CURRENT_TIMESTAMP,
    `profile_picture` varchar(255) not null,
    `status` text not null,
-   `upgraded` timestamp not null default '0000-00-00 00:00:00'
+   `upgraded` timestamp not null default '0000-00-00 00:00:00',
    `account_locked` timestamp not null default CURRENT_TIMESTAMP,
    `login_attempts` int(11) not null default '0',
    PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=3;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=4;
 
 
 CREATE TABLE `users_bans` (
@@ -375,7 +393,7 @@ CREATE TABLE `users_equipment` (
    `equip_secondary` int(11) not null default '0',
    `equip_armor` int(11) not null default '0',
    PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=3;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=4;
 
 
 CREATE TABLE `users_events` (
@@ -398,7 +416,7 @@ CREATE TABLE `users_finances` (
    `bank` bigint(25) not null default '-1',
    `merits` bigint(25) not null default '0',
    PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=3;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=4;
 
 
 CREATE TABLE `users_messages` (
@@ -429,7 +447,7 @@ CREATE TABLE `users_settings` (
    `id` int(11) not null auto_increment,
    `logout_threshold` enum('300','900','1800','3600','86400','never') not null default '900',
    PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=2;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=4;
 
 
 CREATE TABLE `users_stats` (
@@ -455,4 +473,4 @@ CREATE TABLE `users_stats` (
    `tasks_hospitalised` bigint(25) not null default '0',
    PRIMARY KEY (`id`),
    UNIQUE KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=3;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=4;
