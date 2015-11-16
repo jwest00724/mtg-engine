@@ -19,7 +19,7 @@ function index($db, $my, $mtg, $users) {
 	$db->query('SELECT `id`, `name`, `description` FROM `forums` WHERE `publicity` = "all" ORDER BY `name` ASC');
 	$db->execute();
 	?><h3 class="content-subhead">Public Boards</h3>
-	<p><table width="100%" class="pure-form pure-form-striped">
+	<p><table width="100%" class="pure-table pure-table-striped">
 		<thead>
 			<tr>
 				<th width="70%">Board</th>
@@ -49,7 +49,7 @@ function index($db, $my, $mtg, $users) {
 		$db->query('SELECT `id`, `name`, `description` FROM `forums` WHERE `publicity` = "upgraded" ORDER BY `name` ASC');
 		$db->execute();
 		?><h3 class="content-subhead">Upgraded Boards</h3>
-		<p><table width="100%" class="pure-form pure-form-striped">
+		<p><table width="100%" class="pure-table pure-table-striped">
 			<thead>
 				<tr>
 					<th width="70%">Board</th>
@@ -80,7 +80,7 @@ function index($db, $my, $mtg, $users) {
 		$db->query('SELECT `id`, `name`, `description` FROM `forums` WHERE `publicity` = "staff" ORDER BY `name` ASC');
 		$db->execute();
 		?><h3 class="content-subhead">Staff Boards</h3>
-		<p><table width="100%" class="pure-form pure-form-striped">
+		<p><table width="100%" class="pure-table pure-table-striped">
 			<thead>
 				<tr>
 					<th width="70%">Board</th>
