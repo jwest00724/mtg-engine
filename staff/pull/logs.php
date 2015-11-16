@@ -11,6 +11,9 @@ switch($_GET['action']) {
 			$mtg->error('You don\'t have access');
 		staffLogs($db, $mtg, $users, $logs, $pages);
 		break;
+	default:
+		$mtg->info('Please choose an action above');
+		break;
 }
 function staffLogs($db, $mtg, $users, $logs, $pages) {
 	?><h3 class="content-subhead">Logs: Staff</h3><?php
