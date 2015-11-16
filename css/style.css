@@ -79,3 +79,17 @@ hr {
 	text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
 	background: rgb(202, 60, 60);
 }
+.forum-functions {
+	float: right;
+	display: inline;
+	opacity: 0.4;
+	font-size: .7em;
+}
+.forum-functions:hover {
+	opacity: 1;
+}
+.forum-edit {
+	padding-top: 10px;
+	font-size: 0.7em;
+	color: #999;
+}
