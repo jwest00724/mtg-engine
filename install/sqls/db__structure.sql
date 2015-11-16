@@ -351,7 +351,7 @@ CREATE TABLE `users` (
    `last_seen` timestamp not null default CURRENT_TIMESTAMP,
    `profile_picture` varchar(255) not null,
    `status` text not null,
-   `upgraded` int(11) not null default '0',
+   `upgraded` timestamp not null default '0000-00-00 00:00:00'
    `account_locked` timestamp not null default CURRENT_TIMESTAMP,
    `login_attempts` int(11) not null default '0',
    PRIMARY KEY (`id`)
