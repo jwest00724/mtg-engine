@@ -32,6 +32,19 @@ class headers {
 	function __construct($db, $set, $my, $mtg, $users) {
 		$db->query('UPDATE `users` SET `last_seen` = ? WHERE `id` = ?');
 		$db->execute([date('Y-m-d H:i:s'), $my['id']]);
+		$threshold = $users->getSetting('logout_threshold');
+		if($threshold != 'Never') {
+			if(isset($_SESSION['last_seen']) && $_SESSION['last_seen'] < time() - $threshold) {
+				session_unset();
+				session_destroy();
+				session_start();
+				$_SESSION['msg'] = [
+					'type' => 'error',
+					'content' => 'You\'ve been logged out due to inactivity'
+				];
+			} else
+				$_SESSION['last_seen'] = time();
+		}
 		header("Content-type: text/html;charset=UTF-8");
 		?><!DOCTYPE html>
 		<html lang="en">
