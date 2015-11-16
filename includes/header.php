@@ -30,8 +30,8 @@ class headers {
 		return self::$inst;
 	}
 	function __construct($db, $set, $my, $mtg, $users) {
-		$db->query('UPDATE `users` SET `last_seen` = current_timestamp WHERE `id` = ?');
-		$db->execute([$my['id']]);
+		$db->query('UPDATE `users` SET `last_seen` = ? WHERE `id` = ?');
+		$db->execute([date('Y-m-d H:i:s'), $my['id']]);
 		header("Content-type: text/html;charset=UTF-8");
 		?><!DOCTYPE html>
 		<html lang="en">
@@ -116,8 +116,9 @@ class headers {
 		$year = date('Y');
 		?>			</div>
 					<div class="footer">
+						Current game time: <?php echo date('H:i:s d/m/Y');?><br />
 						Running MTG Codes <?php echo $mtg->codeVersion('installed');?><br />
-						Copyright &copy;2015<?php echo $year > 2015 ? ' - '.$year : '';?>, Magictallguy.
+						Copyright &copy;2015<?php echo $year > 2015 ? ' - '.$year : '';?>, <a href="http://magictallguy.tk" target="new">Magictallguy</a>.
 					</div>
 				</div>
 			</div>
