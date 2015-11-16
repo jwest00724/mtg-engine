@@ -65,11 +65,20 @@ class headers {
 					</div>
 					<div id="main"><?php
 	}
-
 	function __destruct() {
+		if(!isset($mtg)) {
+			require_once __DIR__ . '/class/class_mtg_functions.php';
+			$mtg = mtg_functions::getInstance();
+		}
+		$year = date('Y');
 		?>			</div>
+					<div class="footer">
+						Running MTG Codes <?php echo $mtg->codeVersion('installed');?><br />
+						Copyright &copy;2015<?php echo $year > 2015 ? ' - '.$year : '';?>, <a href="http://magictallguy.tk" target="new">Magictallguy</a>.
+					</div>
 				</div>
-				<script src="js/ui.js"></script>
+			</div>
+			<script src="js/ui.js"></script>
 			</body>
 		</html><?php
 	}
