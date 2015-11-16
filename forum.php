@@ -16,7 +16,7 @@ switch($_GET['action']) {
 		break;
 }
 function index($db, $my, $mtg, $users) {
-	$db->query('SELECT `id`, `name`, `description` FROM `forums` WHERE `publicity` = "all" ORDER BY `name` ASC');
+	$db->query('SELECT `id`, `name`, `description`, `latest_post` FROM `forums` WHERE `publicity` = "all" ORDER BY `name` ASC');
 	$db->execute();
 	?><h3 class="content-subhead">Public Boards</h3>
 	<p><table width="100%" class="pure-table pure-table-striped">
@@ -39,14 +39,14 @@ function index($db, $my, $mtg, $users) {
 				$latest = '<a href="forum.php?action=topic&amp;ID='.$last['id'].'">'.$mtg->format($last['name']).'</a><br /><strong>By:</strong> '.$users->name($last['poster']);
 			}
 			?><tr>
-				<td><a href="forum.php?action=board&amp;ID=<?php echo $row['id'];?>" class="medium"><?php echo $mtg->format($row['name']);?></a></td>
+				<td><a href="forum.php?action=board&amp;ID=<?php echo $row['id'];?>" class="medium"><?php echo $mtg->format($row['name']);?></a><br /><span class="small"><strong>Description:</strong> <?php echo $mtg->format($row['description']);?></span></td>
 				<td><strong>Latest Post:</strong> <?php echo $latest;?></td>
 			</tr><?php
 		}
 	}
 	?></table></p><?php
 	if(strtolower($my['upgraded']) >= time()) {
-		$db->query('SELECT `id`, `name`, `description` FROM `forums` WHERE `publicity` = "upgraded" ORDER BY `name` ASC');
+		$db->query('SELECT `id`, `name`, `description`, `latest_post` FROM `forums` WHERE `publicity` = "upgraded" ORDER BY `name` ASC');
 		$db->execute();
 		?><h3 class="content-subhead">Upgraded Boards</h3>
 		<p><table width="100%" class="pure-table pure-table-striped">
@@ -77,7 +77,7 @@ function index($db, $my, $mtg, $users) {
 		?></table></p><?php
 	}
 	if($my['staff_rank']) {
-		$db->query('SELECT `id`, `name`, `description` FROM `forums` WHERE `publicity` = "staff" ORDER BY `name` ASC');
+		$db->query('SELECT `id`, `name`, `description`, `latest_post` FROM `forums` WHERE `publicity` = "staff" ORDER BY `name` ASC');
 		$db->execute();
 		?><h3 class="content-subhead">Staff Boards</h3>
 		<p><table width="100%" class="pure-table pure-table-striped">
