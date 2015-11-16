@@ -11,12 +11,16 @@ $links = [
 	'staff/?pull=ranks' => 'Rank Management',
 	'staff/?pull=ranks&amp;action=currentstaff' => 'Staff Management',
 	'staff/?pull=ranks&amp;action=set' => 'Set Player Staff Rank',
-	'divider2' => 'Tasks',
+	'divider2' => 'Forums',
+	'staff/?pull=forum&amp;action=add' => 'Add Board',
+	'staff/?pull=forum&amp;action=edit' => 'Edit Board',
+	'staff/?pull=forum&amp;action=del' => 'Delete Board',
+	'divider3' => 'Tasks',
 	'staff/?pull=tasks' => 'Task Management',
 	'staff/?pull=tasks&amp;action=groups' => 'Task Group Management',
-	'divider3' => 'Logs',
+	'divider4' => 'Logs',
 	'staff/?pull=logs&amp;action=staff' => 'Staff',
-	'divider4' => 'Misc',
+	'divider5' => 'Misc',
 	'?action=logout' => 'Logout'
 ];
 foreach($links as $url => $disp) {
