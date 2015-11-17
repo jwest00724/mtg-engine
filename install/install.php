@@ -59,8 +59,8 @@ $_GET['step'] = isset($_GET['step']) && ctype_digit($_GET['step']) && in_array($
 <div class="content"><?php
 switch($_GET['step']) {
 	default: case 1:
-		if(file_exists($configFile))
-			unlink($configFile);
+		if(file_exists(DIRNAME(__DIR__) . '/includes/config.php'))
+			error('It looks like your game may have already been installed.. Please check that <code>/includes/config.php</code> contains the correct information');
 		?><h2 class="content-subhead">Let's do some checks first...</h2>
 		<p>
 			<form action="install.php?step=2" method="post" class="pure-form">
@@ -92,8 +92,8 @@ switch($_GET['step']) {
 		</p><?php
 		break;
 	case 2:
-		if(file_exists($configFile))
-			unlink($configFile);
+		if(file_exists(DIRNAME(__DIR__) . '/includes/config.php'))
+			error('It looks like your game may have already been installed.. Please check that <code>/includes/config.php</code> contains the correct information');
 		$_POST['gamedir'] = isset($_POST['gamedir']) && is_string($_POST['gamedir']) ? $_POST['gamedir'] : null;
 		$path = !empty($_POST['gamedir']) ? $_POST['gamedir'] : '/';
 		$path = str_replace('//', '/', $mainPath . $path);
@@ -143,8 +143,8 @@ switch($_GET['step']) {
 		</p><?php
 		break;
 	case 3:
-		if(file_exists($configFile))
-			unlink($configFile);
+		if(file_exists(DIRNAME(__DIR__) . '/includes/config.php'))
+			error('It looks like your game may have already been installed.. Please check that <code>/includes/config.php</code> contains the correct information');
 		$_POST['host'] = array_key_exists('host', $_POST) ? $_POST['host'] : null;
 		if(empty($_POST['host']))
 			error('You didn\'t enter a valid hostname');
