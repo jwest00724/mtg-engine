@@ -47,6 +47,7 @@ $paths = preg_match('/\/public_html/', $mainPath) ? explode('/public_html/', $ma
 $path = $paths[1];
 $sqlPathMain = __DIR__ . '/sqls/db__structure.sql';
 $sqlPathSettings = __DIR__ . '/sqls/db__settings_data.sql';
+$configFile = DIRNAME(__DIR__) . '/includes/config.php';
 $steps = [1, 2, 3, 4, 5, 6, 7];
 $_GET['step'] = isset($_GET['step']) && ctype_digit($_GET['step']) && in_array($_GET['step'], $steps) ? $_GET['step'] : 1;
 ?><div class="header">
@@ -58,8 +59,8 @@ $_GET['step'] = isset($_GET['step']) && ctype_digit($_GET['step']) && in_array($
 <div class="content"><?php
 switch($_GET['step']) {
 	default: case 1:
-		if(file_exists(DIRNAME(__DIR__) . '/includes/config.php'))
-			error('It looks like your game may have already been installed.. Please check that <code>/includes/config.php</code> contains the correct information');
+		if(file_exists($configFile))
+			unlink($configFile);
 		?><h2 class="content-subhead">Let's do some checks first...</h2>
 		<p>
 			<form action="install.php?step=2" method="post" class="pure-form">
@@ -91,8 +92,8 @@ switch($_GET['step']) {
 		</p><?php
 		break;
 	case 2:
-		if(file_exists(DIRNAME(__DIR__) . '/includes/config.php'))
-			error('It looks like your game may have already been installed.. Please check that <code>/includes/config.php</code> contains the correct information');
+		if(file_exists($configFile))
+			unlink($configFile);
 		$_POST['gamedir'] = isset($_POST['gamedir']) && is_string($_POST['gamedir']) ? $_POST['gamedir'] : null;
 		$path = !empty($_POST['gamedir']) ? $_POST['gamedir'] : '/';
 		$path = str_replace('//', '/', $mainPath . $path);
@@ -142,8 +143,8 @@ switch($_GET['step']) {
 		</p><?php
 		break;
 	case 3:
-		if(file_exists(DIRNAME(__DIR__) . '/includes/config.php'))
-			error('It looks like your game may have already been installed.. Please check that <code>/includes/config.php</code> contains the correct information');
+		if(file_exists($configFile))
+			unlink($configFile);
 		$_POST['host'] = array_key_exists('host', $_POST) ? $_POST['host'] : null;
 		if(empty($_POST['host']))
 			error('You didn\'t enter a valid hostname');
@@ -185,8 +186,7 @@ define('DB_NAME', '".$name."');";
 				error('The configuration file couldn\'t be created');
 			else
 				success('The configuration file has been created');
-		}
-		if(file_exists($configFile) && !is_writeable($configFile)) {
+		} else 	if(file_exists($configFile) && !is_writeable($configFile)) {
 			?>Code required:<br /><textarea class="pure-input-1-2" rows="10" cols="70"><?php echo $configuration;?></textarea><br /><?php
 			error('Unfortunately, the config.php exists, but couldn\'t be modified. Please make sure your <code>/includes/</code> directory and <code>/includes/config.php</code> is writable - or edit the file manually');
 		} else {
