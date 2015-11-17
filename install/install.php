@@ -166,10 +166,14 @@ switch($_GET['step']) {
 if(!defined('MTG_ENABLE'))
 	exit;
 date_default_timezone_set('".$_POST['timezone']."');
-define('DB_HOST', '".$_POST['host']."');
-define('DB_USER', '".$_POST['user']."');
-define('DB_PASS', '".$_POST['pass']."');
-define('DB_NAME', '".$_POST['name']."');";
+$host = isset(getenv('DB_HOST')) ? genenv('DB_HOST') : '".$_POST['host']."';
+$user = isset(getenv('DB_USER')) ? genenv('DB_USER') : '".$_POST['user']."';
+$pass = isset(getenv('DB_PASS')) ? genenv('DB_PASS') : '".$_POST['pass']."';
+$name = isset(getenv('DB_NAME')) ? genenv('DB_NAME') : '".$_POST['name']."';
+define('DB_HOST', '".$host."');
+define('DB_USER', '".$user."');
+define('DB_PASS', '".$pass."');
+define('DB_NAME', '".$name."');";
 		if(!file_exists($configFile)) {
 			info('The configuration file (<code>'.$configFile.'</code>) couldn\'t be found. Trying to create it now...');
 			$creation = @fopen($configFile, 'w');
