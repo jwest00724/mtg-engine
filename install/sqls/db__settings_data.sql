@@ -1,8 +1,4 @@
---
--- MySQL 5.5.5
--- Mon, 16 Nov 2015 23:36:45 +0000
---
-
+DROP TABLE IF EXISTS `settings_game`;
 CREATE TABLE `settings_game` (
    `id` int(11) not null auto_increment,
    `name` varchar(255) not null,
@@ -10,7 +6,7 @@ CREATE TABLE `settings_game` (
    PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=19;
 
-INSERT INTO `settings_game` (`id`, `name`, `value`) VALUES 
+INSERT INTO `settings_game` (`id`, `name`, `value`) VALUES
 ('1', 'staff_pad', 'Welcome to MTG Codes v9'),
 ('2', 'game_name', 'MTG Engine'),
 ('3', 'game_description', 'Demo description here'),
