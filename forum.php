@@ -616,6 +616,8 @@ function topicSubscribe($db, $my, $mtg, $users) {
 	$mtg->success('You\'ve '.$action.'subscribed to the topic: '.$mtg->format($topic['name']));
 	topicView($db, $my, $mtg, $users);
 }
+if($_GET['what'])
+	reStatForum($db, 4);
 function reStatForum($db, $id) {
 	// Get latest post in topic
 	$db->query('SELECT `id`, `user`, `posted` FROM `forums_posts` WHERE `parent_topic` = ? AND `deleted` = 0 ORDER BY `posted` DESC LIMIT 1');
@@ -623,16 +625,16 @@ function reStatForum($db, $id) {
 	if($db->num_rows()) {
 		$post = $db->fetch_row(true);
 		// Get topic
-		$db->query('SELECT `parent_board`, `latest_post_id`, `latest_post_user`, `latest_post_time`, `parent_board` FROM `forums_topics` WHERE `id` = ?');
+		$db->query('SELECT `parent_board` FROM `forums_topics` WHERE `id` = ?');
 		$db->execute([$id]);
 		if($db->num_rows()) {
-			$topic = $db->fetch_row(true);
+			$board = $db->fetch_single();
 			// Update forum and topic
 			$db->startTrans();
 			$db->query('UPDATE `forums_topics` SET `latest_post_id` = ?, `latest_post_user` = ?, `latest_post_time` = ? WHERE `id` = ?');
 			$db->execute([$post['id'], $post['user'], $post['posted'], $id]);
 			$db->query('UPDATE `forums` SET `latest_post_id` = ?, `latest_post_user` = ?, `latest_post_time` = ?, `latest_topic_id` = ? WHERE `id` = ?');
-			$db->execute([$post['id'], $post['user'], $post['posted'], $topic['parent_board'], $id]);
+			$db->execute([$post['id'], $post['user'], $post['posted'], $id, $board]);
 			$db->endTrans();
 		}
 	} else {
