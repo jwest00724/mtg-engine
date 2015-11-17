@@ -83,6 +83,15 @@ CREATE TABLE `forums_topics` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
 
 
+DROP TABLE IF EXISTS `forums_subscriptions`;
+CREATE TABLE `forums_subscriptions` (
+   `id` int(11) not null primary key auto_increment,
+   `user` int(11) not null default 0,
+   `topic` int(11) not null default 0,
+   `date_subscribed` timestamp not null default CURRENT_TIMESTAMP
+);
+
+
 DROP TABLE IF EXISTS `inventory`;
 CREATE TABLE `inventory` (
    `id` int(11) not null auto_increment,
