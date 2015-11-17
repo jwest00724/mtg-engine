@@ -1,6 +1,8 @@
 <?php
 require_once __DIR__ . '/includes/globals_out.php';
 require_once __DIR__ . '/includes/class/class_mtg_users.php';
+require_once __DIR__ . '/includes/securimage/securimage.php';
+$securimage = new Securimage();
 ?><div class="header">
 	<div class="logo"></div>
 	<h1>Welcome to <?php echo $mtg->format($set['game_name']);?></h1>
@@ -14,6 +16,9 @@ require_once __DIR__ . '/includes/class/class_mtg_users.php';
 			if(empty($_POST[$what]))
 				$mtg->error('You didn\'t enter a '.str_replace('cpassword', 'password confirmation', $what));
 		}
+		$_POST['captcha_code'] = array_key_exists('captcha_code', $_POST) && ctype_digit($_POST['captcha_code']) && strlen($_POST['captcha_code']) == 6 ? $_POST['captcha_code'] : null;
+		if($securimage->check($_POST['captcha_code']) == false)
+			$mtg->error('You didn\'t enter a valid code');
 		$db->query('SELECT `id` FROM `users` WHERE `username` = ?');
 		$db->execute([$_POST['username']]);
 		if($db->num_rows())
@@ -42,27 +47,36 @@ require_once __DIR__ . '/includes/class/class_mtg_users.php';
 			<legend>Register for a free account</legend>
 			<div class="pure-control-group">
 				<label for="username">Username</label>
-				<input type='text' name="username" required />
+				<input type='text' name="username" class="pure-u-1-3" required />
 			</div>
 			<div class="pure-control-group">
 				<label for="password">Password</label>
-				<input type="password" name="password" required />
+				<input type="password" name="password" class="pure-u-1-3" required />
 			</div>
 			<div class="pure-control-group">
 				<label for="confirmation">Confirm Password</label>
-				<input type="password" name="cpassword" required />
+				<input type="password" name="cpassword" class="pure-u-1-3" required />
 			</div>
 			<div class="pure-control-group">
 				<label for="email">Email</label>
-				<input type="email" name="email" required />
+				<input type="email" name="email" class="pure-u-1-3" required />
 			</div>
 			<div class="pure-control-group">
 				<label for="dob">Date of Birth</label>
-				<input type="date" name="dob" placeholder="Optional" />
+				<input type="date" name="dob" class="pure-u-1-3" placeholder="Optional" />
+			</div>
+			<div class="pure-control-group">
+				<label for="image">Captcha Image</label>
+				<img id="captcha" src="/includes/securimage/securimage_show.php" alt="CAPTCHA Image" />
+			</div>
+			<div class="pure-control-group">
+				<label for="code">Captcha Code</label>
+				<input type="text" name="captcha_code" size="10" maxlength="6" class="pure-u-1-3" />
+				<a href="#" onclick="document.getElementById('captcha').src = '/securimage/securimage_show.php?' + Math.random(); return false">[ Different Image ]</a>
 			</div>
 			<div class="pure-controls">
 				<button type="submit" name="submit" value="true" class="pure-button pure-button-primary">Sign Up</button>
-				<button type="reset" class="pure-button pure-button-secondary"><i class="fa fa-recycle"></i> Sign Up</button>
+				<button type="reset" class="pure-button pure-button-secondary"><i class="fa fa-recycle"></i> Reset</button>
 			</div>
 		</form><?php
 	}
