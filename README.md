@@ -7,7 +7,7 @@ Thanks to Justin from [JMBGaming](http://jmbgaming.com), you can now view and ex
 
 ### There's nothin' there?! ###
 This is still in its early-alpha stages. My plans are to add a form of "Mod Manager" which will allow site owners to install mods from within the game.
-Once I've got that up and running, modifications should be pretty straight forward
+Once I've got that up and running, modifications should be pretty straight forward. Until then, you'll have to deal with hard-code!
 
 ### How do I get set up? ###
 
