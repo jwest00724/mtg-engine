@@ -69,6 +69,9 @@ switch($_GET['action']) {
 				break;
 		}
 		break;
+	case 'sub':
+		topicSubscribe($db, $my, $mtg, $users);
+		break;
 	default:
 		index($db, $my, $mtg, $users);
 		break;
@@ -222,8 +225,8 @@ function topicNew($db, $my, $mtg, $users) {
 		$db->query('INSERT INTO `forums_topics` (`name`, `description`, `parent_board`, `creator`) VALUES (?, ?, ?, ?)');
 		$db->execute([$_POST['name'], $_POST['desc'], $_GET['ID'], $my['id']]);
 		$topic = $db->insert_id();
-		reStatForum($db, $topic);
 		$db->endTrans();
+		reStatForum($db, $topic);
 		$mtg->success('&ldquo;'.$mtg->format($_POST['name']).'&rdquo; has been created');
 		boardView($db, $my, $mtg, $users, $_GET['ID']);
 	} else {
@@ -286,21 +289,21 @@ function topicView($db, $my, $mtg, $users, $topic = 0) {
 	if($users->hasAccess('forum_topic_delete')) {
 		?><div class="forum-functions">
 			<form action="forum.php?action=admin&amp;sub=deletetopic&amp;ID=<?php echo $_GET['ID'];?>" method="post" class="pure-form pure-form-aligned">
-				<button type="submit" name="submit" value="true" class="pure-button pure-button-primary" title="Delete Topic"><i class="fa fa-trash"></i></button>&nbsp;
+				<button type="submit" name="submit" value="true" class="pure-button pure-button-important-confirmation" title="Delete Topic"><i class="fa fa-trash"></i></button>&nbsp;
 			</form>
 		</div><?php
 	}
 	if($users->hasAccess('forum_topic_lock')) {
 		?><div class="forum-functions">
 			<form action="forum.php?action=admin&amp;sub=lock&amp;ID=<?php echo $_GET['ID'];?>" method="post" class="pure-form pure-form-aligned"><?php
-				echo $topic['locked'] ? '<button type="submit" name="submit" value="true" class="pure-button pure-button-primary" title="Unlock"><i class="fa fa-unlock"></i></button>' : '<button type="submit" name="submit" value="true" class="pure-button pure-button-primary" title="Lock"><i class="fa fa-lock"></i></button>';
+				echo $topic['locked'] ? '<button type="submit" name="submit" value="true" class="pure-button pure-button-tertiary" title="Unlock"><i class="fa fa-unlock"></i></button>' : '<button type="submit" name="submit" value="true" class="pure-button pure-button-primary" title="Lock"><i class="fa fa-lock"></i></button>';
 			?>&nbsp;</form>
 		</div><?php
 	}
 	if($users->hasAccess('forum_topic_pin')) {
 		?><div class="forum-functions">
 			<form action="forum.php?action=admin&amp;sub=pin&amp;ID=<?php echo $_GET['ID'];?>" method="post" class="pure-form pure-form-aligned"><?php
-				echo $topic['pinned'] ? '<button type="submit" name="submit" value="true" class="pure-button pure-button-primary" title="Unpin"><i class="fa fa-exclamation"></i></button>' : '<button type="submit" name="submit" value="true" class="pure-button pure-button-primary" title="Pin"><i class="fa fa-exclamation-triangle"></i></button>';
+				echo $topic['pinned'] ? '<button type="submit" name="submit" value="true" class="pure-button pure-button-tertiary" title="Unpin"><i class="fa fa-exclamation"></i></button>' : '<button type="submit" name="submit" value="true" class="pure-button pure-button-primary" title="Pin"><i class="fa fa-exclamation-triangle"></i></button>';
 			?>&nbsp;</form>
 		</div><?php
 	}
@@ -311,7 +314,13 @@ function topicView($db, $my, $mtg, $users, $topic = 0) {
 			</form>
 		</div><?php
 	}
-	?>
+	$db->query('SELECT `id` FROM `forums_subscriptions` WHERE `topic` = ? AND `user` = ?');
+	$db->execute([$_GET['ID'], $my['id']]);
+	?><div class="forum-functions">
+		<form action="forum.php?action=sub&amp;ID=<?php echo $_GET['ID'];?>" method="post" class="pure-form pure-form-aligned">
+			<button type="submit" name="submit" value="true" class="pure-button pure-button-<?php echo $db->num_rows() ? 'tertiary' : 'primary';?>"><i class="fa fa-eye"></i></button>&nbsp;
+		</form>
+	</div>
 	<div class="paginate"><?php echo $pages->display_pages();?></div>
 	<table width="100%" class="pure-table pure-table-striped">
 		<thead>
@@ -378,7 +387,7 @@ function topicView($db, $my, $mtg, $users, $topic = 0) {
 function respond($db, $my, $mtg, $users) {
 	if(empty($_GET['ID']))
 		$mtg->error('You didn\'t specify a valid topic in which to respond');
-	$db->query('SELECT `parent_board`, `locked` FROM `forums_topics` WHERE `id` = ?');
+	$db->query('SELECT `name`, `parent_board`, `locked` FROM `forums_topics` WHERE `id` = ?');
 	$db->execute([$_GET['ID']]);
 	if(!$db->num_rows())
 		$mtg->error('That topic doesn\'t exist');
@@ -399,7 +408,14 @@ function respond($db, $my, $mtg, $users) {
 	$db->execute([$_GET['ID'], $_POST['post'], $my['id']]);
 	if($db->num_rows())
 		$mtg->error('Double submission detected');
+	$db->query('SELECT `user` FROM `forums_subscriptions` WHERE `topic` = ?');
+	$db->execute([$_GET['ID']]);
 	$db->startTrans();
+	if($db->num_rows()) {
+		$subscribers = $db->fetch_row();
+		foreach($subscribers as $subscriber)
+			$users->send_event($subscriber['user'], 'Subscription', 'There\'s a new post in <a href="forum.php?action=topic&amp;ID='.$_GET['ID'].'">'.$mtg->format($topic['name']).'</a>');
+	}
 	$db->query('INSERT INTO `forums_posts` (`parent_topic`, `user`, `content`) VALUES (?, ?, ?)');
 	$db->execute([$_GET['ID'], $my['id'], $_POST['post']]);
 	$post = $db->insert_id();
@@ -567,6 +583,38 @@ function postDelete($db, $my, $mtg, $users, $logs) {
 		$logs->staff('Deleted post #'.$mtg->format($_GET['ID']).' from forum topic: '.$mtg->format($topic['name']));
 	$mtg->success('You\'ve deleted post #'.$mtg->format($_GET['ID']).' from topic: '.$mtg->format($topic['name']));
 	topicView($db, $my, $mtg, $users, $post['parent_topic']);
+}
+function topicSubscribe($db, $my, $mtg, $users) {
+	if(empty($_GET['ID']))
+		$mtg->error('You didn\'t specify a valid topic');
+	$db->query('SELECT `name`, `parent_board` FROM `forums_topics` WHERE `id` = ?');
+	$db->execute([$_GET['ID']]);
+	if(!$db->num_rows())
+		$mtg->error('That topic doesn\'t exist');
+	$topic = $db->fetch_row(true);
+	$db->query('SELECT `id`, `publicity`, `is_recycle` FROM `forums` WHERE `id` = ?');
+	$db->execute([$topic['parent_board']]);
+	if(!$db->num_rows())
+		$mtg->error('The parent board for that topic doesn\'t exist');
+	$board = $db->fetch_row(true);
+	if($board['publicity'] == 'staff' && !$my['staff_rank'])
+		$mtg->error('That post is from a staff board, you don\'t have access');
+	if($board['publicity'] == 'upgraded' && time() > strtotime($my['upgraded']))
+		$mtg->error('That post is from an upgraded only board, you don\'t have access');
+	$db->query('SELECT `id` FROM `forums_subscriptions` WHERE `user` = ? AND `topic` = ?');
+	$db->execute([$my['id'], $_GET['ID']]);
+	if($db->num_rows()) {
+		$id = $db->fetch_single();
+		$db->query('DELETE FROM `forums_subscriptions` WHERE `id` = ?');
+		$db->execute([$id]);
+		$action = 'un';
+	} else {
+		$db->query('INSERT INTO `forums_subscriptions` (`user`, `topic`) VALUES (?, ?)');
+		$db->execute([$my['id'], $_GET['ID']]);
+		$action = '';
+	}
+	$mtg->success('You\'ve '.$action.'subscribed to the topic: '.$mtg->format($topic['name']));
+	topicView($db, $my, $mtg, $users);
 }
 function reStatForum($db, $id) {
 	// Get latest post in topic
