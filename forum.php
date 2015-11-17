@@ -9,7 +9,6 @@ $pages = new Paginator();
 require_once __DIR__ . '/includes/class/jbbcode/Parser.php';
 $parser = new jBBCode\Parser();
 $parser->addCodeDefinitionSet(new JBBCode\DefaultCodeDefinitionSet());
-$mtg->info('Under development');
 function formatLatestPost($id) {
 	global $db, $mtg, $parser;
 	$db->query('SELECT `content` FROM `forums_posts` WHERE `parent_topic` = ? ORDER BY `posted` DESC LIMIT 1');
@@ -170,7 +169,7 @@ function boardView($db, $my, $mtg, $users, $board = 0) {
 	$pages->paginate();
 	$db->query('SELECT `id`, `name`, `description`, `latest_post_id`, `latest_post_user`, `latest_post_time`, `pinned`, `locked` FROM `forums_topics` WHERE `parent_board` = ? ORDER BY `pinned` DESC, `latest_post_time` DESC '.$pages->limit);
 	$db->execute([$_GET['ID']]);
-	?><h3 class="content-subhead"><?php echo $mtg->format($row['name']);?> &rarr; <a href="forum.php?action=topic&amp;sub=new&amp;ID=<?php echo $_GET['ID'];?>">New Topic</a></h3>
+	?><h3 class="content-subhead"><a href="forum.php">Index</a> &rarr; <?php echo $mtg->format($row['name']);?> &rarr; <a href="forum.php?action=topic&amp;sub=new&amp;ID=<?php echo $_GET['ID'];?>">New Topic</a></h3>
 	<div class="paginate"><?php echo $pages->display_pages();?></div>
 	<table width="100%" class="pure-table pure-table-striped">
 		<thead>
@@ -212,7 +211,7 @@ function topicNew($db, $my, $mtg, $users) {
 		$mtg->error('This board is for upgraded members only. You don\'t have access');
 	if($row['is_recycle'])
 		$mtg->error('You can\'t create topics in a recycle board');
-	?><h3 class="content-subhead"><a href="forum.php?action=board&amp;ID=<?php echo $_GET['ID'];?>"><?php echo $mtg->format($row['name']);?></a> &rarr; Adding a new topic</h3><?php
+	?><h3 class="content-subhead"><a href="forum.php">Index</a> &rarr; <a href="forum.php?action=board&amp;ID=<?php echo $_GET['ID'];?>"><?php echo $mtg->format($row['name']);?></a> &rarr; Adding a new topic</h3><?php
 	if(array_key_exists('submit', $_POST)) {
 		$_POST['name'] = array_key_exists('name', $_POST) && is_string($_POST['name']) ? trim($_POST['name']) : null;
 		if(empty($_POST['name']))
@@ -225,6 +224,8 @@ function topicNew($db, $my, $mtg, $users) {
 		$db->query('INSERT INTO `forums_topics` (`name`, `description`, `parent_board`, `creator`) VALUES (?, ?, ?, ?)');
 		$db->execute([$_POST['name'], $_POST['desc'], $_GET['ID'], $my['id']]);
 		$topic = $db->insert_id();
+		$db->query('INSERT INTO `forums_posts` (`user`, `content`, `parent_topic`) VALUES (?, ?, ?)');
+		$db->execute([$my['id'], $_POST['content'], $topic]);
 		$db->endTrans();
 		reStatForum($db, $topic);
 		$mtg->success('&ldquo;'.$mtg->format($_POST['name']).'&rdquo; has been created');
@@ -370,7 +371,10 @@ function topicView($db, $my, $mtg, $users, $topic = 0) {
 	?></table>
 	<div class="paginate"><?php echo $pages->display_pages();?></div><?php
 	if(!$topic['locked'] || $users->hasAccess('forum_post_locked')) {
-		?><p>
+		?><script type="javascript">
+			$('textarea').enterKey(function() {$(this).closest('form').submit(); }, 'ctrl');
+		</script>
+		<p>
 			<form action="forum.php?action=post&amp;ID=<?php echo $_GET['ID'];?>" method="post" class="pure-form pure-form-aligned">
 				<div class="pure-control-group">
 					<label for="post">Response</label>
