@@ -123,6 +123,9 @@ function addTask($db, $mtg, $items, $logs) {
 		$nums = ['nerve', 'group', 'xp_min', 'xp_max', 'money_min', 'money_max', 'points_min', 'points_max', 'item', 'item_qty', 'jail', 'hospital', 'group', 'upgraded'];
 		foreach($nums as $what)
 			$_POST[$what] = isset($_POST[$what]) && ctype_digit(str_replace(',', '', $_POST[$what])) ? str_replace(',', '', $_POST[$what]) : 0;
+		$strs = ['name', 'formula', 'start', 'success', 'failure', 'jailed', 'hospitalised', 'reason_jail', 'reason_hospital'];
+		foreach($strs as $str)
+			$_POST[$str] = array_key_exists($str, $_POST) && is_string($_POST[$str]) ? trim($_POST[$str]) : '';
 		if(!$_POST['group'])
 			$mtg->error('You didn\'t select a valid group');
 		$db->query('SELECT `name` FROM `tasks_groups` WHERE `id` = ?');
@@ -274,6 +277,9 @@ function editTask($db, $mtg, $items, $logs) {
 			$_POST[$what] = isset($_POST[$what]) && ctype_digit(str_replace(',', '', $_POST[$what])) ? str_replace(',', '', $_POST[$what]) : 0;
 		if(!$_POST['group'])
 			$mtg->error('You didn\'t select a valid group');
+		$strs = ['name', 'formula', 'start', 'success', 'failure', 'jailed', 'hospitalised', 'reason_jail', 'reason_hospital'];
+		foreach($strs as $str)
+			$_POST[$str] = array_key_exists($str, $_POST) && is_string($_POST[$str]) ? trim($_POST[$str]) : '';
 		$db->query('SELECT `name` FROM `tasks_groups` WHERE `id` = ?');
 		$db->execute([$_POST['group']]);
 		if(!$db->num_rows())
