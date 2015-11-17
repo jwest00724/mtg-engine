@@ -616,8 +616,6 @@ function topicSubscribe($db, $my, $mtg, $users) {
 	$mtg->success('You\'ve '.$action.'subscribed to the topic: '.$mtg->format($topic['name']));
 	topicView($db, $my, $mtg, $users);
 }
-if($_GET['what'])
-	reStatForum($db, 4);
 function reStatForum($db, $id) {
 	// Get latest post in topic
 	$db->query('SELECT `id`, `user`, `posted` FROM `forums_posts` WHERE `parent_topic` = ? AND `deleted` = 0 ORDER BY `posted` DESC LIMIT 1');
