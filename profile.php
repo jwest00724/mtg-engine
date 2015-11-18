@@ -4,7 +4,7 @@ require_once __DIR__ . '/includes/globals.php';
 ?><div class="content"><?php
 $_GET['player'] = array_key_exists('player', $_GET) && ctype_digit($_GET['player']) ? $_GET['player'] : $my['id'];
 if($_GET['player'] != $my['id']) {
-	$db->query('SELECT `u`.`username`, `u`.`level`, `u`.`points`, `u`.`location`, `u`.`hospital`, `u`.`hospital_reason`, `u`.`jail`, `u`.`jail_reason`, `u`.`profile_picture`, `ue`.`primary`, `ue`.`secondary`, `ue`.`armour`, `uf`.`money` ' .
+	$db->query('SELECT `u`.`username`, `u`.`level`, `u`.`location`, `u`.`hospital`, `u`.`hospital_reason`, `u`.`jail`, `u`.`jail_reason`, `u`.`profile_picture`, `ue`.`primary`, `ue`.`secondary`, `ue`.`armour`, `uf`.`money`, `uf`.`points` ' .
 		'FROM `users` AS `u` ' .
 		'LEFT JOIN `users_equipment` AS `ue` ON `u`.`id` = `ue`.`id` ' .
 		'LEFT JOIN `users_finances` AS `uf` ON `u`.`id` = `uf`.`id` ' .
