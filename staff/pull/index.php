@@ -120,6 +120,19 @@ function gameSettings($db, $my, $mtg, $set) {
 			<label for="username_length_max">Maximum Username Length</label>
 			<input type="text" name="username_length_max" value="<?php echo $mtg->format($set['username_length_max']);?>" class="pure-u-1-3" />
 		</div>
+		<legend>Captcha Tests</legend>
+		<div class="pure-control-group">
+			<label for="captcha_registration">Captcha: Registration</label>
+			<input type="text" name="captcha_registration" value="<?php echo $mtg->format($set['captcha_registration']);?>" class="pure-u-1-3" />
+		</div>
+		<div class="pure-control-group">
+			<label for="captcha_messages">Captcha: Messages</label>
+			<input type="text" name="captcha_messages" value="<?php echo $mtg->format($set['captcha_messages']);?>" class="pure-u-1-3" />
+		</div>
+		<div class="pure-control-group">
+			<label for="captcha_forums">Captcha: Forums</label>
+			<input type="text" name="captcha_forums" value="<?php echo $mtg->format($set['captcha_forums']);?>" class="pure-u-1-3" />
+		</div>
 		<legend>Game Settings</legend>
 		<div class="pure-control-group">
 			<label for="currency-symbol">Currency Symbol</label>
