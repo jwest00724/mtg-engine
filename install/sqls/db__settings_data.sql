@@ -24,4 +24,6 @@ INSERT INTO `settings_game` (`id`, `name`, `value`) VALUES
 ('15', 'level_gained', '1'),
 ('16', 'bank_enabled', '1'),
 ('17', 'bank_cost', '100000'),
-('18', 'forums_enabled', '1');
+('18', 'forums_enabled', '1'),
+('19', 'username_length_min', '3'),
+('20', 'username_length_max', '15');

@@ -16,6 +16,8 @@ $securimage = new Securimage();
 			if(empty($_POST[$what]))
 				$mtg->error('You didn\'t enter a '.str_replace('cpassword', 'password confirmation', $what));
 		}
+		if(($set['username_length_max'] > && strlen($_POST['username']) > $set['username_length_max']) || ($set['username_length_min'] > 0 && strlen($_POST['username']) < $set['username_length_min']))
+			$mtg->error('Your username must be between '.$set['username_length_min'].' and '.$set['username_length_max'].' characters');
 		$_POST['captcha_code'] = array_key_exists('captcha_code', $_POST) && ctype_digit($_POST['captcha_code']) && strlen($_POST['captcha_code']) == 6 ? $_POST['captcha_code'] : null;
 		if($securimage->check($_POST['captcha_code']) == false)
 			$mtg->error('You didn\'t enter a valid code');
@@ -39,6 +41,8 @@ $securimage = new Securimage();
 		$db->execute([$id]);
 		$db->query('INSERT INTO `users_stats` (`id`) VALUES (?)');
 		$db->execute([$id]);
+		$db->query('INSERT INTO `users_ip` (`user`, `ip`) VALUES (?, ?)');
+		$db->execute([$id, $mtg->_ip()]);
 		$db->endTrans();
 		$_SESSION['userid'] = $id;
 		$mtg->success('You\'ve signed up! We\'re logging you in now <meta http-equiv="refresh" content="2; url=index.php" />', true);

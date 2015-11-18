@@ -72,7 +72,7 @@ function gameSettings($db, $my, $mtg, $set) {
 		$strs = ['game_name', 'game_description', 'register_promo_code', 'main_currency_symbol'];
 		foreach($strs as $what)
 			$_POST[$what] = isset($_POST[$what]) && is_string($_POST[$what]) ? trim($_POST[$what]) : null;
-		$nums = ['register_start_cash', 'register_promo_cash', 'game_owner_id', 'bank_enabled', 'bank_cost', 'max_health_gained', 'max_nerve_gained', 'max_power_gained', 'max_energy_gained', 'level_gained', 'forums_enabled'];
+		$nums = ['register_start_cash', 'register_promo_cash', 'game_owner_id', 'bank_enabled', 'bank_cost', 'max_health_gained', 'max_nerve_gained', 'max_power_gained', 'max_energy_gained', 'level_gained', 'forums_enabled', 'username_length_min', 'username_length_max'];
 		foreach($nums as $what)
 			$_POST[$what] = isset($_POST[$what]) && ctype_digit(str_replace(',', '', $_POST[$what])) ? str_replace(',', '', $_POST[$what]) : 0;
 		$posted = array_merge($strs, $nums);
@@ -111,6 +111,14 @@ function gameSettings($db, $my, $mtg, $set) {
 		<div class="pure-control-group">
 			<label for="promo-cash">Promo Cash</label>
 			<input type="text" name="register_promo_cash" value="<?php echo $mtg->format($set['register_promo_cash']);?>" class="pure-u-1-3" />
+		</div>
+		<div class="pure-control-group">
+			<label for="username_length_min">Minimum Username Length</label>
+			<input type="text" name="username_length_min" value="<?php echo $mtg->format($set['username_length_min']);?>" class="pure-u-1-3" />
+		</div>
+		<div class="pure-control-group">
+			<label for="username_length_max">Maximum Username Length</label>
+			<input type="text" name="username_length_max" value="<?php echo $mtg->format($set['username_length_max']);?>" class="pure-u-1-3" />
 		</div>
 		<legend>Game Settings</legend>
 		<div class="pure-control-group">
