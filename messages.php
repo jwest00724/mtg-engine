@@ -69,16 +69,16 @@ switch($_GET['action']) {
 				?></table><?php
 			}
 		} else {
-			$subj = strip_tags($_POST['subject']);
+			$subj = array_key_exists('subject', $_POST) && is_string($_POST['subject']) ? trim(strip_tags($_POST['subject'])) : 'n/a';
 			if(strlen($subj) > 50)
 				$mtg->error('Subjects are limited to 50 characters');
-			$msg  = strip_tags($_POST['message']);
+			$msg  = array_key_exists('message', $_POST) && is_string($_POST['message']) ? trim(strip_tags($_POST['message'])) : null;
 			if(empty($msg))
 				$mtg->error('You must enter a message');
 			if(strlen($msg) > 65536)
 				$mtg->error('Messages are limited to 65,536 characters');
-			$_POST['user1'] = isset($_POST['user1']) && ctype_digit($_POST['user1']) ? $_POST['user1'] : null;
-			$_POST['user2'] = isset($_POST['user2']) && is_string($_POST['user2']) ? str_replace(' ', '', trim($_POST['user2'])) : null;
+			$_POST['user1'] = array_key_exists('user1', $_POST) && ctype_digit($_POST['user1']) ? $_POST['user1'] : null;
+			$_POST['user2'] = array_key_exists('user2', $_POST) && is_string($_POST['user2']) ? str_replace(' ', '', trim($_POST['user2'])) : null;
 			if(empty($_POST['user1']) && empty($_POST['user2']))
 				$mtg->error('You must select at least 1 option as a recipient');
 			if(!empty($_POST['user1']) && !empty($_POST['user2']))
@@ -175,10 +175,12 @@ switch($_GET['action']) {
 		?><h4>Your archive</h4>
 		<p class="paginate"><?php echo $pages->display_pages();?></p><br />
 		<table class="pure-table pure-table-striped" width="100%">
-			<tr>
-				<th width="25%">Details</th>
-				<th width="75%">Message</th>
-			</tr><?php
+			<thead>
+				<tr>
+					<th width="25%">Details</th>
+					<th width="75%">Message</th>
+				</tr>
+			</thead><?php
 			if(!$db->num_rows())
 				echo '<tr><td colspan="2" class="center">You have no archived messages</td></tr>';
 			else {
