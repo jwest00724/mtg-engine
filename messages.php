@@ -9,6 +9,8 @@ $parser = new JBBCode\Parser();
 $parser->addCodeDefinitionSet(new JBBCode\DefaultCodeDefinitionSet());
 require_once __DIR__ . '/includes/class/class_mtg_paginate.php';
 $pages = new Paginator();
+require_once __DIR__ . '/includes/securimage/securimage.php';
+$securimage = new Securimage();
 $_GET['ID'] = isset($_GET['ID']) && ctype_digit($_GET['ID']) ? $_GET['ID'] : null;
 $_GET['action'] = isset($_GET['action']) && ctype_alpha($_GET['action']) ? strtolower(trim($_GET['action'])) : null;
 $read = [
@@ -38,8 +40,19 @@ switch($_GET['action']) {
 				<div class="pure-control-group">
 					<label for="message">Message</label>
 					<textarea rows="7" cols="50" name="message" class="pure-input-1-2"><?php echo isset($_GET['msg']) ? urldecode($_GET['msg']) : null;?></textarea>
-				</div>
-				<div class="pure-controls">
+				</div><?php
+				if($set['captcha_messages']) {
+					?><div class="pure-control-group">
+						<label for="image">Captcha Image</label>
+						<img id="captcha" src="/includes/securimage/securimage_show.php" alt="CAPTCHA Image" />
+					</div>
+					<div class="pure-control-group">
+						<label for="code">Captcha Code</label>
+						<input type="text" name="captcha_code" size="10" maxlength="6" class="pure-u-1-3" required />
+						<a href="#" onclick="document.getElementById('captcha').src = '/includes/securimage/securimage_show.php?' + Math.random(); return false">[ Different Image ]</a>
+					</div><?php
+				}
+				?><div class="pure-controls">
 					<button type="submit" name="submit" value="true" class="pure-button pure-button-primary"><i class="fa fa-envelope"></i> Send Message</button>
 					<button type="reset" class="pure-button pure-button-secondary"><i class="fa fa-recycle"></i> Reset</button>
 				</div>
@@ -69,6 +82,11 @@ switch($_GET['action']) {
 				?></table><?php
 			}
 		} else {
+			if($set['captcha_messages']) {
+				$_POST['captcha_code'] = array_key_exists('captcha_code', $_POST) && ctype_digit($_POST['captcha_code']) && strlen($_POST['captcha_code']) == 6 ? $_POST['captcha_code'] : null;
+				if($securimage->check($_POST['captcha_code']) == false)
+					$mtg->error('You didn\'t enter a valid code');
+			}
 			$subj = array_key_exists('subject', $_POST) && is_string($_POST['subject']) ? trim(strip_tags($_POST['subject'])) : 'n/a';
 			if(strlen($subj) > 50)
 				$mtg->error('Subjects are limited to 50 characters');
@@ -101,6 +119,11 @@ switch($_GET['action']) {
 			$msg = $count > 1 ? $msg . "\r\n\r\nMessage sent to: " . messageUsernames($uni) : $msg;
 			$db->startTrans();
 			foreach($uni as $to) {
+				$db->query('SELECT `message` FROM `users_messages` WHERE `sender` = ? AND `receiver` = ? AND `read` = 0 ORDER BY `time_sent` DESC LIMIT 1');
+				$db->execute([$my['id'], $to]);
+				if($db->num_rows())
+					if($msg == $db->fetch_single())
+						$mtg->error('Double submission detected');
 				$sentTo .= $users->name($to) . ', ';
 				$users->send_message($to, $my['id'], $subj, $msg);
 			}

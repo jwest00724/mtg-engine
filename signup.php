@@ -18,9 +18,11 @@ $securimage = new Securimage();
 		}
 		if(($set['username_length_max'] > && strlen($_POST['username']) > $set['username_length_max']) || ($set['username_length_min'] > 0 && strlen($_POST['username']) < $set['username_length_min']))
 			$mtg->error('Your username must be between '.$set['username_length_min'].' and '.$set['username_length_max'].' characters');
-		$_POST['captcha_code'] = array_key_exists('captcha_code', $_POST) && ctype_digit($_POST['captcha_code']) && strlen($_POST['captcha_code']) == 6 ? $_POST['captcha_code'] : null;
-		if($securimage->check($_POST['captcha_code']) == false)
-			$mtg->error('You didn\'t enter a valid code');
+		if($set['captcha_registration']) {
+			$_POST['captcha_code'] = array_key_exists('captcha_code', $_POST) && ctype_digit($_POST['captcha_code']) && strlen($_POST['captcha_code']) == 6 ? $_POST['captcha_code'] : null;
+			if($securimage->check($_POST['captcha_code']) == false)
+				$mtg->error('You didn\'t enter a valid code');
+		}
 		$db->query('SELECT `id` FROM `users` WHERE `username` = ?');
 		$db->execute([$_POST['username']]);
 		if($db->num_rows())
@@ -68,17 +70,19 @@ $securimage = new Securimage();
 			<div class="pure-control-group">
 				<label for="dob">Date of Birth</label>
 				<input type="date" name="dob" class="pure-u-1-3" placeholder="Optional" />
-			</div>
-			<div class="pure-control-group">
-				<label for="image">Captcha Image</label>
-				<img id="captcha" src="/includes/securimage/securimage_show.php" alt="CAPTCHA Image" />
-			</div>
-			<div class="pure-control-group">
-				<label for="code">Captcha Code</label>
-				<input type="text" name="captcha_code" size="10" maxlength="6" class="pure-u-1-3" />
-				<a href="#" onclick="document.getElementById('captcha').src = '/securimage/securimage_show.php?' + Math.random(); return false">[ Different Image ]</a>
-			</div>
-			<div class="pure-controls">
+			</div><?php
+			if($set['captcha_registration']) {
+				?><div class="pure-control-group">
+					<label for="image">Captcha Image</label>
+					<img id="captcha" src="/includes/securimage/securimage_show.php" alt="CAPTCHA Image" />
+				</div>
+				<div class="pure-control-group">
+					<label for="code">Captcha Code</label>
+					<input type="text" name="captcha_code" size="10" maxlength="6" class="pure-u-1-3" />
+					<a href="#" onclick="document.getElementById('captcha').src = '/includes/securimage/securimage_show.php?' + Math.random(); return false">[ Different Image ]</a>
+				</div><?php
+			}
+			?><div class="pure-controls">
 				<button type="submit" name="submit" value="true" class="pure-button pure-button-primary">Sign Up</button>
 				<button type="reset" class="pure-button pure-button-secondary"><i class="fa fa-recycle"></i> Reset</button>
 			</div>
