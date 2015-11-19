@@ -7,7 +7,7 @@ if(array_key_exists('submit', $_POST)) {
 		$_POST[$what] = array_key_exists($what, $_POST) && isset($_POST[$what]) ? trim($_POST[$what]) : null;
 	$updates = [];
 	if(!empty($_POST['username'])) {
-		if(($set['username_length_max'] > && strlen($_POST['username']) > $set['username_length_max']) || ($set['username_length_min'] > 0 && strlen($_POST['username']) < $set['username_length_min']))
+		if(($set['username_length_max'] > 0 && strlen($_POST['username']) > $set['username_length_max']) || ($set['username_length_min'] > 0 && strlen($_POST['username']) < $set['username_length_min']))
 			$mtg->error('Your username must be between '.$set['username_length_min'].' and '.$set['username_length_max'].' characters');
 		$db->query('SELECT `id` FROM `users` WHERE `username` = ? AND `id` <> ?');
 		$db->execute([$_POST['username'], $my['id']]);
