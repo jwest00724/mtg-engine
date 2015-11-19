@@ -16,7 +16,7 @@ $securimage = new Securimage();
 			if(empty($_POST[$what]))
 				$mtg->error('You didn\'t enter a '.str_replace('cpassword', 'password confirmation', $what));
 		}
-		if(($set['username_length_max'] > 0 && strlen($_POST['username']) > $set['username_length_max'])) || ($set['username_length_min'] > 0 && strlen($_POST['username']) < $set['username_length_min']))
+		if(($set['username_length_max'] > 0 && strlen($_POST['username']) > $set['username_length_max']) || ($set['username_length_min'] > 0 && strlen($_POST['username']) < $set['username_length_min']))
 			$mtg->error('Your username must be between '.$set['username_length_min'].' and '.$set['username_length_max'].' characters');
 		if($set['captcha_registration']) {
 			$_POST['captcha_code'] = array_key_exists('captcha_code', $_POST) && ctype_digit($_POST['captcha_code']) && strlen($_POST['captcha_code']) == 6 ? $_POST['captcha_code'] : null;
