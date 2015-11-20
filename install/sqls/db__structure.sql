@@ -1,4 +1,8 @@
-DROP TABLE IF EXISTS `breport`;
+--
+-- MySQL 5.5.5
+-- Fri, 20 Nov 2015 21:06:01 +0000
+--
+
 CREATE TABLE `breport` (
    `id` int(11) not null auto_increment,
    `urgency` varchar(255) not null,
@@ -13,7 +17,6 @@ CREATE TABLE `breport` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
 
 
-DROP TABLE IF EXISTS `breport_responses`;
 CREATE TABLE `breport_responses` (
    `id` int(11) not null auto_increment,
    `bug` int(11) not null default '0',
@@ -24,7 +27,6 @@ CREATE TABLE `breport_responses` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
 
 
-DROP TABLE IF EXISTS `cities`;
 CREATE TABLE `cities` (
    `cityid` int(11) not null auto_increment,
    `cityname` varchar(255) not null,
@@ -36,7 +38,6 @@ CREATE TABLE `cities` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
 
 
-DROP TABLE IF EXISTS `forums`;
 CREATE TABLE `forums` (
    `id` int(11) not null auto_increment,
    `name` varchar(255) CHARSET latin1 not null,
@@ -48,10 +49,9 @@ CREATE TABLE `forums` (
    `latest_post_user` int(11) not null default '0',
    `latest_post_time` timestamp not null default '0000-00-00 00:00:00',
    PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=5;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=7;
 
 
-DROP TABLE IF EXISTS `forums_posts`;
 CREATE TABLE `forums_posts` (
    `id` int(11) not null auto_increment,
    `parent_topic` int(11) not null default '0',
@@ -63,10 +63,18 @@ CREATE TABLE `forums_posts` (
    `edit_date` timestamp not null default '0000-00-00 00:00:00',
    `deleted` tinyint(1) not null default '0',
    PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=2775;
 
 
-DROP TABLE IF EXISTS `forums_topics`;
+CREATE TABLE `forums_subscriptions` (
+   `id` int(11) not null auto_increment,
+   `user` int(11) not null default '0',
+   `topic` int(11) not null default '0',
+   `date_subscribed` timestamp not null default CURRENT_TIMESTAMP,
+   PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1349;
+
+
 CREATE TABLE `forums_topics` (
    `id` int(11) not null auto_increment,
    `name` varchar(255) CHARSET latin1 not null,
@@ -80,19 +88,9 @@ CREATE TABLE `forums_topics` (
    `latest_post_user` int(11) not null default '0',
    `latest_post_time` timestamp not null default '0000-00-00 00:00:00',
    PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=2291;
 
 
-DROP TABLE IF EXISTS `forums_subscriptions`;
-CREATE TABLE `forums_subscriptions` (
-   `id` int(11) not null primary key auto_increment,
-   `user` int(11) not null default 0,
-   `topic` int(11) not null default 0,
-   `date_subscribed` timestamp not null default CURRENT_TIMESTAMP
-);
-
-
-DROP TABLE IF EXISTS `inventory`;
 CREATE TABLE `inventory` (
    `id` int(11) not null auto_increment,
    `item` int(11) not null default '0',
@@ -102,7 +100,6 @@ CREATE TABLE `inventory` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
 
 
-DROP TABLE IF EXISTS `items`;
 CREATE TABLE `items` (
    `id` int(11) not null auto_increment,
    `type` int(11) not null default '0',
@@ -124,7 +121,6 @@ CREATE TABLE `items` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
 
 
-DROP TABLE IF EXISTS `itemtypes`;
 CREATE TABLE `itemtypes` (
    `id` int(11) not null auto_increment,
    `name` varchar(255) not null,
@@ -132,7 +128,6 @@ CREATE TABLE `itemtypes` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
 
 
-DROP TABLE IF EXISTS `jobranks`;
 CREATE TABLE `jobranks` (
    `id` int(11) not null auto_increment,
    `name` varchar(255) not null,
@@ -152,7 +147,6 @@ CREATE TABLE `jobranks` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
 
 
-DROP TABLE IF EXISTS `jobs`;
 CREATE TABLE `jobs` (
    `id` int(11) not null auto_increment,
    `name` varchar(255) not null,
@@ -162,7 +156,6 @@ CREATE TABLE `jobs` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
 
 
-DROP TABLE IF EXISTS `logs_query_errors`;
 CREATE TABLE `logs_query_errors` (
    `id` int(11) not null auto_increment,
    `time` timestamp not null default CURRENT_TIMESTAMP,
@@ -175,7 +168,6 @@ CREATE TABLE `logs_query_errors` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
 
 
-DROP TABLE IF EXISTS `logs_staff`;
 CREATE TABLE `logs_staff` (
    `id` int(11) not null auto_increment,
    `user` int(11) not null default '0',
@@ -183,28 +175,9 @@ CREATE TABLE `logs_staff` (
    `action` text not null,
    `ip` varchar(15) not null,
    PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=25;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=68;
 
 
-DROP TABLE IF EXISTS `mail`;
-CREATE TABLE `mail` (
-   `id` int(11) not null auto_increment,
-   `read` int(11) not null default '0',
-   `sender` int(11) not null default '0',
-   `receiver` int(11) not null default '0',
-   `time_sent` timestamp not null default CURRENT_TIMESTAMP,
-   `subject` varchar(255) not null,
-   `message` mediumtext not null,
-   `deleted` int(11) not null default '0',
-   PRIMARY KEY (`id`),
-   KEY `read` (`read`),
-   KEY `sender` (`sender`),
-   KEY `receiver` (`receiver`),
-   KEY `deleted` (`deleted`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
-
-
-DROP TABLE IF EXISTS `market_items`;
 CREATE TABLE `market_items` (
    `id` int(11) not null auto_increment,
    `item` int(11) not null default '0',
@@ -217,7 +190,6 @@ CREATE TABLE `market_items` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
 
 
-DROP TABLE IF EXISTS `market_points`;
 CREATE TABLE `market_points` (
    `id` int(11) not null auto_increment,
    `qty` bigint(25) not null default '0',
@@ -228,7 +200,6 @@ CREATE TABLE `market_points` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
 
 
-DROP TABLE IF EXISTS `preports`;
 CREATE TABLE `preports` (
    `id` int(11) not null auto_increment,
    `userid` int(11) not null default '0',
@@ -241,7 +212,6 @@ CREATE TABLE `preports` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
 
 
-DROP TABLE IF EXISTS `preports_responses`;
 CREATE TABLE `preports_responses` (
    `id` int(11) not null auto_increment,
    `report` int(11) not null default '0',
@@ -252,7 +222,6 @@ CREATE TABLE `preports_responses` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
 
 
-DROP TABLE IF EXISTS `settings_crons`;
 CREATE TABLE `settings_crons` (
    `id` int(11) not null auto_increment,
    `type` varchar(25) not null,
@@ -261,16 +230,14 @@ CREATE TABLE `settings_crons` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=3;
 
 
-DROP TABLE IF EXISTS `settings_game`;
 CREATE TABLE `settings_game` (
    `id` int(11) not null auto_increment,
    `name` varchar(255) not null,
    `value` mediumtext not null,
    PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=19;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=25;
 
 
-DROP TABLE IF EXISTS `settings_mods`;
 CREATE TABLE `settings_mods` (
    `id` int(11) not null auto_increment,
    `area` varchar(255) not null,
@@ -279,7 +246,6 @@ CREATE TABLE `settings_mods` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
 
 
-DROP TABLE IF EXISTS `shopitems`;
 CREATE TABLE `shopitems` (
    `sitemID` int(11) not null auto_increment,
    `sitemSHOP` int(11) not null default '0',
@@ -291,7 +257,6 @@ CREATE TABLE `shopitems` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
 
 
-DROP TABLE IF EXISTS `shops`;
 CREATE TABLE `shops` (
    `shopID` int(11) not null auto_increment,
    `shopLOCATION` int(11) not null default '0',
@@ -301,7 +266,6 @@ CREATE TABLE `shops` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
 
 
-DROP TABLE IF EXISTS `staff_ranks`;
 CREATE TABLE `staff_ranks` (
    `rank_id` int(11) not null auto_increment,
    `rank_name` varchar(255) not null,
@@ -338,7 +302,6 @@ CREATE TABLE `staff_ranks` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=2;
 
 
-DROP TABLE IF EXISTS `tasks`;
 CREATE TABLE `tasks` (
    `id` int(11) not null auto_increment,
    `name` varchar(255) not null,
@@ -365,10 +328,9 @@ CREATE TABLE `tasks` (
    `awarded_item` int(11) not null default '0',
    `awarded_item_qty` int(11) not null default '0',
    PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=2;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=3;
 
 
-DROP TABLE IF EXISTS `tasks_groups`;
 CREATE TABLE `tasks_groups` (
    `id` int(11) not null auto_increment,
    `name` varchar(255) not null,
@@ -381,7 +343,6 @@ CREATE TABLE `tasks_groups` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=2;
 
 
-DROP TABLE IF EXISTS `users`;
 CREATE TABLE `users` (
    `id` int(11) not null auto_increment,
    `username` varchar(255) not null,
@@ -401,13 +362,12 @@ CREATE TABLE `users` (
    `profile_picture` varchar(255) not null,
    `status` text not null,
    `upgraded` timestamp not null default '0000-00-00 00:00:00',
-   `account_locked` timestamp not null default '0000-00-00 00:00:00',
+   `account_locked` timestamp not null default CURRENT_TIMESTAMP,
    `login_attempts` int(11) not null default '0',
    PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=3331;
 
 
-DROP TABLE IF EXISTS `users_bans`;
 CREATE TABLE `users_bans` (
    `id` int(11) not null auto_increment,
    `user` int(11) not null default '0',
@@ -419,17 +379,15 @@ CREATE TABLE `users_bans` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
 
 
-DROP TABLE IF EXISTS `users_equipment`;
 CREATE TABLE `users_equipment` (
    `id` int(11) not null auto_increment,
-   `equip_primary` int(11) not null default '0',
-   `equip_secondary` int(11) not null default '0',
-   `equip_armor` int(11) not null default '0',
+   `primary` int(11) not null default '0',
+   `secondary` int(11) not null default '0',
+   `armour` int(11) not null default '0',
    PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=3331;
 
 
-DROP TABLE IF EXISTS `users_events`;
 CREATE TABLE `users_events` (
    `id` int(11) not null auto_increment,
    `user` int(11) not null default '0',
@@ -440,10 +398,9 @@ CREATE TABLE `users_events` (
    `deleted` tinyint(1) not null default '0',
    `extra` int(11) not null default '0',
    PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=127;
 
 
-DROP TABLE IF EXISTS `users_finances`;
 CREATE TABLE `users_finances` (
    `id` int(11) not null auto_increment,
    `money` bigint(25) not null default '0',
@@ -451,10 +408,18 @@ CREATE TABLE `users_finances` (
    `bank` bigint(25) not null default '-1',
    `merits` bigint(25) not null default '0',
    PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=3331;
 
 
-DROP TABLE IF EXISTS `users_messages`;
+CREATE TABLE `users_ips` (
+   `id` int(11) not null auto_increment,
+   `user` int(11) not null default '0',
+   `ip` varchar(255) CHARSET latin1 not null default '0.0.0.0',
+   PRIMARY KEY (`id`),
+   UNIQUE KEY (`ip`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=140;
+
+
 CREATE TABLE `users_messages` (
    `id` int(11) not null auto_increment,
    `sender` int(11) not null default '0',
@@ -465,10 +430,9 @@ CREATE TABLE `users_messages` (
    `read` tinyint(1) not null default '0',
    `deleted` tinyint(1) not null default '0',
    PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=2;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=6889;
 
 
-DROP TABLE IF EXISTS `users_reset`;
 CREATE TABLE `users_reset` (
    `id` int(11) not null auto_increment,
    `user` int(11) not null default '0',
@@ -480,15 +444,13 @@ CREATE TABLE `users_reset` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=5;
 
 
-DROP TABLE IF EXISTS `users_settings`;
 CREATE TABLE `users_settings` (
    `id` int(11) not null auto_increment,
-   `logout_threshold` enum('300','900','1800','3600','86400','never') not null default '900',
+   `logout_threshold` enum('300','900','1800','3600','86400','never') CHARSET latin1 not null default '900',
    PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=4;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=3328;
 
 
-DROP TABLE IF EXISTS `users_stats`;
 CREATE TABLE `users_stats` (
    `id` int(11) not null auto_increment,
    `strength` decimal(28,4) not null default '10.0000',
@@ -512,4 +474,26 @@ CREATE TABLE `users_stats` (
    `tasks_hospitalised` bigint(25) not null default '0',
    PRIMARY KEY (`id`),
    UNIQUE KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=3331;
+
+
+CREATE TABLE `webchat_lines` (
+   `id` int(10) unsigned not null auto_increment,
+   `author` varchar(16) not null,
+   `gravatar` varchar(32) not null,
+   `text` varchar(255) not null,
+   `ts` timestamp not null default CURRENT_TIMESTAMP,
+   PRIMARY KEY (`id`),
+   KEY `ts` (`ts`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
+
+
+CREATE TABLE `webchat_users` (
+   `id` int(10) unsigned not null auto_increment,
+   `name` varchar(16) not null,
+   `gravatar` varchar(32) not null,
+   `last_activity` timestamp not null default CURRENT_TIMESTAMP,
+   PRIMARY KEY (`id`),
+   UNIQUE KEY (`name`),
+   KEY `last_activity` (`last_activity`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
