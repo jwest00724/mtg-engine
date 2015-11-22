@@ -89,7 +89,7 @@ if(array_key_exists('id', $_GET)) {
 			$which = $task['jail_time'] ? 'jail' : 'hospital';
 		$db->startTrans();
 		$db->query('UPDATE `users` SET `'.$which.'` = ?, `'.$which.'_reason` = ? WHERE id = ?');
-		$db->execute([$task['time_'.$which], $task['text_reason_'.$which]]);
+		$db->execute([$task['time_'.$which], $task['text_reason_'.$which], $id]);
 		$col = $which == 'jail' ? 'jailed' : 'hospitalised';
 		$db->query('UPDATE `users_stats` SET `nerve` = `nerve` = ?, `tasks_'.$col.'` = `tasks_'.$col.'` + 1 WHERE `id` = ?');
 		$db->execute([$task['nerve'], $my['id']]);
