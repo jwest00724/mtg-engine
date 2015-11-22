@@ -21,5 +21,5 @@ if(!isset($mtg))
 	$mtg = MTG\mtg_functions::getInstance();
 if(!defined('NO_HEAD')) {
 	require_once __DIR__ . '/header_out.php';
-	$h = MTG\headers::getInstance($set);
+	$h = MTG\headers::getInstance($set, $mtg);
 }

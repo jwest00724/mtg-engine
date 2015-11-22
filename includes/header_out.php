@@ -24,12 +24,12 @@ if(!defined('MTG_ENABLE'))
 	define('MTG_ENABLE', true);
 class headers {
 	static $inst = null;
-	static function getInstance($set) {
+	static function getInstance($set, $mtg) {
 		if(self::$inst == null)
-			self::$inst = new headers($set);
+			self::$inst = new headers($set, $mtg);
 		return self::$inst;
 	}
-	function __construct($set) {
+	function __construct($set, $mtg) {
 		header('Content-type: text/html;charset=UTF-8');
 		?><!DOCTYPE html>
 		<html lang="en">
@@ -38,7 +38,7 @@ class headers {
 				<meta charset="utf-8">
 				<meta name="viewport" content="width=device-width, initial-scale=1.0">
 				<meta name="description" content="MTG Codes v9" />
-				<title><?php echo $set['game_name'];?> - MTG Codes v9</title>
+				<title><?php echo $mtg->format($set['game_name']);?> - MTG Codes v9</title>
 				<link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.6.0/pure-min.css" />
 				<link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.6.0/grids-responsive-min.css" />
 				<!--[if lte IE 8]>
