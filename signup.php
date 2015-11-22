@@ -43,7 +43,7 @@ $securimage = new Securimage();
 		$db->execute([$id]);
 		$db->query('INSERT INTO `users_stats` (`id`) VALUES (?)');
 		$db->execute([$id]);
-		$db->query('INSERT INTO `users_ip` (`user`, `ip`) VALUES (?, ?)');
+		$db->query('INSERT INTO `users_ips` (`user`, `ip`) VALUES (?, ?)');
 		$db->execute([$id, $mtg->_ip()]);
 		$db->endTrans();
 		$_SESSION['userid'] = $id;
