@@ -4,7 +4,7 @@ require_once __DIR__ . '/includes/globals.php';
 ?><div class="content"><?php
 $_GET['player'] = array_key_exists('player', $_GET) && ctype_digit($_GET['player']) ? $_GET['player'] : $my['id'];
 if($_GET['player'] != $my['id']) {
-	$db->query('SELECT `u`.`username`, `u`.`level`, `u`.`location`, `u`.`hospital`, `u`.`hospital_reason`, `u`.`jail`, `u`.`jail_reason`, `u`.`profile_picture`, `ue`.`primary`, `ue`.`secondary`, `ue`.`armour`, `uf`.`money`, `uf`.`points` ' .
+	$db->query('SELECT `u`.`username`, `u`.`level`, `u`.`location`, `u`.`hospital`, `u`.`hospital_reason`, `u`.`jail`, `u`.`jail_reason`, `u`.`profile_picture`, `u`.`last_seen`, `ue`.`primary`, `ue`.`secondary`, `ue`.`armour`, `uf`.`money`, `uf`.`points` ' .
 		'FROM `users` AS `u` ' .
 		'LEFT JOIN `users_equipment` AS `ue` ON `u`.`id` = `ue`.`id` ' .
 		'LEFT JOIN `users_finances` AS `uf` ON `u`.`id` = `uf`.`id` ' .
@@ -28,7 +28,8 @@ if($_GET['player'] != $my['id']) {
 		<td>
 			<strong>Level:</strong> <?php echo $mtg->format($user['level']);?><br />
 			<strong>Money:</strong> <?php echo $set['main_currency_symbol'].$mtg->format($user['money']);?><br />
-			<strong>Points:</strong> <?php echo $mtg->format($user['points']);?><br /><?php
+			<strong>Points:</strong> <?php echo $mtg->format($user['points']);?><br /><br />
+			<strong>Last Seen:</strong> <?php echo $mtg->time_format(time() - strtotime($user['last_seen']));?> ago (<?php echo date('l jS F, g:i:sa', strtotime($user['last_seen']));?>)<br /><?php
 			if($user['hospital'])
 				echo '<br />Hospitalized for a further '.$mtg->time_format($user['hospital'] * 60).'. Reason: '.stripslashes($user['hospital_reason']);
 			if($user['jail'])
