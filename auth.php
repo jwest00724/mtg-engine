@@ -39,7 +39,7 @@ if(strtotime($user['account_locked']) >= time() && $user['login_attempts'] >= 5)
 	$db->query('UPDATE `users` SET `account_locked` = "0000-00-00 00:00:00", `login_attempts` = 0 WHERE `id` = ?');
 	$db->execute([$user['id']]);
 }
-if($user['password'] != $users->hashPass($_POST['password'])) {
+if(!password_verify($_POST['password'], $user['password'])) {
 	$_SESSION['msg'] = [
 		'type' => 'error',
 		'content' => 'That password was incorrect'
@@ -53,6 +53,12 @@ if($user['password'] != $users->hashPass($_POST['password'])) {
 	}
 	$db->endTrans();
 	exit(header("Location: login.php"));
+}
+$db->query('SELECT `id` FROM `users_ips` WHERE `ip` = ?');
+$db->execute([$mtg->_ip()]);
+if(!$db->num_rows()) {
+	$db->query('INSERT INTO `users_ips` (`user`, `ip`) VALUES (?, ?)');
+	$db->execute([$user['id'], $mtg->_ip()]);
 }
 $_SESSION['userid'] = $user['id'];
 header('Location: index.php');

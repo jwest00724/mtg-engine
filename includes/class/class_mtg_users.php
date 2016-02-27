@@ -61,7 +61,7 @@ class users {
 		$ret = '<select name="'.$ddname.'"'.($pure ? ' class="'.$pure.'"' : '').'><option value="0"'.($selected == null ? ' selected="selected"' : '').'>--- Select ---</option>';
 		$first = 1;
 		$extra = '';
-		if(count($notIn))
+		if(is_array($notIn) && count($notIn) > 0)
 			$extra .= ' WHERE `id` NOT IN('.implode(',', $notIn).') ';
 		$db->query('SELECT `id`, `username` FROM `users` '.$extra.' ORDER BY `username` ASC');
 		$db->execute();
@@ -128,9 +128,6 @@ class users {
 		global $my, $mtg;
 		if($my['jail'] || $my['hospital'])
 			$mtg->error('You\'re still in '.($my['jail'] ? 'jail' : 'hospital'));
-	}
-	public function hashPass($pass) {
-		return crypt($pass, '$6$rounds=5000$haewrFEegfw4h3w5qatnjqw35xcHq$');
 	}
 	public function name($id, $showID = false, $format = true) {
 		global $db, $my, $mtg;

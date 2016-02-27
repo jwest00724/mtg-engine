@@ -2,7 +2,7 @@
 define('HEADER_TEXT', 'Settings');
 require_once __DIR__ . '/includes/globals.php';
 if(array_key_exists('submit', $_POST)) {
-	$values = ['username', 'password', 'cpassword', 'email', 'timeout'];
+	$values = ['username', 'current', 'password', 'cpassword', 'email', 'timeout'];
 	foreach($values as $what)
 		$_POST[$what] = array_key_exists($what, $_POST) && isset($_POST[$what]) ? trim($_POST[$what]) : null;
 	$updates = [];
@@ -17,13 +17,15 @@ if(array_key_exists('submit', $_POST)) {
 		$db->execute([$_POST['username'], $my['id']]);
 		$updates[] = 'username';
 	}
-	if(!empty($_POST['password']) && !empty($_POST['cpassword'])) {
+	if(!empty($_POST['password']) && !empty($_POST['cpassword']) && !empty($_POST['current'])) {
+		if(!password_verify($_POST['current'], $my['password']))
+			$mtg->error('The password you entered as your current was incorrect');
 		if(strlen($_POST['password']) < 6)
 			$mtg->error('Your password requires at least 6 characters');
 		if($_POST['password'] !== $_POST['cpassword'])
 			$mtg->error('The passwords you entered didn\'t match');
 		$db->query('UPDATE `users` SET `password` = ? WHERE `id` = ?');
-		$db->execute([$users->hashPass($_POST['username']), $my['id']]);
+		$db->execute([password_hash($_POST['username'], PASSWORD_BCRYPT), $my['id']]);
 		$updates[] = 'password';
 	}
 	if(!empty($_POST['email'])) {
@@ -64,11 +66,15 @@ $logout = $users->getSetting('logout_threshold');
 		<input type="text" name="username" placeholder="<?php echo $mtg->format($my['username']);?>" class="pure-input-1-2" />
 	</div>
 	<div class="pure-control-group">
-		<label for="password">Password</label>
+		<label for="current">Current Password<span class="blue">*</span></label>
+		<input type="password" name="current" placeholder="Only required if you&apos;re changing your password" class="pure-input-1-2" />
+	</div>
+	<div class="pure-control-group">
+		<label for="password">New Password<span class="red">*</span></label>
 		<input type="password" name="password" placeholder="Leave blank if you don&apos;t want to change it" class="pure-input-1-2" />
 	</div>
 	<div class="pure-control-group">
-		<label for="confirmation">Confirm Password</label>
+		<label for="confirmation">Confirm New Password<span class="red">*</span></label>
 		<input type="password" name="cpassword" placeholder="Re-enter your new password" class="pure-input-1-2" />
 	</div>
 	<div class="pure-control-group">
@@ -86,4 +92,5 @@ $logout = $users->getSetting('logout_threshold');
 		<button type="submit" name="submit" value="true" class="pure-button pure-button-primary"><i class="fa fa-cog"></i> Update Settings</button>
 		<button type="reset" class="pure-button pure-button-secondary"><i class="fa fa-recycle"></i> Reset</button>
 	</div>
+	<div class=""
 </form>

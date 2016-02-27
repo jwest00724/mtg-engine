@@ -35,7 +35,7 @@ $securimage = new Securimage();
 			$mtg->error('That email address is already in use, please choose another');
 		$db->startTrans();
 		$db->query('INSERT INTO `users` (`username`, `password`, `email`) VALUES (?, ?, ?)');
-		$db->execute([$_POST['username'], $users->hashPass($_POST['password']), $_POST['email']]);
+		$db->execute([$_POST['username'], password_hash($_POST['password'], PASSWORD_BCRYPT), $_POST['email']]);
 		$id = $db->insert_id();
 		$db->query('INSERT INTO `users_equipment` (`id`) VALUES (?)');
 		$db->execute([$id]);
